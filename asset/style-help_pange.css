@@ -1,0 +1,151 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f0f0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(120, 0, 0, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 30%, rgba(120, 0, 0, 0.15) 0%, transparent 40%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0000, #990000, #ff3333);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .page-title {
+            color: #ff3333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .help-content {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+            border: 1px solid #444;
+        }
+
+        .help-section {
+            margin-bottom: 40px;
+        }
+
+        .help-section h2 {
+            color: #ff6666;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .help-section h3 {
+            color: #ff6666;
+            margin: 25px 0 15px 0;
+            font-size: 1.3rem;
+        }
+
+        .help-section p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .help-section ul,
+        .help-section ol {
+            color: #b0b0b0;
+            line-height: 1.8;
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .help-section li {
+            margin-bottom: 8px;
+        }
+
+        .contact-info {
+            background: rgba(40, 40, 40, 0.7);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #ff3333;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 10px;
+        }
+
+        .contact-item i {
+            color: #ff6666;
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #990000, #ff0000);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 30px auto 0;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            text-decoration: none;
+            width: fit-content;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .help-content {
+                padding: 25px 20px;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }

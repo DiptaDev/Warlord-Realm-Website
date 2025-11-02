@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warlord Realm - Minecraft Server</title>
+    <link rel="shortcut icon" href="/asset/logo-min.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./asset/style-landing_pange.css">
+</head>
+<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <i class="fas fa-crown"></i>
+                </div>
+            </div>
+            <h1 class="logo-text">Warlord Realm</h1>
+            <p class="server-name">Minecraft Server - Java & Bedrock</p>
+        </header>
+        
+        <main class="main-content">
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="showServerInfo()">
+                    <i class="fas fa-info-circle"></i> Tentang Server
+                </button>
+                <button class="btn btn-secondary" onclick="showJoinInfo()">
+                    <i class="fas fa-gamepad"></i> Cara Bergabung
+                </button>
+            </div>
+            
+            <!-- Tentang Server -->
+            <div id="serverInfo" class="server-info">
+                <h2>Tentang Warlord Realm</h2>
+                
+                <div class="server-description">
+                    <p>Warlord Realm adalah server chill yang lumayan santai, cocok untuk player yang bermain santai dan terkadang akan ada konflik antar clan akibat kebodohan rafif. sebelum nya server ini hanya di peruntukan untuk teman satu sircle tapi karena teman teman saya membagikan ip ke orang orang sekarang server ini jadi banyak pemain</p>
+                </div>
+                
+                <div class="server-details">
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h3>Multiplatform</h3>
+                        <p>Dukung Minecraft Java dan Bedrock Edition. Bermain dengan teman Anda terlepas dari platform yang digunakan.</p>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Komunitas Santai</h3>
+                        <p>Komunitas yang agak friendly dan santai, cocok untuk bermain setelah lelah beraktivitas seharian.</p>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <div class="detail-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <h3>Discord Community</h3>
+                        <p>Bergabung dengan Discord kami untuk update terbaru, berita server, dan berinteraksi dengan komunitas.</p>
+                    </div>
+                </div>
+                
+                <button class="back-btn" onclick="hideServerInfo()">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </button>
+            </div>
+            
+            <!-- Cara Bergabung -->
+            <div id="joinInfo" class="server-info">
+                <h2>Cara Bergabung</h2>
+                
+                <div class="join-instructions">
+                    <h3><i class="fas fa-user-plus"></i> Proses Bergabung</h3>
+                    <p>Untuk bergabung dengan server kami, Kamu perlu mengisi formulir pendaftaran terlebih dahulu. Setelah formulir disetujui, IP server akan dikirimkan kepada Kamu melalui DM Discord,Whatsapp atau media sosial lainnya dan akan di berikan role khusus di discord server agar bisa mengakses channel berita server dan update.</p>
+                    
+                    <a href="./register/" class="google-form-btn">
+                        <i class="fas fa-file-signature"></i> Isi Formulir Pendaftaran
+                    </a>
+                    
+                    <center><a href="./asset/Nakano_Miku (1).jpg" style="color: red;">Debug</a></center>
+
+                    <p style="font-size: 0.9rem; color: #888; margin-top: 15px;">
+                        Pastikan Kamu telah bergabung dengan Discord server kami untuk memudahkan komunikasi.
+                    </p>
+                </div>
+                
+                <button class="back-btn" onclick="hideJoinInfo()">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </button>
+            </div>
+        </main>
+        
+        <footer>
+            <!-- <p>&copy; 2023 Warlord Network. Semua hak dilindungi.</p> -->
+            <div class="footer-links">
+                <a target="_blank" href="./discord" class="footer-link">
+                    <i class="fab fa-discord"></i> Discord Community
+                </a>
+                <a href="./help/" class="footer-link">
+                    <i class="fas fa-question-circle"></i> Bantuan
+                </a>
+            </div>
+        </footer>
+    </div>
+    <script src="./asset/java_script-landing_pange.js"></script>
+</body>
+</html>

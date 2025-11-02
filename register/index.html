@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warlord Realm - Pendaftaran Member</title>
+    <link rel="shortcut icon" href="../asset/logo-min.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../asset/style-register_pange.css">
+</head>
+<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
+    <!-- Ambient Background -->
+    <div class="ambient-bg"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="../asset/logo.jpg" alt="Warlord Realm" class="logo-image">
+            </div>
+            <h1 class="logo-text">Daftar Member <br>Warlord Realm</h1>
+        </header>
+        
+        <main class="main-content">
+            <form id="registrationForm">
+                <!-- Page 1: Introduction -->
+                <div id="page1" class="form-page active">
+                    <div class="form-container">
+                        <div class="form-section">
+                            <div class="input-group">
+                                <label for="email"><i class="fas fa-envelope"></i> Email untuk kontak</label>
+                                <input type="email" id="email" name="email" required placeholder="masukkan email aktif kamu">
+                            </div>
+                            
+                            <div class="village-section">
+                                <div class="village-label">Desa Nga-chan</div>
+                                <div class="village-image">
+                                    <img src="../asset/rudah_boyolali-min.png" alt="Pemandangan Desa Nga-chan" class="village-img">
+                                </div>
+                            </div>
+                            
+                            <div class="welcome-message">
+                                <h3>Selamat datang, pengelana!</h3>
+                                <p>Selamat datang di form registrasi server Warlord Realm Vanilla Survival Multiplayer!</p>
+                                <p>Kita telah membuka kembali server vanilla survival buat para pemain kotak-kotak yang mau chilling healing, touch grass virtual, dan main santuy! (*ataupun buat kalian yang ingin explore bareng dan juga MENCIPTAKAN PERANGGGG).</p>
+                                <p>Kamu bisa bermain survival dengan lumayuan nyaman disini bersama para member lain dari komunitas kita (100% real, no fake). Server ini tidak menggunakan mod yang terlalu mempengaruhi gameplay vanilla, yang berarti pengalaman bermain lumayan sama seperti survival pada umumnya.</p>
+                                <p>Registrasi terbuka untuk pemain Minecraft Java yang memiliki akun premium maupun cracked. Server menggunakan game versi terbaru, yakni 1.21.x (server bisa di join oleh versi 1.8x sampai 1.21.x)</p>
+                                
+                                <div class="discord-notice">
+                                    <i class="fab fa-discord"></i>
+                                    <strong>Pastikan kamu memiliki akun Discord dan sudah bergabung ke server Discord Warlord Network sebelum mendaftar!</strong>
+                                    <a href="../discord/" class="discord-link">Klik untuk bergabung ke server Discord Warlord Network</a>
+                                </div>
+                                
+                                <div class="freedom-text">
+                                    <p><strong>Anything goes in this server!*</strong></p>
+                                    <p><a target="_blank" href="../asset/rafiflekkewer-min.jpeg" style="color: white;">salkan tidak gegabah dan tidak berbahaya</a></p>
+                                    <p>Kamu bisa melakukan apapun disini, mulai dari meratakan gunung, hingga membangun negeri baru, selama kamu tidak gegabah dan mengikuti beberapa peraturan yang berlaku di server (akan diberitahukan ketika sudah bergabung). Kami harap server ini bisa menjadi tempatmu gabut dan AFK fishing selama berjam-jam!</p>
+                                </div>
+                                
+                                <div class="cta-section">
+                                    <h3>Yuk Daftar!</h3>
+                                </div>
+                            </div>
+                            
+                            <div class="social-links">
+                                <p><strong>Our socials:</strong> Belom ada cik 😁</p>
+                                <p><strong>Our website:</strong> <a target="_blank" href="https://warlordrealm.ct.ws" class="website-link">warlordrealm.ct.ws</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-primary next-btn" onclick="nextPage()">
+                                <i class="fas fa-arrow-right"></i> Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Page 2: Data Diri -->
+                <div id="page2" class="form-page">
+                    <div class="form-container">
+                        <div class="form-header">
+                            <h2><i class="fas fa-user"></i> Data Diri</h2>
+                            <p>Lengkapi data berikut untuk mendaftar!</p>
+                        </div>
+                        
+                        <div class="minecraft-image">
+                            <img src="../asset/the_end_with_da_boys-min.png" alt="The End With The Boys" class="minecraft-img">
+                        </div>
+                        
+                        <div class="form-section">
+                            <div class="input-group">
+                                <label for="username">Username (IGN) Minecraft Java/Bedrock-Mu</label>
+                                <input type="text" id="username" name="username" required placeholder="Contoh: Setip">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="minecraftType">Apakah kamu pengguna Minecraft Original/Bajakan?</label>
+                                <select id="minecraftType" name="minecraftType" required>
+                                    <option value="">Pilih jenis akun</option>
+                                    <option value="original">Original (Premium)</option>
+                                    <option value="cracked">Cracked (Bajakan)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="discord">Username Discord-mu</label>
+                                <input type="text" id="discord" name="discord" required placeholder="Contoh: YantoKewer#6767 (format lama) atau @rafifyanto (format baru)">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="socialMedia">Media sosial lainnya</label>
+                                <input type="text" id="socialMedia" name="socialMedia" placeholder="Isi dengan username Facebook, Instagram, Twitter, Whatsapp, ataupun sosial media lain sebagai kontak cadangan untuk menghubungimu">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="skills">Apa keahlianmu dalam bermain Minecraft?</label>
+                                <textarea id="skills" name="skills" rows="3" placeholder="Ceritakan keahlian khususmu dalam Minecraft"></textarea>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="experience">Pernahkah kamu bergabung ke server SMP sebelumnya? Jika pernah, ceritakan pengalamanmu!</label>
+                                <textarea id="experience" name="experience" rows="3" placeholder="Bagikan pengalamanmu bermain di server SMP lain"></textarea>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="reason">Apa alasanmu untuk bergabung ke server Warlord Realm?</label>
+                                <textarea id="reason" name="reason" rows="3" placeholder="Ceritakan mengapa kamu ingin bergabung dengan server kami"></textarea>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label>Apakah kamu mau diamond gratis dari admin? <span class="subtext">(aseli no tipu-tipu)</span></label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="diamond" value="no" required>
+                                        <span class="radio-custom"></span>
+                                        Ga mau
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="diamond" value="no_thanks" required>
+                                        <span class="radio-custom"></span>
+                                        Ga usah hehe
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="agreement">
+                                <p>Dengan mengisi formulir ini, kamu menyatakan bahwa data yang diberikan adalah asli dan benar ada nya. Data hanya akan dipakai untuk keperluan registrasi dan tidak akan dibagikan ke pihak manapun.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary" onclick="prevPage()">
+                                <i class="fas fa-arrow-left"></i> Previous
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Submit Pendaftaran
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+        
+        <footer>
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">
+                    <i class="fas fa-home"></i> Kembali
+                </a>
+                <a href="../help/" class="footer-link">
+                    <i class="fas fa-question-circle"></i> Bantuan
+                </a>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="../asset/java_script-register_pange.js"></script>
+</body>
+</html>
