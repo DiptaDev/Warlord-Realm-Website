@@ -1,5 +1,6 @@
 add error panges v
-disable right click and drag n drop on panges 
+disable right click and drag n drop on panges v
 force https v
 in dev pange v
-add SEO meta tag (painfull as fuck niger)
+add SEO meta tag (painfull as fuck niger) v not tested
+Change seo description depends on the pange v
