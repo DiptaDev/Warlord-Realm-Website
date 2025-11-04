@@ -55,6 +55,19 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         return;
     }
     
+    // Kumpulkan data form
+    const formData = {
+        email: document.getElementById('email').value,
+        username: document.getElementById('username').value,
+        minecraftType: document.getElementById('minecraftType').value,
+        discord: document.getElementById('discord').value,
+        socialMedia: document.getElementById('socialMedia').value,
+        skills: document.getElementById('skills').value,
+        experience: document.getElementById('experience').value,
+        reason: document.getElementById('reason').value,
+        diamond: document.querySelector('input[name="diamond"]:checked').value
+    };
+    
     // Simulasi pengiriman form
     const submitBtn = document.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
@@ -62,16 +75,35 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
     submitBtn.disabled = true;
     
-    // Simulasi proses pengiriman
-    setTimeout(() => {
-        alert('Pendaftaran berhasil dikirim! kami menghubungi Anda melalui email dan Discord atau Whatsapp.');
+    // Kirim data ke backend PHP
+    fetch('process_registration.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            showSuccessPage(data.registration_id);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+    })
+    .finally(() => {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-        
-        // Reset form atau redirect
-        document.getElementById('registrationForm').reset();
-        prevPage(); // Kembali ke halaman pertama
-    }, 2000);
+    });
 });
 
 // Real-time validation
@@ -96,3 +128,24 @@ document.addEventListener('DOMContentLoaded', function() {
         emailInput.focus();
     }
 });
+
+// Additional functions for success page
+function showSuccessPage(registrationId) {
+    document.getElementById('page2').classList.remove('active');
+    document.getElementById('page3').classList.add('active');
+    if (registrationId) {
+        document.getElementById('registrationId').textContent = registrationId;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToHome() {
+    window.location.href = '../index.html';
+}
+
+function newRegistration() {
+    document.getElementById('page3').classList.remove('active');
+    document.getElementById('page1').classList.add('active');
+    document.getElementById('registrationForm').reset();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
