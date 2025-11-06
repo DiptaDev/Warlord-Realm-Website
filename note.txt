@@ -5,6 +5,7 @@ in dev pange v
 add SEO meta tag (painfull as fuck niger) v not tested
 Change seo description depends on the pange v
 add backend register v
+update index.html to latest info 
 
 bugs:
 - tombol neket di register finish v (kalo gw ga bisa fix bug bug nya gw remove biar ga ada bug lagi. im genious)

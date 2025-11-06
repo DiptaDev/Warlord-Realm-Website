@@ -80,13 +80,17 @@ try {
         // Dapatkan ID yang baru dibuat
         $newId = $db->lastInsertId();
         
+        // Kirim notifikasi ke Discord
+        $discordSent = sendDiscordNotification($clean_data);
+        
         // Kirim email notifikasi (opsional)
         sendNotificationEmail($clean_data);
         
         echo json_encode([
             'success' => true, 
             'message' => 'Pendaftaran berhasil dikirim! Kami akan menghubungi Anda melalui email dan Discord atau Whatsapp.',
-            'registration_id' => $newId
+            'registration_id' => $newId,
+            'discord_notification' => $discordSent ? 'sent' : 'failed'
         ]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.']);

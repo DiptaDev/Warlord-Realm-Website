@@ -18,10 +18,14 @@ class Database {
         }
         return $this->conn;
     }
-} // ← TAMBAHKAN INI (kurung tutup class Database)
+}
 
 // Simple session management for admin
 session_start();
+
+// Discord Webhook Configuration
+define('DISCORD_WEBHOOK_URL', 'https://discord.com/api/webhooks/1436049481878474794/j9M_INNN_rc2p3ocGxfNoFE-6v53nEsNw3ZF5V0m01qn_uvDFNRjGuJsJps7xEE77BqN');
+// Ganti URL di atas dengan webhook URL Discord Anda
 
 function isAdminLoggedIn() {
     return isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
@@ -57,5 +61,92 @@ function adminLogout() {
     session_destroy();
     header('Location: admin_login.php');
     exit;
+}
+
+// Function to send Discord notification
+function sendDiscordNotification($registrationData) {
+    if (!defined('DISCORD_WEBHOOK_URL') || empty(DISCORD_WEBHOOK_URL)) {
+        error_log("Discord webhook URL not configured");
+        return false;
+    }
+    
+    $timestamp = date('c', strtotime('now'));
+    
+    // Create embed message
+    $embed = [
+        "title" => "🎮 Pendaftaran Member Baru!",
+        "color" => hexdec("FF0000"), // Warna merah
+        "fields" => [
+            [
+                "name" => "👤 Username Minecraft",
+                "value" => "`" . $registrationData['username'] . "`",
+                "inline" => true
+            ],
+            [
+                "name" => "📧 Email",
+                "value" => "`" . $registrationData['email'] . "`",
+                "inline" => true
+            ],
+            [
+                "name" => "🎮 Tipe Akun",
+                "value" => "`" . ucfirst($registrationData['minecraftType']) . "`",
+                "inline" => true
+            ],
+            [
+                "name" => "💬 Discord",
+                "value" => "`" . $registrationData['discord'] . "`",
+                "inline" => true
+            ],
+            [
+                "name" => "🛠️ Keahlian",
+                "value" => substr($registrationData['skills'], 0, 100) . (strlen($registrationData['skills']) > 100 ? '...' : ''),
+                "inline" => false
+            ],
+            [
+                "name" => "📊 Pengalaman SMP",
+                "value" => substr($registrationData['experience'], 0, 100) . (strlen($registrationData['experience']) > 100 ? '...' : ''),
+                "inline" => false
+            ]
+        ],
+        "footer" => [
+            "text" => "Warlord Realm • " . date('d/m/Y H:i:s')
+        ],
+        "timestamp" => $timestamp
+    ];
+    
+    // Jika ada social media, tambahkan field
+    if (!empty($registrationData['socialMedia'])) {
+        $embed['fields'][] = [
+            "name" => "📱 Media Sosial Lain",
+            "value" => "`" . $registrationData['socialMedia'] . "`",
+            "inline" => true
+        ];
+    }
+    
+    $data = [
+        "username" => "Warlord Realm Bot",
+        "avatar_url" => "https://your-domain.com/asset/logo.jpg", // Ganti dengan URL logo Anda
+        "embeds" => [$embed]
+    ];
+    
+    $ch = curl_init(DISCORD_WEBHOOK_URL);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: application/json']);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    if ($httpCode != 204) {
+        error_log("Discord webhook failed with HTTP code: " . $httpCode);
+        return false;
+    }
+    
+    return true;
 }
 ?>
