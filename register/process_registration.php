@@ -80,6 +80,9 @@ try {
         // Dapatkan ID yang baru dibuat
         $newId = $db->lastInsertId();
         
+        // Tambahkan ID ke data untuk webhook
+        $clean_data['id'] = $newId;
+        
         // Kirim notifikasi ke Discord
         $discordSent = sendDiscordNotification($clean_data);
         

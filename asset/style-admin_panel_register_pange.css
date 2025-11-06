@@ -106,12 +106,23 @@
             margin-bottom: 5px;
         }
 
-        .stat-total { color: #ff3333; }
-        .stat-pending { color: #ffa500; }
-        .stat-approved { color: #00ff00; }
-        .stat-rejected { color: #ff4444; }
+        .stat-total {
+            color: #ff3333;
+        }
 
-        /* Table Styles */
+        .stat-pending {
+            color: #ffa500;
+        }
+
+        .stat-approved {
+            color: #00ff00;
+        }
+
+        .stat-rejected {
+            color: #ff4444;
+        }
+
+        /* Table Container Responsive */
         .table-container {
             background: rgba(20, 20, 20, 0.95);
             border-radius: 15px;
@@ -120,18 +131,26 @@
             border: 1px solid #333;
             margin-bottom: 20px;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            /* Smooth scrolling on iOS */
         }
 
+        /* Responsive Table */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            min-width: 800px;
+            /* Minimum width for table */
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #333;
+            white-space: nowrap;
+            /* Prevent text wrapping */
         }
 
         th {
@@ -141,6 +160,9 @@
             text-transform: uppercase;
             font-size: 0.85rem;
             letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         tr:hover {
@@ -155,21 +177,21 @@
             text-transform: uppercase;
         }
 
-        .status-pending { 
-            background: rgba(255, 165, 0, 0.2); 
-            color: #ffa500; 
+        .status-pending {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
             border: 1px solid #ffa500;
         }
 
-        .status-approved { 
-            background: rgba(0, 255, 0, 0.2); 
-            color: #00ff00; 
+        .status-approved {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
             border: 1px solid #00ff00;
         }
 
-        .status-rejected { 
-            background: rgba(255, 68, 68, 0.2); 
-            color: #ff4444; 
+        .status-rejected {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff4444;
             border: 1px solid #ff4444;
         }
 
@@ -198,33 +220,33 @@
             font-size: 0.75rem;
         }
 
-        .btn-approve { 
-            background: rgba(0, 255, 0, 0.2); 
-            color: #00ff00; 
+        .btn-approve {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
             border: 1px solid #00ff00;
         }
 
-        .btn-reject { 
-            background: rgba(255, 68, 68, 0.2); 
-            color: #ff4444; 
+        .btn-reject {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff4444;
             border: 1px solid #ff4444;
         }
 
-        .btn-pending { 
-            background: rgba(255, 165, 0, 0.2); 
-            color: #ffa500; 
+        .btn-pending {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
             border: 1px solid #ffa500;
         }
 
-        .btn-delete { 
-            background: rgba(255, 0, 0, 0.2); 
-            color: #ff0000; 
+        .btn-delete {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
             border: 1px solid #ff0000;
         }
 
-        .btn-view { 
-            background: rgba(51, 153, 255, 0.2); 
-            color: #3399ff; 
+        .btn-view {
+            background: rgba(51, 153, 255, 0.2);
+            color: #3399ff;
             border: 1px solid #3399ff;
         }
 
@@ -302,27 +324,130 @@
             color: #ff6666;
         }
 
+        /* Modal Styles */
+        .modal-content {
+            background: rgba(20, 20, 20, 0.95);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow: hidden;
+            border: 1px solid #ff3333;
+            box-shadow: 0 5px 30px rgba(255, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(90vh - 150px);
+            padding-right: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: rgba(255, 51, 51, 0.1);
+            border-radius: 4px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #ff3333;
+            border-radius: 4px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #ff6666;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
             }
-            
+
             .table-container {
                 padding: 15px;
             }
-            
-            th, td {
+
+            th,
+            td {
                 padding: 8px 10px;
                 font-size: 0.85rem;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
             }
-            
+
             .admin-info {
                 position: static;
                 margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            table {
+                min-width: auto;
+                width: 100%;
+            }
+
+            /* Hide less important columns on mobile */
+            th:nth-child(1),
+            /* ID */
+            td:nth-child(1) {
+                display: none;
+            }
+
+            th:nth-child(4),
+            /* Minecraft Type */
+            td:nth-child(4) {
+                display: none;
+            }
+
+            /* Make important columns more compact */
+            th,
+            td {
+                padding: 8px 5px;
+                font-size: 0.75rem;
+            }
+
+            /* Truncate long text */
+            td {
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            /* Hide more columns on very small screens */
+            th:nth-child(5),
+            /* Discord */
+            td:nth-child(5) {
+                display: none;
+            }
+
+            th,
+            td {
+                padding: 6px 3px;
+                font-size: 0.7rem;
+            }
+
+            td {
+                max-width: 100px;
             }
         }
