@@ -1,5 +1,1 @@
-<?php
-// admin_logout.php
-include 'config.php';
-adminLogout();
-?>  
+<?php include 'config.php';adminLogout(); ?>
