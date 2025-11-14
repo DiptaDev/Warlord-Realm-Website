@@ -65,6 +65,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         skills: document.getElementById('skills').value,
         experience: document.getElementById('experience').value,
         reason: document.getElementById('reason').value,
+        adminMessage: document.getElementById('adminMessage').value,
         diamond: document.querySelector('input[name="diamond"]:checked').value
     };
     

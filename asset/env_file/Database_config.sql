@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS registrations (
     experience TEXT,
     reason TEXT,
     diamond_preference VARCHAR(50),
+    admin_message TEXT,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
     admin_notes TEXT

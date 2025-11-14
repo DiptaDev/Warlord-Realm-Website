@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2025 at 01:26 PM
+-- Generation Time: Nov 14, 2025 at 07:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,7 +39,7 @@ CREATE TABLE `admin_users` (
 --
 
 INSERT INTO `admin_users` (`id`, `username`, `password_hash`, `created_at`) VALUES
-(1, 'dipta14', '$2y$10$GLVy1.C7LGDIRACxd898Xe72JKrlegMu9fJpf/VFAcZc/DMyGYTlG', '2025-11-04 09:41:28');
+(1, 'dipta14', '$2y$10$Ip7bgfUthPbybDgPbhtfCeZzV6AieHAmCv88h7PJz3H3vDcXVkYsW', '2025-11-14 06:01:39');
 
 -- --------------------------------------------------------
 
@@ -58,6 +58,7 @@ CREATE TABLE `registrations` (
   `experience` text DEFAULT NULL,
   `reason` text DEFAULT NULL,
   `diamond_preference` varchar(50) DEFAULT NULL,
+  `admin_message` text DEFAULT NULL,
   `registration_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
   `admin_notes` text DEFAULT NULL
@@ -67,8 +68,9 @@ CREATE TABLE `registrations` (
 -- Dumping data for table `registrations`
 --
 
-INSERT INTO `registrations` (`id`, `email`, `username`, `minecraft_type`, `discord_username`, `social_media`, `skills`, `experience`, `reason`, `diamond_preference`, `registration_date`, `status`, `admin_notes`) VALUES
-(5, 'sangsuratma@gmail.com', 'dipta14', 'original', '@dipta14', 'ga ada hehe', 'GW OWENER', 'GW OWENER', 'GW OWENER', 'no', '2025-11-04 12:16:04', 'approved', NULL);
+INSERT INTO `registrations` (`id`, `email`, `username`, `minecraft_type`, `discord_username`, `social_media`, `skills`, `experience`, `reason`, `diamond_preference`, `admin_message`, `registration_date`, `status`, `admin_notes`) VALUES
+(1, 'sangsuratma@gmail.com', 'dipta14', 'original', '@dipta14', 'tiktok: @dipta14K', 'saya suka roblox', 'bodo amat', 'gabud', 'no_thanks', 'testing', '2025-11-14 06:05:13', 'pending', NULL),
+(3, 'asepganteng@gmail.com', 'asep14', 'original', '@asepganteng', 'pornhub: @asepsukajepang', 'saya suka roblox', 'tidak pernah', 'gabud', 'no_thanks', 'Aku sayang atmin😘', '2025-11-14 06:17:01', 'pending', NULL);
 
 --
 -- Indexes for dumped tables
@@ -95,13 +97,13 @@ ALTER TABLE `registrations`
 -- AUTO_INCREMENT for table `admin_users`
 --
 ALTER TABLE `admin_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `registrations`
 --
 ALTER TABLE `registrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

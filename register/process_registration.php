@@ -42,6 +42,7 @@ if (!filter_var($clean_data['email'], FILTER_VALIDATE_EMAIL)) {
 
 // Field opsional
 $clean_data['socialMedia'] = isset($data['socialMedia']) ? trim(htmlspecialchars($data['socialMedia'])) : '';
+$clean_data['adminMessage'] = isset($data['adminMessage']) ? trim(htmlspecialchars($data['adminMessage'])) : '';
 
 try {
     $database = new Database();
@@ -60,9 +61,9 @@ try {
 
     // Insert data ke database
     $query = "INSERT INTO registrations 
-              (email, username, minecraft_type, discord_username, social_media, skills, experience, reason, diamond_preference) 
+              (email, username, minecraft_type, discord_username, social_media, skills, experience, reason, diamond_preference, admin_message) 
               VALUES 
-              (:email, :username, :minecraft_type, :discord, :social_media, :skills, :experience, :reason, :diamond)";
+              (:email, :username, :minecraft_type, :discord, :social_media, :skills, :experience, :reason, :diamond, :admin_message)";
 
     $stmt = $db->prepare($query);
     
@@ -75,6 +76,7 @@ try {
     $stmt->bindParam(':experience', $clean_data['experience']);
     $stmt->bindParam(':reason', $clean_data['reason']);
     $stmt->bindParam(':diamond', $clean_data['diamond']);
+    $stmt->bindParam(':admin_message', $clean_data['adminMessage']);
 
     if ($stmt->execute()) {
         // Dapatkan ID yang baru dibuat

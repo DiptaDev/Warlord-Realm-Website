@@ -252,6 +252,14 @@ function viewRegistration(data) {
                     </div>
                 </div>
                 ` : ''}
+                ${data.admin_message ? `
+                <div style="margin-top: 10px;">
+                    <strong>Pesan untuk Admin:</strong><br>
+                    <div style="background: rgba(255,255,0,0.1); padding: 12px; border-radius: 6px; margin-top: 8px; border-left: 3px solid #ffcc00;">
+                        <i class="fas fa-heart" style="color: #ff6666;"></i> ${data.admin_message}
+                    </div>
+                </div>
+                ` : ''}
             </div>
 
             <div style="background: rgba(35,35,35,0.6); padding: 20px; border-radius: 8px; margin: 15px 0;">

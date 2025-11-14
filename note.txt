@@ -2,7 +2,7 @@ add error panges v
 disable right click and drag n drop on panges v
 force https v
 in dev pange v
-add SEO meta tag (painfull as fuck niger) v not tested
+add SEO meta tag (painfull as fuck niger) v Test pas udah di deploy ke production + dapet domain
 Change seo description depends on the pange v
 add backend register v
 update index.html to latest info v
