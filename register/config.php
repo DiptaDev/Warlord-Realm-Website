@@ -1,7 +1,7 @@
 <?php
 // config.php
 class Database {
-    private $host = "localhost";
+    private $host = "mariadb";
     private $db_name = "warlord_realm";
     private $username = "warlord_realm";
     private $password = "warlordnetwork";
