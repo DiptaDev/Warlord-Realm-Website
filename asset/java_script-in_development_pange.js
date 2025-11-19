@@ -107,11 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // HAPUS: updateCountdown() - countdown dihilangkan
     
     // Set progress bar ke nilai yang diinginkan
-    const currentProgress = 95; // Nilai bisa diubah dari 0-100
+    const currentProgress = 100; // Nilai bisa diubah dari 0-100
     setProgressBar(currentProgress);
     
     // Animasi ke target progress
-    animateToTargetPercentage(95, 4000);
+    animateToTargetPercentage(100, 4000);
     
     // Animasi halus tanpa mengubah nilai
     animateProgressBar();

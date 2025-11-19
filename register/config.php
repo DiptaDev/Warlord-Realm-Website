@@ -24,7 +24,7 @@ class Database {
 session_start();
 
 // Discord Webhook Configuration
-define('DISCORD_WEBHOOK_URL', 'https://discord.com/api/webhooks/1436049481878474794/j9M_INNN_rc2p3ocGxfNoFE-6v53nEsNw3ZF5V0m01qn_uvDFNRjGuJsJps7xEE77BqN');
+define('DISCORD_WEBHOOK_URL', 'https://discord.com/api/webhooks/1440727358477701151/EF7RQpA9sAkFKeLpF-JAX3qLqV1tMSCqJlNlVqhvRCsvkKGVcR3OnLzUtJOAuewzvCM8');
 // Ganti URL di atas dengan webhook URL Discord Anda
 
 function isAdminLoggedIn() {
@@ -115,8 +115,8 @@ function sendDiscordNotification($registrationData) {
     ];
     
     $data = [
-        "username" => "Warlord Realm Bot",
-        "avatar_url" => "https://your-domain.com/asset/logo.jpg",
+        "username" => "WarGuard🚨",
+        "avatar_url" => "https://i.imgur.com/4sGKTig.jpeg",
         "embeds" => [$embed]
     ];
     
