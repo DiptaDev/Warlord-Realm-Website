@@ -12,4 +12,4 @@
   ErrorDocument 500 /err_pange/500.html
 
   #indexs
-  DirectoryIndex indev.html ki14.html index.html ki14.php index.php
+  DirectoryIndex maintenance.html indev.html  closed_member.html index.html index.php

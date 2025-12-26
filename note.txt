@@ -1,11 +1,16 @@
-- add galery to the web so everyone can submit photos that other can see + with security of course
+NOT DONE:
+- make images that uploaded got compressed
+- update upload gui juga deng ;-;
+- update ui gallery admin panel kek titid memek
 - update registery form question
 - add system penilaian
 
 
 
+note: disable right click and drag and drop after the gallery is production ready
 
 
-
+DONE:
+- add galery to the web so everyone can submit photos that other can see + with security of course v
 - add commands function on help pange v
 - add how world reset work only reset when there is a new structure  v
