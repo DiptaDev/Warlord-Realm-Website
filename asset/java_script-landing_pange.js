@@ -30,3 +30,5 @@ document.addEventListener('DOMContentLoaded', function () {
     const logoContainer = document.querySelector('.logo-container');
     logoContainer.innerHTML = '<img src="asset/logo.jpg" alt="Warlord Network" style="width:99%;height:99%;border-radius:55%;object-fit:cover;">';
 });
+
+console.log("gw bingung milih kinara atau kayla")

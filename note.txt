@@ -1,12 +1,11 @@
-add error panges v
-disable right click and drag n drop on panges v
-force https v
-in dev pange v
-add SEO meta tag (painfull as fuck niger) v Test pas udah di deploy ke production + dapet domain
-Change seo description depends on the pange v
-add backend register v
-update index.html to latest info v
+- add galery to the web so everyone can submit photos that other can see + with security of course
+- update registery form question
+- add system penilaian
 
-bugs:
-- tombol neket di register finish v (kalo gw ga bisa fix bug bug nya gw remove biar ga ada bug lagi. im genious)
-- detail pendaftaran ga bisa di scroll di panel v
+
+
+
+
+
+- add commands function on help pange v
+- add how world reset work only reset when there is a new structure  v

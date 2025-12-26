@@ -4,7 +4,7 @@ class Database {
     private $host = "localhost";
     private $db_name = "warlord_realm";
     private $username = "warlord_realm";
-    private $password = "warlordnetwork";
+    private $password = "warlord_realm";
     public $conn;
 
     public function getConnection() {
@@ -24,7 +24,7 @@ class Database {
 session_start();
 
 // Discord Webhook Configuration
-define('DISCORD_WEBHOOK_URL', 'https://discord.com/api/webhooks/1440727358477701151/EF7RQpA9sAkFKeLpF-JAX3qLqV1tMSCqJlNlVqhvRCsvkKGVcR3OnLzUtJOAuewzvCM8');
+define('DISCORD_WEBHOOK_URL', 'https://discord.com/api/webhooks/1440727358477701151/EF7RQpA9sAkFKeLpF-JAX3qLqV1tMSCqJlNlVqhvRCsvkKGVcR3OnLzUtJOAuewzvCM8'); // not working in infinity free
 // Ganti URL di atas dengan webhook URL Discord Anda
 
 function isAdminLoggedIn() {

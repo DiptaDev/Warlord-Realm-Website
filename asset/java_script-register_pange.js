@@ -73,7 +73,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     const submitBtn = document.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
     
     // Kirim data ke backend PHP
@@ -99,7 +99,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+        alert('An error occurred while sending data. Please try again.');
     })
     .finally(() => {
         submitBtn.innerHTML = originalText;

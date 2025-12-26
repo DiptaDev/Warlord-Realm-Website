@@ -30,4 +30,4 @@ CREATE TABLE IF NOT EXISTS admin_users (
 -- Password: warlord123
 INSERT INTO admin_users (username, password_hash) 
 VALUES 
-('admin', '$2y$10$asRqMJ2yiQO1kNWlMby35.Wrx2P/HtpfY7Hg.2ohc7TJmQXplJ8d.'); -- may need some fixes when deployed
+('dipta14', '$2y$10$mpAXdN553UMsacRqv6mwt.drAxBCoEc2TwQa6KG5NUmDThalHR522'); -- may need some fixes when deployed

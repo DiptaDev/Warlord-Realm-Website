@@ -76,6 +76,20 @@
             margin-bottom: 15px;
         }
 
+        code { 
+            background-color: #1e1e1e;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        a {
+            color: #b56262;
+        }
+
+        a:hover {
+            color: #ada7a7;
+        }
+
         .help-section ul,
         .help-section ol {
             color: #b0b0b0;

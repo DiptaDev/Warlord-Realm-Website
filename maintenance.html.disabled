@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warlord Realm - Maintenance</title>
+    <link rel="shortcut icon" href="./asset/logo-min.png" type="image/x-icon">
+    <link rel="stylesheet" href="./asset/style-maintenance_pange.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
+    <!-- Logo Server -->
+    <div class="logo-container">
+        <img src="./asset/logo.jpg" alt="Warlord Realm Server Logo" id="server-logo">
+    </div>
+
+    <!-- Maintenance Message - Full Screen -->
+    <div class="maintenance-message">
+        <h2 class="maintenance-title">UNDER MAINTENANCE</h2>
+
+        <div class="maintenance-description">
+            <p>We are currently performing scheduled maintenance.</p>
+            <p>We are working hard to improve your experience.</p>
+            <p>We'll be back <span class="highlight">very soon</span>!</p>
+        </div>
+    </div>
+
+    <!-- Discord Section - Interactive -->
+    <div class="discord-section">
+        <div class="discord-title">
+            <i class="fas fa-bullhorn"></i> Stay Updated on Discord
+        </div>
+        <a href="./discord" class="discord-button" target="_blank">
+            <i class="fab fa-discord"></i>
+            JOIN DISCORD FOR UPDATES
+        </a>
+    </div>
+<script src="./asset/style-maintenance_pange.css"></script>
+</body>
+</html>
