@@ -71,119 +71,277 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Warlord Realm Gallery</title>
+    <title>Admin Panel - Warlord Realm Gallery</title>
     <link rel="shortcut icon" href="../asset/logo-min.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-black: #000000;
-            --secondary-black: #0a0a0a;
-            --accent-red: #ff0033;
-            --accent-light-red: #ff3366;
+            --primary-black: #0a0a0a;
+            --secondary-black: #111111;
+            --accent-red: #d32f2f;
+            --accent-dark-red: #b71c1c;
+            --accent-light-red: #f44336;
             --pure-white: #ffffff;
-            --light-gray: #e0e0e0;
-            --medium-gray: #888888;
-            --border-gray: #333333;
-            --success-green: #4caf50;
-            --warning-orange: #ff9800;
+            --light-gray: #f5f5f5;
+            --medium-gray: #9e9e9e;
+            --dark-gray: #212121;
+            --border-color: #333333;
+            --glow-red: rgba(211, 47, 47, 0.3);
+            --glow-dark-red: rgba(183, 28, 28, 0.4);
+            --success-green: #4CAF50;
+            --warning-orange: #FF9800;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--primary-black);
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--secondary-black) 100%);
             color: var(--pure-white);
             min-height: 100vh;
-            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, var(--glow-red) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, var(--glow-dark-red) 0%, transparent 20%);
+            z-index: -1;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--medium-gray);
-            text-decoration: none;
-            margin-bottom: 30px;
-            transition: color 0.2s ease;
-        }
-
-        .back-link:hover {
-            color: var(--accent-red);
-        }
-
-        .admin-header {
-            text-align: center;
+        /* Header */
+        .carbon-header {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(17, 17, 17, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
             margin-bottom: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .admin-logo {
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 15px;
+            text-decoration: none;
         }
 
         .logo-img {
             width: 50px;
             height: 50px;
-            border-radius: 9px;
+            border-radius: 10px;
             object-fit: cover;
-            /* border: 2px solid var(--accent-red); */
+            box-shadow: 0 8px 20px var(--glow-red);
         }
 
         .logo-text h1 {
-            font-size: 1.4rem;
-            color: #ff0000;
-            margin-bottom: 5px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent-red), var(--accent-light-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
         }
 
-        .logo-text span {
+        .logo-text p {
             font-size: 0.9rem;
             color: var(--medium-gray);
+            font-weight: 500;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-dark-red));
+            color: var(--pure-white);
+            box-shadow: 0 4px 15px var(--glow-red);
+            border: 1px solid rgba(211, 47, 47, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--accent-light-red), var(--accent-red));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--glow-dark-red);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(33, 33, 33, 0.8), rgba(51, 51, 51, 0.6));
+            color: var(--light-gray);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, rgba(51, 51, 51, 0.9), rgba(33, 33, 33, 0.7));
+            transform: translateY(-3px);
+            border-color: var(--accent-red);
+        }
+
+        /* Admin Header */
+        .admin-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(145deg, rgba(33, 33, 33, 0.8), rgba(17, 17, 17, 0.9));
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .admin-title {
-            font-size: 2rem;
-            font-weight: 300;
-            color: #ff0000;
-            margin-bottom: 10px;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, var(--accent-red), var(--accent-light-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .admin-subtitle {
             color: var(--medium-gray);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, rgba(33, 33, 33, 0.9), rgba(17, 17, 17, 0.95));
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px var(--glow-red);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .stat-icon.pending { background: rgba(255, 152, 0, 0.1); color: var(--warning-orange); }
+        .stat-icon.approved { background: rgba(76, 175, 80, 0.1); color: var(--success-green); }
+        .stat-icon.rejected { background: rgba(211, 47, 47, 0.1); color: var(--accent-red); }
+        .stat-icon.total { background: rgba(33, 150, 243, 0.1); color: #2196F3; }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--pure-white);
+        }
+
+        .stat-label {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Alert Messages */
         .alert {
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            font-size: 0.95rem;
+            padding: 20px 25px;
+            background: linear-gradient(135deg, rgba(33, 33, 33, 0.95), rgba(17, 17, 17, 0.95));
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-red);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--glow-red);
+            border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: rgba(76, 175, 80, 0.1);
-            border: 1px solid rgba(76, 175, 80, 0.3);
-            color: #81c784;
+            gap: 15px;
+            animation: slideIn 0.5s ease;
         }
 
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .alert i {
+            font-size: 1.5rem;
+        }
+
+        .alert-message {
+            color: var(--light-gray);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Admin Container */
         .admin-container {
-            background: var(--secondary-black);
-            border-radius: 12px;
+            background: linear-gradient(145deg, rgba(33, 33, 33, 0.9), rgba(17, 17, 17, 0.95));
+            border-radius: 20px;
             padding: 30px;
-            border: 1px solid var(--border-gray);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
             overflow-x: auto;
+            margin-bottom: 40px;
         }
 
         table {
@@ -192,24 +350,26 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
         }
 
         th {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(33, 33, 33, 0.95);
             color: var(--pure-white);
-            font-weight: 500;
-            font-size: 0.9rem;
+            font-weight: 600;
+            font-size: 0.95rem;
             text-align: left;
-            padding: 15px;
-            border-bottom: 1px solid var(--border-gray);
+            padding: 20px;
+            border-bottom: 2px solid var(--border-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-gray);
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--light-gray);
             font-size: 0.9rem;
         }
 
         tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(211, 47, 47, 0.05);
         }
 
         .image-cell {
@@ -220,40 +380,44 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             width: 70px;
             height: 70px;
             object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid var(--border-gray);
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .image-cell img:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
+            border-color: var(--accent-red);
+            box-shadow: 0 6px 25px var(--glow-red);
         }
 
         .status-badge {
             display: inline-block;
-            padding: 4px 10px;
+            padding: 6px 15px;
             border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .status-pending {
-            background: rgba(255, 152, 0, 0.1);
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.15), rgba(255, 152, 0, 0.1));
             color: var(--warning-orange);
             border: 1px solid rgba(255, 152, 0, 0.3);
         }
 
         .status-approved {
-            background: rgba(76, 175, 80, 0.1);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.1));
             color: var(--success-green);
             border: 1px solid rgba(76, 175, 80, 0.3);
         }
 
         .status-rejected {
-            background: rgba(255, 0, 51, 0.1);
+            background: linear-gradient(135deg, rgba(211, 47, 47, 0.15), rgba(183, 28, 28, 0.1));
             color: var(--accent-red);
-            border: 1px solid rgba(255, 0, 51, 0.3);
+            border: 1px solid rgba(211, 47, 47, 0.3);
         }
 
         .action-buttons {
@@ -262,86 +426,108 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             flex-wrap: wrap;
         }
 
-        .btn {
-            padding: 6px 12px;
-            border-radius: 6px;
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 8px;
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             border: none;
         }
 
         .btn-approve {
-            background: var(--success-green);
+            background: linear-gradient(135deg, var(--success-green), #388E3C);
             color: var(--pure-white);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
         }
 
         .btn-approve:hover {
-            background: #3d8b40;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #66BB6A, var(--success-green));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
         }
 
         .btn-reject {
-            background: var(--accent-red);
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-dark-red));
             color: var(--pure-white);
+            box-shadow: 0 4px 12px var(--glow-red);
         }
 
         .btn-reject:hover {
-            background: #cc0029;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, var(--accent-light-red), var(--accent-red));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--glow-dark-red);
         }
 
         .btn-edit {
-            background: #2196f3;
-            color: var(--pure-white);
+            background: linear-gradient(135deg, rgba(33, 33, 33, 0.8), rgba(51, 51, 51, 0.6));
+            color: var(--light-gray);
+            border: 1px solid var(--border-color);
         }
 
         .btn-edit:hover {
-            background: #0b7dda;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            border-color: #2196F3;
+            color: var(--pure-white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
         }
 
         .btn-delete {
             background: transparent;
             color: var(--medium-gray);
-            border: 1px solid var(--border-gray);
+            border: 1px solid var(--border-color);
         }
 
         .btn-delete:hover {
+            background: rgba(211, 47, 47, 0.1);
             border-color: var(--accent-red);
             color: var(--accent-red);
+            transform: translateY(-2px);
         }
 
+        /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
+            padding: 60px 40px;
+            background: linear-gradient(145deg, rgba(33, 33, 33, 0.8), rgba(17, 17, 17, 0.9));
+            border-radius: 15px;
+            border: 2px dashed var(--border-color);
         }
 
         .empty-icon {
-            font-size: 3rem;
+            font-size: 4rem;
             color: var(--accent-red);
             margin-bottom: 20px;
             opacity: 0.7;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
         }
 
         .empty-title {
-            font-size: 1.3rem;
+            font-size: 1.8rem;
             color: var(--pure-white);
             margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .empty-description {
             color: var(--medium-gray);
             max-width: 400px;
             margin: 0 auto;
+            line-height: 1.6;
         }
 
-        /* Edit Modal Styles */
+        /* Edit Modal */
         .edit-modal {
             display: none;
             position: fixed;
@@ -350,80 +536,124 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             width: 100%;
             height: 100%;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
             justify-content: center;
             align-items: center;
         }
 
         .edit-modal-content {
-            background: var(--secondary-black);
-            border-radius: 12px;
-            padding: 30px;
-            border: 1px solid var(--border-gray);
+            background: linear-gradient(145deg, rgba(33, 33, 33, 0.95), rgba(17, 17, 17, 0.98));
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
             max-width: 500px;
             width: 90%;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px var(--glow-red);
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .edit-modal h3 {
             color: var(--pure-white);
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: var(--light-gray);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
 
         .form-input {
             width: 100%;
-            padding: 10px 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-gray);
-            border-radius: 6px;
+            padding: 14px 18px;
+            background: rgba(33, 33, 33, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             color: var(--pure-white);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--accent-red);
+            box-shadow: 0 0 0 3px var(--glow-red);
+            background: rgba(33, 33, 33, 0.9);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.5;
         }
 
         .modal-buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             justify-content: flex-end;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .btn-cancel {
-            background: transparent;
-            color: var(--medium-gray);
-            border: 1px solid var(--border-gray);
+            padding: 12px 25px;
+            background: linear-gradient(135deg, rgba(33, 33, 33, 0.8), rgba(51, 51, 51, 0.6));
+            color: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
         }
 
         .btn-cancel:hover {
+            background: linear-gradient(135deg, rgba(51, 51, 51, 0.9), rgba(33, 33, 33, 0.7));
             border-color: var(--accent-red);
             color: var(--accent-red);
+            transform: translateY(-2px);
         }
 
         .btn-save {
-            background: var(--accent-red);
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-dark-red));
             color: var(--pure-white);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px var(--glow-red);
         }
 
         .btn-save:hover {
-            background: #cc0029;
+            background: linear-gradient(135deg, var(--accent-light-red), var(--accent-red));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--glow-dark-red);
         }
 
-        /* Preview Modal Styles */
+        /* Preview Modal */
         .preview-modal {
             display: none;
             position: fixed;
@@ -433,8 +663,15 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             height: 100%;
             z-index: 1001;
             background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
             justify-content: center;
             align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .preview-content {
@@ -446,31 +683,17 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
         .preview-image {
             max-width: 100%;
             max-height: 80vh;
-            border-radius: 8px;
+            border-radius: 15px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
 
         .preview-close {
             position: absolute;
-            top: -40px;
+            top: -50px;
             right: 0;
-            background: rgba(255, 0, 51, 0.3);
-            border: none;
-            color: var(--pure-white);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .preview-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
+            background: rgba(211, 47, 47, 0.3);
+            border: 1px solid rgba(211, 47, 47, 0.5);
             color: var(--pure-white);
             width: 40px;
             height: 40px;
@@ -479,85 +702,195 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .preview-close:hover {
+            background: rgba(211, 47, 47, 0.6);
+            transform: rotate(90deg);
+        }
+
+        .preview-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(33, 33, 33, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--pure-white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .preview-nav:hover {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 25px var(--glow-red);
         }
 
         .preview-prev {
-            left: -50px;
+            left: -70px;
         }
 
         .preview-next {
-            right: -50px;
+            right: -70px;
         }
 
         @media (max-width: 768px) {
-            .admin-container {
-                padding: 20px 15px;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            table {
-                display: block;
-                overflow-x: auto;
+            .admin-container {
+                padding: 20px;
+            }
+            
+            th, td {
+                padding: 15px 10px;
+                font-size: 0.85rem;
             }
             
             .action-buttons {
                 flex-direction: column;
             }
             
-            .btn {
+            .action-btn {
                 width: 100%;
                 justify-content: center;
+                padding: 10px;
             }
-
+            
             .preview-nav {
                 position: fixed;
                 top: auto;
-                bottom: 20px;
+                bottom: 30px;
+                width: 45px;
+                height: 45px;
             }
-
+            
             .preview-prev {
-                left: 20px;
+                left: 30px;
             }
-
+            
             .preview-next {
+                right: 30px;
+            }
+            
+            .preview-close {
+                top: 20px;
                 right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-title {
+                font-size: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.php" class="back-link">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back to Gallery</span>
-        </a>
-
-        <div class="admin-header">
-            <div class="admin-logo">
-                <img src="../asset/logo-min.png" alt="Warlord Realm Logo" class="logo-img" onerror="this.style.display='none'; this.parentElement.querySelector('.logo-icon').style.display='flex';">
+    <!-- Carbon Fiber Header -->
+    <header class="carbon-header">
+        <div class="header-content">
+            <a href="index.php" class="logo-section">
+                <img src="../asset/logo-min.png" alt="Warlord Realm Logo" class="logo-img">
                 <div class="logo-text">
-                    <h1>Warlord Realm</h1>
-                    <span>Admin Panel</span>
+                    <h1>WARLORD REALM</h1>
+                    <p>Admin Panel</p>
                 </div>
+            </a>
+
+            <div class="user-actions">
+                <a href="index.php" class="btn btn-secondary">
+                    <i class="fas fa-images"></i> View Gallery
+                </a>
+                <div style="color: var(--medium-gray); font-size: 0.9rem; padding: 8px 16px; background: rgba(33, 33, 33, 0.6); border-radius: 8px; border: 1px solid var(--border-color);">
+                    Admin: <strong style="color: var(--accent-red);"><?php echo $_SESSION['username']; ?></strong>
+                </div>
+                <a href="logout.php" class="btn btn-secondary">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
             </div>
-            
-            <h2 class="admin-title">Manage Uploads</h2>
-            <p class="admin-subtitle">Review and approve user screenshots</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="admin-header">
+            <h1 class="admin-title">Admin Dashboard</h1>
+            <p class="admin-subtitle">Manage all uploaded screenshots and user submissions</p>
         </div>
 
         <?php if(isset($_GET['message'])): ?>
             <div class="alert">
                 <i class="fas fa-check-circle"></i>
-                <span><?php echo htmlspecialchars($_GET['message']); ?></span>
+                <span class="alert-message"><?php echo htmlspecialchars($_GET['message']); ?></span>
             </div>
         <?php endif; ?>
 
+        <!-- Stats Cards -->
+        <?php
+        $total = count($images);
+        $pending = count(array_filter($images, function($img) { return $img['status'] == 'pending'; }));
+        $approved = count(array_filter($images, function($img) { return $img['status'] == 'approved'; }));
+        $rejected = count(array_filter($images, function($img) { return $img['status'] == 'rejected'; }));
+        ?>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-images"></i>
+                </div>
+                <div class="stat-number"><?php echo $total; ?></div>
+                <div class="stat-label">Total Images</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number"><?php echo $pending; ?></div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon approved">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-number"><?php echo $approved; ?></div>
+                <div class="stat-label">Approved</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon rejected">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-number"><?php echo $rejected; ?></div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+        <!-- Images Table -->
         <div class="admin-container">
             <?php if(count($images) > 0): ?>
                 <table>
                     <thead>
                         <tr>
-                            <th class="image-cell">Image</th>
-                            <th>Title</th>
+                            <th class="image-cell">Preview</th>
+                            <th>Details</th>
                             <th>Uploader</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -575,37 +908,45 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                          data-description="<?php echo htmlspecialchars($image['description']); ?>">
                                 </td>
                                 <td>
-                                    <strong><?php echo htmlspecialchars($image['title']); ?></strong><br>
+                                    <strong style="color: var(--pure-white); font-size: 1rem;"><?php echo htmlspecialchars($image['title']); ?></strong><br>
                                     <?php if($image['description']): ?>
-                                        <small style="color: var(--medium-gray); margin-top: 5px; display: block;">
-                                            <?php echo htmlspecialchars(substr($image['description'], 0, 50)); ?>
-                                            <?php if(strlen($image['description']) > 50): ?>...<?php endif; ?>
-                                        </small>
+                                        <div style="color: var(--medium-gray); margin-top: 8px; font-size: 0.85rem; line-height: 1.4;">
+                                            <?php echo htmlspecialchars(substr($image['description'], 0, 80)); ?>
+                                            <?php if(strlen($image['description']) > 80): ?>...<?php endif; ?>
+                                        </div>
                                     <?php endif; ?>
-                                    <small style="color: var(--medium-gray); margin-top: 5px; display: block;">
-                                        <?php echo date('M j, Y', strtotime($image['uploaded_at'])); ?>
-                                    </small>
+                                    <div style="color: var(--accent-red); margin-top: 8px; font-size: 0.8rem;">
+                                        <i class="fas fa-calendar"></i> <?php echo date('M j, Y g:i A', strtotime($image['uploaded_at'])); ?>
+                                    </div>
                                 </td>
                                 <td>
-                                    <?php echo htmlspecialchars($image['username']); ?><br>
+                                    <div style="color: var(--pure-white); font-weight: 500;"><?php echo htmlspecialchars($image['username']); ?></div>
                                     <?php if($image['minecraft_username']): ?>
-                                        <small style="color: var(--accent-red);"><?php echo htmlspecialchars($image['minecraft_username']); ?></small>
+                                        <div style="color: var(--accent-red); font-size: 0.85rem; margin-top: 5px;">
+                                            <i class="fas fa-gamepad"></i> <?php echo htmlspecialchars($image['minecraft_username']); ?>
+                                        </div>
                                     <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php if($image['status'] == 'pending'): ?>
-                                        <span class="status-badge status-pending">Pending</span>
+                                        <span class="status-badge status-pending">
+                                            <i class="fas fa-clock"></i> Pending
+                                        </span>
                                     <?php elseif($image['status'] == 'approved'): ?>
-                                        <span class="status-badge status-approved">Approved</span>
+                                        <span class="status-badge status-approved">
+                                            <i class="fas fa-check"></i> Approved
+                                        </span>
                                     <?php elseif($image['status'] == 'rejected'): ?>
-                                        <span class="status-badge status-rejected">Rejected</span>
+                                        <span class="status-badge status-rejected">
+                                            <i class="fas fa-times"></i> Rejected
+                                        </span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
                                     <div class="action-buttons">
                                         <?php if($image['status'] != 'approved'): ?>
                                             <a href="admin.php?action=approve&id=<?php echo $image['id']; ?>" 
-                                               class="btn btn-approve"
+                                               class="action-btn btn-approve"
                                                onclick="return confirm('Approve this screenshot?')">
                                                 <i class="fas fa-check"></i> Approve
                                             </a>
@@ -613,13 +954,13 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                         
                                         <?php if($image['status'] != 'rejected'): ?>
                                             <a href="admin.php?action=reject&id=<?php echo $image['id']; ?>" 
-                                               class="btn btn-reject"
+                                               class="action-btn btn-reject"
                                                onclick="return confirm('Reject this screenshot?')">
                                                 <i class="fas fa-times"></i> Reject
                                             </a>
                                         <?php endif; ?>
                                         
-                                        <button class="btn btn-edit edit-trigger" 
+                                        <button class="action-btn btn-edit edit-trigger" 
                                                 data-id="<?php echo $image['id']; ?>"
                                                 data-title="<?php echo htmlspecialchars($image['title']); ?>"
                                                 data-description="<?php echo htmlspecialchars($image['description']); ?>">
@@ -627,7 +968,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                         </button>
                                         
                                         <a href="admin.php?delete=1&id=<?php echo $image['id']; ?>" 
-                                           class="btn btn-delete"
+                                           class="action-btn btn-delete"
                                            onclick="return confirm('Permanently delete this screenshot?')">
                                             <i class="fas fa-trash"></i> Delete
                                         </a>
@@ -644,7 +985,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     </div>
                     <h3 class="empty-title">No Screenshots Yet</h3>
                     <p class="empty-description">
-                        Users haven't uploaded any screenshots yet.
+                        Users haven't uploaded any screenshots yet. Check back later!
                     </p>
                 </div>
             <?php endif; ?>
@@ -654,7 +995,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <!-- Edit Modal -->
     <div id="editModal" class="edit-modal">
         <div class="edit-modal-content">
-            <h3>Edit Screenshot</h3>
+            <h3><i class="fas fa-edit"></i> Edit Screenshot</h3>
             <form method="POST" action="">
                 <input type="hidden" name="image_id" id="editImageId">
                 <input type="hidden" name="edit_image" value="1">
@@ -670,8 +1011,8 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 </div>
                 
                 <div class="modal-buttons">
-                    <button type="button" class="btn btn-cancel" id="cancelEdit">Cancel</button>
-                    <button type="submit" class="btn btn-save">Save Changes</button>
+                    <button type="button" class="btn-cancel" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -720,17 +1061,20 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 editTitle.value = this.getAttribute('data-title');
                 editDescription.value = this.getAttribute('data-description');
                 editModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             });
         });
 
         cancelEdit.addEventListener('click', function() {
             editModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         });
 
         // Close edit modal when clicking outside
         editModal.addEventListener('click', function(e) {
             if (e.target === this) {
                 editModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         });
 
@@ -772,6 +1116,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             previewImage.src = image.src;
             previewImage.alt = image.title;
             previewModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
             
             // Update navigation buttons
             updatePreviewNavigation();
@@ -779,6 +1124,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
         
         function closePreviewModal() {
             previewModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
         
         function prevPreviewImage() {

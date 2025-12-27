@@ -234,6 +234,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
+            text-decoration: none;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;

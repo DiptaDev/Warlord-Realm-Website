@@ -1,7 +1,5 @@
 NOT DONE:
 - make images that uploaded got compressed
-- update upload gui juga deng ;-;
-- update ui gallery admin panel kek titid memek
 - update registery form question
 - add system penilaian
 
