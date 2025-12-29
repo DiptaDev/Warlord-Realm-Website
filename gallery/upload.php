@@ -379,22 +379,6 @@ function formatBytes($bytes, $precision = 2) {
             line-height: 1.6;
         }
 
-        /* .compression-info {
-            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(33, 150, 243, 0.05));
-            border: 1px solid rgba(33, 150, 243, 0.2);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .compression-info i {
-            color: #2196F3;
-            margin-right: 10px;
-        } */
-
         /* Upload Container */
         .upload-container {
             background: linear-gradient(145deg, rgba(33, 33, 33, 0.9), rgba(17, 17, 17, 0.95));
@@ -779,6 +763,9 @@ function formatBytes($bytes, $precision = 2) {
                     <div style="color: var(--medium-gray); font-size: 0.9rem; padding: 8px 16px; background: rgba(33, 33, 33, 0.6); border-radius: 8px; border: 1px solid var(--border-color);">
                         Welcome, <strong style="color: var(--accent-red);"><?php echo $_SESSION['username']; ?></strong>
                     </div>
+                    <a href="myuploads.php" class="btn btn-secondary">
+                        <i class="fas fa-user-circle"></i> My Uploads
+                    </a>
                     <a href="index.php" class="btn btn-secondary">
                         <i class="fas fa-images"></i> Gallery
                     </a>

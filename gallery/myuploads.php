@@ -1,39 +1,33 @@
 <?php
 require_once 'config.php';
 
-// Ambil gambar yang sudah approved untuk ditampilkan
-$query = "SELECT i.*, u.username, u.minecraft_username 
-          FROM images i 
-          JOIN users u ON i.user_id = u.id 
-          WHERE i.status = 'approved' 
-          ORDER BY i.uploaded_at DESC";
+// Cek apakah user sudah login
+if (!isLoggedIn()) {
+    header('Location: login.php');
+    exit();
+}
+
+// Ambil gambar yang diupload oleh user yang login
+$user_id = $_SESSION['user_id'];
+$query = "SELECT * FROM images WHERE user_id = $user_id ORDER BY uploaded_at DESC";
 $result = mysqli_query($conn, $query);
-$images = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$my_images = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// Hitung statistik
+$total_uploads = count($my_images);
+$pending_count = count(array_filter($my_images, function($img) { return $img['status'] == 'pending'; }));
+$approved_count = count(array_filter($my_images, function($img) { return $img['status'] == 'approved'; }));
+$rejected_count = count(array_filter($my_images, function($img) { return $img['status'] == 'rejected'; }));
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warlord Realm | My Uploads</title>
     <link rel="shortcut icon" href="../asset/logo-min.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Warlord Realm | Gallery</title>
-        <!-- SEO Meta Tag not tested yet-->
-    <meta name="description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
-    <meta name="keywords" content="Minecraft, Warlord Realm, Indonesia Minecraft Server, Survival, Bedrock, Java Edition, Semi Anarchy">
-    <meta name="author" content="Warlord Network by dipta14">
-    <!-- Open Graph for Social Media not tested yet-->
-    <meta property="og:title" content="Warlord Realm - Minecraft Server">
-    <meta property="og:description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
-    <meta property="og:image" content="../asset/logo-min.png">
-    <meta property="og:url" content="https://warlordrealm.ct.ws">
-    <meta property="og:type" content="website">
-    <!-- Twitter Card not tested yet-->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Warlord Realm - Minecraft Server">
-    <meta name="twitter:description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
-    <meta name="twitter:image" content="../asset/Twitter_Card_Image.png">
- <style>
+    <style>
         :root {
             --primary-black: #0a0a0a;
             --secondary-black: #111111;
@@ -47,6 +41,8 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             --border-color: #333333;
             --glow-red: rgba(211, 47, 47, 0.3);
             --glow-dark-red: rgba(183, 28, 28, 0.4);
+            --success-green: #4CAF50;
+            --warning-orange: #FF9800;
         }
 
         * {
@@ -79,7 +75,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
         }
 
         /* Header */
@@ -88,13 +84,14 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
             padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            margin-bottom: 40px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
 
         .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -130,7 +127,6 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             font-weight: 500;
         }
 
-        /* User Actions */
         .user-actions {
             display: flex;
             align-items: center;
@@ -176,57 +172,94 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             border-color: var(--accent-red);
         }
 
-        .welcome-text {
-            color: var(--medium-gray);
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            background: rgba(33, 33, 33, 0.6);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .welcome-text strong {
-            color: var(--accent-red);
-        }
-
-        /* Hero Section */
-        .hero-section {
-            padding: 80px 0 60px;
+        /* My Uploads Header */
+        .myuploads-header {
             text-align: center;
-            position: relative;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(145deg, rgba(33, 33, 33, 0.8), rgba(17, 17, 17, 0.9));
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
-        .hero-title {
-            font-size: 3.5rem;
+        .myuploads-title {
+            font-size: 2.8rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             background: linear-gradient(to right, var(--accent-red), var(--accent-light-red));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero-subtitle {
-            font-size: 1.2rem;
+        .myuploads-subtitle {
             color: var(--medium-gray);
+            font-size: 1.1rem;
             max-width: 600px;
-            margin: 0 auto 40px;
+            margin: 0 auto;
             line-height: 1.6;
         }
 
-        /* Gallery Grid */
-        .gallery-section {
-            padding: 40px 0;
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
+        .stat-card {
+            background: linear-gradient(145deg, rgba(33, 33, 33, 0.9), rgba(17, 17, 17, 0.95));
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px var(--glow-red);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .stat-icon.total { background: rgba(33, 150, 243, 0.1); color: #2196F3; }
+        .stat-icon.pending { background: rgba(255, 152, 0, 0.1); color: var(--warning-orange); }
+        .stat-icon.approved { background: rgba(76, 175, 80, 0.1); color: var(--success-green); }
+        .stat-icon.rejected { background: rgba(211, 47, 47, 0.1); color: var(--accent-red); }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--pure-white);
+        }
+
+        .stat-label {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Gallery Grid */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 30px;
-            margin: 40px 0;
+            margin-bottom: 60px;
         }
 
-        .gallery-card {
-            background: linear-gradient(145deg, rgba(33, 33, 33, 0.8), rgba(17, 17, 17, 0.9));
+        .upload-card {
+            background: linear-gradient(145deg, rgba(33, 33, 33, 0.9), rgba(17, 17, 17, 0.95));
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid var(--border-color);
@@ -235,29 +268,29 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             cursor: pointer;
         }
 
-        .gallery-card:hover {
-            transform: translateY(-10px);
+        .upload-card:hover {
+            transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--glow-red);
             border-color: var(--accent-red);
         }
 
-        .gallery-image {
+        .upload-image {
             width: 100%;
-            height: 250px;
+            height: 200px;
             object-fit: cover;
             display: block;
             transition: transform 0.6s ease;
         }
 
-        .gallery-card:hover .gallery-image {
+        .upload-card:hover .upload-image {
             transform: scale(1.05);
         }
 
-        .gallery-content {
+        .upload-content {
             padding: 25px;
         }
 
-        .image-title {
+        .upload-title {
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--pure-white);
@@ -265,11 +298,11 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             line-height: 1.4;
         }
 
-        .image-description {
+        .upload-description {
             color: var(--medium-gray);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-bottom: 20px;
-            line-height: 1.6;
+            line-height: 1.5;
             max-height: 60px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -278,7 +311,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             -webkit-box-orient: vertical;
         }
 
-        .image-meta {
+        .upload-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -286,54 +319,50 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .uploader-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .uploader-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent-red), var(--accent-dark-red));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--pure-white);
-            font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 4px 12px var(--glow-red);
-        }
-
-        .uploader-details {
+        .upload-info {
             display: flex;
             flex-direction: column;
-        }
-
-        .uploader-name {
-            font-size: 0.95rem;
-            color: var(--pure-white);
-            font-weight: 500;
-        }
-
-        .minecraft-name {
-            font-size: 0.85rem;
-            color: var(--accent-red);
-            font-weight: 500;
+            gap: 8px;
         }
 
         .upload-date {
             font-size: 0.85rem;
             color: var(--medium-gray);
-            background: rgba(33, 33, 33, 0.6);
-            padding: 5px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
+        }
+
+        .upload-status {
+            margin-top: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.15), rgba(255, 152, 0, 0.1));
+            color: var(--warning-orange);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .status-approved {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.1));
+            color: var(--success-green);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .status-rejected {
+            background: linear-gradient(135deg, rgba(211, 47, 47, 0.15), rgba(183, 28, 28, 0.1));
+            color: var(--accent-red);
+            border: 1px solid rgba(211, 47, 47, 0.3);
         }
 
         /* Empty State */
-        .empty-gallery {
+        .empty-uploads {
             grid-column: 1 / -1;
             text-align: center;
             padding: 80px 40px;
@@ -371,84 +400,39 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             line-height: 1.6;
         }
 
-        /* Back Link - Positioned under container */
-        .back-link-container {
-            text-align: center;
-            margin: 60px 0 40px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--light-gray);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, rgba(33, 33, 33, 0.8), rgba(51, 51, 51, 0.6));
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: var(--accent-red);
-            border-color: var(--accent-red);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
         /* Alert Messages */
         .alert {
-            position: fixed;
-            top: 100px;
-            right: 30px;
             padding: 20px 25px;
             background: linear-gradient(135deg, rgba(33, 33, 33, 0.95), rgba(17, 17, 17, 0.95));
             border-radius: 12px;
+            margin-bottom: 30px;
             border-left: 5px solid var(--accent-red);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--glow-red);
-            z-index: 9999;
-            max-width: 400px;
-            animation: slideInRight 0.5s ease, slideOutRight 0.5s ease 4.5s forwards;
+            border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             gap: 15px;
-            border: 1px solid var(--border-color);
+            animation: slideIn 0.5s ease;
         }
 
-        @keyframes slideInRight {
+        @keyframes slideIn {
             from {
-                transform: translateX(100%);
+                transform: translateY(-20px);
                 opacity: 0;
             }
             to {
-                transform: translateX(0);
+                transform: translateY(0);
                 opacity: 1;
-            }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
             }
         }
 
         .alert i {
-            color: var(--accent-red);
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
 
         .alert-message {
             color: var(--light-gray);
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 500;
         }
 
@@ -459,8 +443,8 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 gap: 20px;
             }
 
-            .hero-title {
-                font-size: 2.5rem;
+            .myuploads-title {
+                font-size: 2.2rem;
             }
 
             .gallery-grid {
@@ -468,8 +452,8 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 gap: 20px;
             }
 
-            .gallery-image {
-                height: 200px;
+            .upload-image {
+                height: 180px;
             }
 
             .user-actions {
@@ -477,13 +461,26 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 justify-content: center;
             }
 
-            .back-link {
-                padding: 10px 20px;
-                font-size: 0.9rem;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        /* IMAGE MODAL STYLES - FIXED */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .myuploads-title {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* IMAGE MODAL STYLES - SAME AS INDEX.PHP */
         .image-modal {
             display: none;
             position: fixed;
@@ -554,7 +551,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             transform: rotate(90deg);
         }
 
-        /* FIXED: Modal body with proper constraints */
+        /* Modal body with proper constraints */
         .modal-body {
             flex: 1;
             display: flex;
@@ -600,7 +597,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             right: 20px;
         }
 
-        /* FIXED: Image container with proper constraints */
+        /* Image container with proper constraints */
         .image-container {
             flex: 1;
             display: flex;
@@ -616,7 +613,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             max-width: 100%;
         }
 
-        /* FIXED: Modal image with proper constraints */
+        /* Modal image with proper constraints */
         #modalImage {
             max-width: 100%;
             max-height: 60vh;
@@ -786,25 +783,25 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <body>
     <!-- Carbon Fiber Header -->
     <header class="carbon-header">
-        <div class="container header-content">
-            <a href="../" class="logo-section">
-                 <img src="../asset/logo-min.png" alt="Warlord Realm Logo" class="logo-img" onerror="this.style.display='none'; this.parentElement.querySelector('.logo-icon').style.display='flex';">
+        <div class="header-content">
+            <a href="index.php" class="logo-section">
+                <img src="../asset/logo-min.png" alt="Warlord Realm Logo" class="logo-img">
                 <div class="logo-text">
                     <h1>WARLORD REALM</h1>
-                    <p>Minecraft Gallery</p>
+                    <p>My Uploads</p>
                 </div>
             </a>
 
             <div class="user-actions">
                 <?php if(isLoggedIn()): ?>
-                    <div class="welcome-text">
-                        Welcome, <strong><?php echo $_SESSION['username']; ?></strong>
+                    <div style="color: var(--medium-gray); font-size: 0.9rem; padding: 8px 16px; background: rgba(33, 33, 33, 0.6); border-radius: 8px; border: 1px solid var(--border-color);">
+                        Welcome, <strong style="color: var(--accent-red);"><?php echo $_SESSION['username']; ?></strong>
                     </div>
-                    <a href="myuploads.php" class="btn btn-secondary">
-                        <i class="fas fa-user-circle"></i> My Uploads
-                    </a>
                     <a href="upload.php" class="btn btn-primary">
-                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                        <i class="fas fa-cloud-upload-alt"></i> Upload New
+                    </a>
+                    <a href="index.php" class="btn btn-secondary">
+                        <i class="fas fa-images"></i> Gallery
                     </a>
                     <?php if(isAdmin()): ?>
                         <a href="admin.php" class="btn btn-secondary">
@@ -818,16 +815,12 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <a href="login.php" class="btn btn-secondary">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </a>
-                    <a href="register.php" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i> Register
-                    </a>
                 <?php endif; ?>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <main class="container">
+    <div class="container">
         <?php if(isset($_GET['message'])): ?>
             <div class="alert">
                 <i class="fas fa-check-circle"></i>
@@ -835,80 +828,96 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             </div>
         <?php endif; ?>
 
-        <section class="hero-section">
-            <h1 class="hero-title">Community Gallery</h1>
-            <p class="hero-subtitle">Showcase your Warlord Realm adventures. Epic battles, amazing builds, and unforgettable moments shared by our community. <br> <small>(register to upload)</small></p>
-        </section>
+        <div class="myuploads-header">
+            <h1 class="myuploads-title">My Screenshots</h1>
+            <p class="myuploads-subtitle">Track the status of all your uploaded Warlord Realm adventures</p>
+        </div>
 
-        <!-- Gallery Section -->
-        <section class="gallery-section">
-            <div class="gallery-grid" id="galleryGrid">
-                <?php if(count($images) > 0): ?>
-                    <?php foreach($images as $index => $image): ?>
-                        <div class="gallery-card" data-index="<?php echo $index; ?>" data-description="<?php echo htmlspecialchars($image['description']); ?>">
-                            <img src="uploads/<?php echo $image['filename']; ?>" 
-                                 alt="<?php echo htmlspecialchars($image['title']); ?>" 
-                                 class="gallery-image">
-                            <div class="gallery-content">
-                                <h3 class="image-title"><?php echo htmlspecialchars($image['title']); ?></h3>
-                                <?php if(!empty($image['description'])): ?>
-                                    <p class="image-description"><?php echo htmlspecialchars($image['description']); ?></p>
-                                <?php endif; ?>
-                                <div class="image-meta">
-                                    <div class="uploader-info">
-                                        <div class="uploader-avatar">
-                                            <?php echo strtoupper(substr($image['username'], 0, 1)); ?>
-                                        </div>
-                                        <div class="uploader-details">
-                                            <span class="uploader-name"><?php echo htmlspecialchars($image['username']); ?></span>
-                                            <?php if($image['minecraft_username']): ?>
-                                                <span class="minecraft-name"><?php echo htmlspecialchars($image['minecraft_username']); ?></span>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-images"></i>
+                </div>
+                <div class="stat-number"><?php echo $total_uploads; ?></div>
+                <div class="stat-label">Total Uploads</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number"><?php echo $pending_count; ?></div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon approved">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-number"><?php echo $approved_count; ?></div>
+                <div class="stat-label">Approved</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon rejected">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-number"><?php echo $rejected_count; ?></div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+        <!-- Uploads Gallery -->
+        <div class="gallery-grid" id="galleryGrid">
+            <?php if(count($my_images) > 0): ?>
+                <?php foreach($my_images as $index => $image): ?>
+                    <div class="upload-card" data-index="<?php echo $index; ?>" data-description="<?php echo htmlspecialchars($image['description']); ?>">
+                        <img src="uploads/<?php echo $image['filename']; ?>" 
+                             alt="<?php echo htmlspecialchars($image['title']); ?>" 
+                             class="upload-image">
+                        <div class="upload-content">
+                            <h3 class="upload-title"><?php echo htmlspecialchars($image['title']); ?></h3>
+                            <?php if(!empty($image['description'])): ?>
+                                <p class="upload-description"><?php echo htmlspecialchars($image['description']); ?></p>
+                            <?php endif; ?>
+                            <div class="upload-meta">
+                                <div class="upload-info">
                                     <div class="upload-date">
+                                        <i class="fas fa-calendar"></i> 
                                         <?php echo date('M j, Y', strtotime($image['uploaded_at'])); ?>
+                                        <?php if($image['approved_at']): ?>
+                                            <br><i class="fas fa-check-circle"></i> 
+                                            Approved: <?php echo date('M j, Y', strtotime($image['approved_at'])); ?>
+                                        <?php elseif($image['rejected_at']): ?>
+                                            <br><i class="fas fa-times-circle"></i> 
+                                            Rejected: <?php echo date('M j, Y', strtotime($image['rejected_at'])); ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="upload-status">
+                                        <?php echo getStatusBadge($image['status']); ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="empty-gallery">
-                        <div class="empty-icon">
-                            <i class="fas fa-images"></i>
-                        </div>
-                        <h3 class="empty-title">Gallery is Empty</h3>
-                        <p class="empty-description">
-                            Be the first to share your Warlord Realm adventures!
-                            <?php if(!isLoggedIn()): ?>
-                                Register now to upload your screenshots.
-                            <?php else: ?>
-                                Click upload to share your first screenshot.
-                            <?php endif; ?>
-                        </p>
-                        <?php if(!isLoggedIn()): ?>
-                            <a href="register.php" class="btn btn-primary" style="padding: 12px 30px; font-size: 1rem;">
-                                <i class="fas fa-user-plus"></i> Register to Upload
-                            </a>
-                        <?php else: ?>
-                            <a href="upload.php" class="btn btn-primary" style="padding: 12px 30px; font-size: 1rem;">
-                                <i class="fas fa-cloud-upload-alt"></i> Upload Screenshot
-                            </a>
-                        <?php endif; ?>
                     </div>
-                <?php endif; ?>
-            </div>
-        </section>
-
-        <!-- Back Link Container -->
-        <div class="back-link-container">
-            <a href="../" class="back-link">
-                <i class="fas fa-arrow-left"></i>
-                <span>Back to Main Site</span>
-            </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="empty-uploads">
+                    <div class="empty-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3 class="empty-title">No Uploads Yet</h3>
+                    <p class="empty-description">
+                        You haven't uploaded any screenshots yet. Share your first Warlord Realm adventure!
+                    </p>
+                    <a href="upload.php" class="btn btn-primary" style="padding: 12px 30px; font-size: 1rem;">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Your First Screenshot
+                    </a>
+                </div>
+            <?php endif; ?>
         </div>
-    </main>
+    </div>
 
     <!-- Image Preview Modal -->
     <div id="imageModal" class="image-modal">
@@ -941,11 +950,15 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 <div class="image-info">
                     <div class="info-item">
                         <i class="fas fa-user"></i>
-                        <span id="modalUploader"></span>
+                        <span id="modalUploader"><?php echo $_SESSION['username']; ?></span>
                     </div>
                     <div class="info-item">
                         <i class="fas fa-calendar"></i>
                         <span id="modalDate"></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="modalStatus"></span>
                     </div>
                 </div>
                 <div class="image-actions">
@@ -969,8 +982,8 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             const modalImage = document.getElementById('modalImage');
             const imageLoader = document.getElementById('imageLoader');
             const modalTitle = document.getElementById('modalTitle');
-            const modalUploader = document.getElementById('modalUploader');
             const modalDate = document.getElementById('modalDate');
+            const modalStatus = document.getElementById('modalStatus');
             const modalDescription = document.getElementById('modalDescription');
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
@@ -986,23 +999,45 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             
             // Collect all gallery images
             function collectImages() {
-                const galleryCards = document.querySelectorAll('.gallery-card');
+                const galleryCards = document.querySelectorAll('.upload-card');
                 images = [];
                 
                 galleryCards.forEach((card, index) => {
-                    const img = card.querySelector('.gallery-image');
-                    const title = card.querySelector('.image-title').textContent;
-                    const uploader = card.querySelector('.uploader-name').textContent;
-                    const date = card.querySelector('.upload-date').textContent;
-                    const minecraftName = card.querySelector('.minecraft-name')?.textContent || '';
+                    const img = card.querySelector('.upload-image');
+                    const title = card.querySelector('.upload-title').textContent;
+                    const dateElement = card.querySelector('.upload-date');
+                    const statusElement = card.querySelector('.status-badge');
                     const description = card.getAttribute('data-description') || '';
+                    
+                    // Extract date from the date element
+                    let dateText = dateElement.textContent;
+                    // Get just the uploaded date (first line)
+                    const dateMatch = dateText.match(/[A-Za-z]+ \d{1,2}, \d{4}/);
+                    const date = dateMatch ? dateMatch[0] : 'Unknown date';
+                    
+                    // Get status text and color
+                    let statusText = 'Unknown';
+                    let statusColor = '#9e9e9e';
+                    
+                    if (statusElement) {
+                        statusText = statusElement.textContent.trim();
+                        // Check which status class is present
+                        if (statusElement.classList.contains('status-pending')) {
+                            statusColor = '#FF9800';
+                        } else if (statusElement.classList.contains('status-approved')) {
+                            statusColor = '#4CAF50';
+                        } else if (statusElement.classList.contains('status-rejected')) {
+                            statusColor = '#d32f2f';
+                        }
+                    }
                     
                     images.push({
                         src: img.src,
                         title: title,
                         description: description,
-                        uploader: uploader + (minecraftName ? ` (${minecraftName})` : ''),
                         date: date,
+                        status: statusText,
+                        statusColor: statusColor,
                         index: index
                     });
                 });
@@ -1023,8 +1058,9 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 
                 // Set image info
                 modalTitle.textContent = image.title;
-                modalUploader.textContent = image.uploader;
                 modalDate.textContent = image.date;
+                modalStatus.textContent = image.status;
+                modalStatus.style.color = image.statusColor;
                 
                 // Show/hide description
                 if (image.description) {
@@ -1159,7 +1195,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             collectImages();
             
             // Add click events to gallery images
-            document.querySelectorAll('.gallery-card').forEach((card, index) => {
+            document.querySelectorAll('.upload-card').forEach((card, index) => {
                 card.addEventListener('click', function() {
                     openModal(index);
                 });
@@ -1180,30 +1216,6 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     }, 500);
                 });
             }, 4500);
-            
-            // Back link interaction
-            const backLink = document.querySelector('.back-link');
-            if (backLink) {
-                backLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Add click animation
-                    this.style.transform = 'translateY(-3px)';
-                    this.style.opacity = '0.8';
-                    
-                    setTimeout(() => {
-                        window.location.href = this.getAttribute('href');
-                    }, 300);
-                });
-                
-                // Reset animation on mouse leave
-                backLink.addEventListener('mouseleave', function() {
-                    setTimeout(() => {
-                        this.style.transform = '';
-                        this.style.opacity = '';
-                    }, 300);
-                });
-            }
         });
     </script>
 </body>

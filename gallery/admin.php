@@ -816,8 +816,11 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             </a>
 
             <div class="user-actions">
+                <a href="myuploads.php" class="btn btn-secondary">
+                    <i class="fas fa-user-circle"></i> My Uploads
+                </a>
                 <a href="index.php" class="btn btn-secondary">
-                    <i class="fas fa-images"></i> View Gallery
+                    <i class="fas fa-images"></i> Gallery
                 </a>
                 <div style="color: var(--medium-gray); font-size: 0.9rem; padding: 8px 16px; background: rgba(33, 33, 33, 0.6); border-radius: 8px; border: 1px solid var(--border-color);">
                     Admin: <strong style="color: var(--accent-red);"><?php echo $_SESSION['username']; ?></strong>
