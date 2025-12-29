@@ -33,4 +33,4 @@ VALUES ('dipta14', '$2y$10$arA6qOHpGo.zhGawRy5kH.pbQksAySyvGlFUt.AKiHoaJF77o7dIa
 
 -- Insert sample user (password: user123)
 INSERT INTO users (username, password, email, minecraft_username) 
-VALUES ('God_Prototype_1', '$2y$10$ureJbhrQlv1y2pgYj7y0juq3rXSvxPBCs98zoeJAJokiwdUFn27Rm', 'player@example.com', 'MinecraftPlayer');
+VALUES ('user1', 'hash', 'player@example.com', 'MinecraftPlayer1');

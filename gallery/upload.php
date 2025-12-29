@@ -187,7 +187,7 @@ function formatBytes($bytes, $precision = 2) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload - Warlord Realm Gallery</title>
+    <title>Warlord Realm | Gallery Upload</title>
     <link rel="shortcut icon" href="../asset/logo-min.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -379,7 +379,7 @@ function formatBytes($bytes, $precision = 2) {
             line-height: 1.6;
         }
 
-        .compression-info {
+        /* .compression-info {
             background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(33, 150, 243, 0.05));
             border: 1px solid rgba(33, 150, 243, 0.2);
             border-radius: 10px;
@@ -393,7 +393,7 @@ function formatBytes($bytes, $precision = 2) {
         .compression-info i {
             color: #2196F3;
             margin-right: 10px;
-        }
+        } */
 
         /* Upload Container */
         .upload-container {
@@ -803,10 +803,10 @@ function formatBytes($bytes, $precision = 2) {
         <div class="upload-header">
             <h1 class="upload-title">Upload Screenshot</h1>
             <p class="upload-subtitle">Share your epic Warlord Realm adventures with the community</p>
-            <div class="compression-info">
+            <!-- <div class="compression-info">
                 <i class="fas fa-compress-alt"></i>
                 <span>All images are automatically optimized for web viewing</span>
-            </div>
+            </div> -->
         </div>
 
         <?php if($error): ?>
@@ -858,7 +858,7 @@ function formatBytes($bytes, $precision = 2) {
                             <i class="fas fa-cloud-upload-alt"></i>
                             <p>Click or drag to upload your screenshot</p>
                             <p><small>Maximum file size: 5MB | Supported formats: JPG, PNG, GIF, WebP</small></p>
-                            <p><small><i class="fas fa-compress-alt"></i> All images are automatically optimized</small></p>
+                            <p><small> All images are automatically optimized</small></p>
                             <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(this)" required style="display: none;">
                         </div>
                         <div id="fileInfo" class="file-info">
@@ -896,7 +896,6 @@ function formatBytes($bytes, $precision = 2) {
                         <li>High-quality screenshots are encouraged</li>
                         <li>You can upload multiple screenshots over time</li>
                         <li>All images are automatically optimized for web viewing</li>
-                        <li>Large images are resized to 1920px maximum width</li>
                         <li>Include descriptive titles and stories for better engagement</li>
                     </ul>
                 </div>

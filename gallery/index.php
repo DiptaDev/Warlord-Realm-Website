@@ -15,10 +15,25 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - Warlord Realm Minecraft</title>
     <link rel="shortcut icon" href="../asset/logo-min.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+    <title>Warlord Realm | Gallery</title>
+        <!-- SEO Meta Tag not tested yet-->
+    <meta name="description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
+    <meta name="keywords" content="Minecraft, Warlord Realm, Indonesia Minecraft Server, Survival, Bedrock, Java Edition, Semi Anarchy">
+    <meta name="author" content="Warlord Network by dipta14">
+    <!-- Open Graph for Social Media not tested yet-->
+    <meta property="og:title" content="Warlord Realm - Minecraft Server">
+    <meta property="og:description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
+    <meta property="og:image" content="../asset/logo-min.png">
+    <meta property="og:url" content="https://warlordrealm.ct.ws">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card not tested yet-->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Warlord Realm - Minecraft Server">
+    <meta name="twitter:description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
+    <meta name="twitter:image" content="../asset/Twitter_Card_Image.png">
+ <style>
         :root {
             --primary-black: #0a0a0a;
             --secondary-black: #111111;
@@ -819,7 +834,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
         <section class="hero-section">
             <h1 class="hero-title">Community Gallery</h1>
-            <p class="hero-subtitle">Showcase your Warlord Realm adventures. Epic battles, amazing builds, and unforgettable moments shared by our community.</p>
+            <p class="hero-subtitle">Showcase your Warlord Realm adventures. Epic battles, amazing builds, and unforgettable moments shared by our community. <br> <small>(register to upload)</small></p>
         </section>
 
         <!-- Gallery Section -->
