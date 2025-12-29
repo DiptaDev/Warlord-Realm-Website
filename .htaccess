@@ -5,6 +5,8 @@
 
   #Redirect Shits
   Redirect 301 /admin /register/admin_login.php
+  Redirect 301 /admin_gallery /gallery/admin.php
+  Redirect 301 /gallery/admin /gallery/admin.php
 
   #Error Panges
   ErrorDocument 404 /err_pange/404.html
