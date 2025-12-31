@@ -1,5 +1,4 @@
 NOT DONE:
-- make images that uploaded got compressed
 - update registery form question
 - add system penilaian
 
@@ -9,6 +8,7 @@ note: disable right click and drag and drop after the gallery is production read
 
 
 DONE:
+- make images that uploaded got compressed
 - add galery to the web so everyone can submit photos that other can see + with security of course v
 - add commands function on help pange v
 - add how world reset work only reset when there is a new structure  v

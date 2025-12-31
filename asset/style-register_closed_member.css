@@ -1,0 +1,680 @@
+        /* Reset dan base styles yang dioptimalkan */
+        :root {
+            --color-black: #0a0a0a;
+            --color-dark-gray: #1a1a1a;
+            --color-gray: #333;
+            --color-light-gray: #666;
+            --color-white: #f0f0f0;
+            --color-red-dark: #8b0000;
+            --color-red: #cc0000;
+            --color-red-light: #ff3333;
+            --color-red-glow: rgba(255, 51, 51, 0.3);
+            --color-discord: #5865f2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Ambient Background dengan efek merah gelap */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(139, 0, 0, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(204, 0, 0, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(255, 51, 51, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 20%, rgba(255, 0, 0, 0.08) 0%, transparent 50%);
+            filter: blur(60px);
+            opacity: 0.6;
+        }
+        
+        /* Ambient effect di belakang container */
+        .ambient-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 1400px;
+            height: 80vh;
+            z-index: -1;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at center, rgba(139, 0, 0, 0.2) 0%, transparent 70%),
+                radial-gradient(ellipse at 30% 50%, rgba(255, 0, 0, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(204, 0, 0, 0.12) 0%, transparent 60%);
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+        
+        /* Animasi untuk efek interaktif saja */
+        @keyframes subtlePulse {
+            0%, 100% { 
+                opacity: 0.9;
+                box-shadow: 0 5px 20px rgba(204, 0, 0, 0.3);
+            }
+            50% { 
+                opacity: 1;
+                box-shadow: 0 5px 25px rgba(204, 0, 0, 0.5);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        /* Header Styles - TANPA ANIMASI LOAD */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-top: 30px;
+        }
+        
+        .logo-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logo-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--color-red);
+            box-shadow: 
+                0 0 30px var(--color-red-glow),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 
+                0 0 50px var(--color-red-glow),
+                inset 0 0 30px rgba(0, 0, 0, 0.6);
+            border-color: var(--color-red-light);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--color-red-glow) 0%, transparent 70%);
+            filter: blur(15px);
+            z-index: 1;
+            opacity: 0.6;
+        }
+        
+        .logo-text {
+            font-size: 3rem;
+            color: var(--color-red-light);
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .logo-text::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--color-red), 
+                var(--color-red-light), 
+                var(--color-red), 
+                transparent);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .server-name {
+            font-size: 1.3rem;
+            color: var(--color-light-gray);
+            margin-bottom: 25px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--color-red-dark) 0%, var(--color-red) 100%);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .status-badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 10px 30px rgba(204, 0, 0, 0.5),
+                0 0 40px rgba(255, 0, 0, 0.3);
+            animation: subtlePulse 2s ease-in-out infinite;
+        }
+        
+        .status-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .status-badge:hover::before {
+            left: 100%;
+        }
+        
+        /* Main Content - TANPA ANIMASI LOAD */
+        .main-content {
+            background: rgba(20, 20, 20, 0.85);
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 50px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 50px rgba(255, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, 
+                var(--color-red-dark), 
+                var(--color-red), 
+                var(--color-red-light), 
+                var(--color-red), 
+                var(--color-red-dark));
+        }
+        
+        .main-content::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(204, 0, 0, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .closed-message {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .icon-container {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            color: var(--color-red-light);
+            text-shadow: 
+                0 0 30px rgba(255, 0, 0, 0.6),
+                0 0 60px rgba(255, 0, 0, 0.3);
+            position: relative;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .icon-container:hover {
+            transform: scale(1.1);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .icon-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(255, 0, 0, 0.3) 0%, 
+                rgba(255, 0, 0, 0.1) 40%, 
+                transparent 70%);
+            z-index: -1;
+            filter: blur(15px);
+        }
+        
+        .closed-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--color-red-light);
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .closed-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--color-red), 
+                var(--color-red-light), 
+                var(--color-red), 
+                transparent);
+            border-radius: 2px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        
+        .closed-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: var(--color-white);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            border-left: 4px solid var(--color-red);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.5),
+                0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .closed-description:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.5),
+                0 15px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(255, 0, 0, 0.2);
+            border-left-color: var(--color-red-light);
+        }
+        
+        .highlight {
+            color: var(--color-red-light);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            position: relative;
+            padding: 0 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .highlight:hover {
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            transform: scale(1.05);
+        }
+        
+        /* Info Boxes - TANPA ANIMASI LOAD */
+        .info-boxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9));
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid rgba(255, 51, 51, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-red-dark), var(--color-red), var(--color-red-light));
+        }
+        
+        .info-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .info-box:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(255, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 102, 102, 0.5);
+        }
+        
+        .info-box:hover::after {
+            left: 100%;
+        }
+        
+        .info-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--color-red);
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .info-box:hover .info-icon {
+            transform: scale(1.2) rotate(10deg);
+            color: var(--color-red-light);
+        }
+        
+        .info-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .info-box h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-red), transparent);
+            border-radius: 1px;
+        }
+        
+        .info-box p {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 1.05rem;
+            margin-top: 10px;
+        }
+        
+        /* Action Buttons - TANPA ANIMASI LOAD */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .btn {
+            padding: 16px 35px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            text-decoration: none;
+            min-width: 220px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.6s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-red) 0%, var(--color-red-dark) 100%);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(179, 0, 0, 0.5),
+                0 0 30px rgba(255, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 
+                0 15px 35px rgba(179, 0, 0, 0.7),
+                0 0 50px rgba(255, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-discord {
+            background: linear-gradient(135deg, var(--color-discord) 0%, #4752c4 100%);
+            color: white;
+            box-shadow: 
+                0 8px 25px rgba(88, 101, 242, 0.5),
+                0 0 30px rgba(114, 137, 218, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn-discord:hover {
+            box-shadow: 
+                0 15px 35px rgba(88, 101, 242, 0.7),
+                0 0 50px rgba(114, 137, 218, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Footer - TANPA ANIMASI LOAD */
+        footer {
+            text-align: center;
+            padding-top: 30px;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .footer-link {
+            color: var(--color-light-gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+        }
+        
+        .footer-link:hover {
+            color: var(--color-red-light);
+            transform: translateY(-3px);
+            background: rgba(255, 51, 51, 0.1);
+            border-color: rgba(255, 51, 51, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 51, 51, 0.2);
+        }
+        
+        .footer-link i {
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover i {
+            transform: scale(1.2);
+            color: var(--color-red-light);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 2.4rem;
+            }
+            
+            .logo-image {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .main-content {
+                padding: 30px 20px;
+            }
+            
+            .closed-title {
+                font-size: 2rem;
+            }
+            
+            .closed-description {
+                font-size: 1.1rem;
+                padding: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .btn {
+                min-width: 100%;
+            }
+            
+            .info-boxes {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .status-badge {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+        }
