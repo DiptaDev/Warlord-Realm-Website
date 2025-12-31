@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="login-wrapper">
         <div class="brand-header">
             <div class="brand-logo">
-                <img src="../asset/logo-min.png" alt="Warlord Realm Logo" 
+                <img src="../asset/logo.jpg" alt="Warlord Realm Logo" 
                      onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='W'; this.parentElement.style.background='linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))'; this.parentElement.style.display='flex'; this.parentElement.style.alignItems='center'; this.parentElement.style.justifyContent='center'; this.parentElement.style.color='white'; this.parentElement.style.fontSize='28px'; this.parentElement.style.fontWeight='bold';">
             </div>
             <h1 class="brand-name">WARLORD REALM</h1>

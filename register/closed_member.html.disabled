@@ -33,7 +33,7 @@
         <header>
             <div class="logo-container">
                 <div class="logo-glow"></div>
-                <img src="/asset/logo-min.png" alt="Warlord Realm Logo" class="logo-image" 
+                <img src="../asset/logo.jpg" alt="Warlord Realm Logo" class="logo-image" 
                      id="serverLogo"
                      onerror="handleLogoError(this)">
             </div>

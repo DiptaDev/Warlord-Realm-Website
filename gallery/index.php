@@ -40,7 +40,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <header class="carbon-header">
         <div class="container header-content">
             <a href="../" class="logo-section">
-                 <img src="../asset/logo-min.png" alt="Warlord Realm Logo" class="logo-img" onerror="this.style.display='none'; this.parentElement.querySelector('.logo-icon').style.display='flex';">
+                 <img src="../asset/logo.jpg" alt="Warlord Realm Logo" class="logo-img" onerror="this.style.display='none'; this.parentElement.querySelector('.logo-icon').style.display='flex';">
                 <div class="logo-text">
                     <h1>WARLORD REALM</h1>
                     <p>Minecraft Gallery</p>

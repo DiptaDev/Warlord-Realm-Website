@@ -197,7 +197,7 @@ function formatBytes($bytes, $precision = 2) {
     <header class="carbon-header">
         <div class="header-content">
             <a href="index.php" class="logo-section">
-                <img src="../asset/logo-min.png" alt="Warlord Realm Logo" class="logo-img">
+                <img src="../asset/logo.jpg" alt="Warlord Realm Logo" class="logo-img">
                 <div class="logo-text">
                     <h1>WARLORD REALM</h1>
                     <p>Minecraft Gallery</p>
