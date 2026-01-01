@@ -22,66 +22,38 @@ if (!isset($data['id']) || !isset($data['action'])) {
     exit;
 }
 
-$registrationId = intval($data['id']);
+$applicationId = intval($data['id']);
 $action = $data['action'];
-$adminUsername = $_SESSION['admin_username'] ?? 'Admin';
 
 try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Get current registration data
-    $query = "SELECT * FROM registrations WHERE id = :id";
-    $stmt = $db->prepare($query);
-    $stmt->bindParam(':id', $registrationId);
-    $stmt->execute();
+    $statusMap = [
+        'approve' => 'approved',
+        'reject' => 'rejected',
+        'interview' => 'interview',
+        'trial' => 'trial',
+        'pending' => 'pending'
+    ];
     
-    if ($stmt->rowCount() === 0) {
-        echo json_encode(['success' => false, 'message' => 'Registration not found']);
+    if (!isset($statusMap[$action])) {
+        echo json_encode(['success' => false, 'message' => 'Invalid action']);
         exit;
     }
     
-    $registration = $stmt->fetch(PDO::FETCH_ASSOC);
-    $oldStatus = $registration['status'];
+    $newStatus = $statusMap[$action];
     
-    // Determine new status based on action
-    $newStatus = $oldStatus;
-    switch ($action) {
-        case 'approve':
-            $newStatus = 'approved';
-            break;
-        case 'reject':
-            $newStatus = 'rejected';
-            break;
-        case 'pending':
-            $newStatus = 'pending';
-            break;
-        default:
-            echo json_encode(['success' => false, 'message' => 'Invalid action']);
-            exit;
-    }
-    
-    // Update status in database
-    $updateQuery = "UPDATE registrations SET status = :status WHERE id = :id";
+    $updateQuery = "UPDATE whitelist_applications SET status = :status WHERE id = :id";
     $updateStmt = $db->prepare($updateQuery);
     $updateStmt->bindParam(':status', $newStatus);
-    $updateStmt->bindParam(':id', $registrationId);
+    $updateStmt->bindParam(':id', $applicationId);
     
     if ($updateStmt->execute()) {
-        // Send Discord notification for status update
-        $discordSent = sendDiscordStatusUpdate(
-            $registrationId, 
-            $registration['username'], 
-            $oldStatus, 
-            $newStatus, 
-            $adminUsername
-        );
-        
         echo json_encode([
             'success' => true, 
             'message' => 'Status updated successfully',
-            'new_status' => $newStatus,
-            'discord_notification' => $discordSent ? 'sent' : 'failed'
+            'new_status' => $newStatus
         ]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to update status']);

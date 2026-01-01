@@ -1,6 +1,5 @@
 NOT DONE:
-- update registery form question
-- add system penilaian
+- smth
 
 
 
@@ -8,6 +7,8 @@ note: disable right click and drag and drop after the gallery is production read
 
 
 DONE:
+- update registery form question
+- add system penilaian
 - make images that uploaded got compressed
 - add galery to the web so everyone can submit photos that other can see + with security of course v
 - add commands function on help pange v

@@ -4,238 +4,1665 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warlord Realm | Registeration</title>
+    <title>Warlord Realm | Register</title>
     <link rel="shortcut icon" href="../asset/logo-min.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../asset/style-register_pange.css">
-    <!-- SEO Meta Tag not tested yet-->
+    <!-- SEO Meta Tags (not tested yet) -->
     <meta name="description" content="Register now to become a new member of Warlord Realm">
     <meta name="keywords"
-        content="Minecraft, Warlord Realm, Indonesia Minecraft Server, Survival, Bedrock, Java Edition, Semi Anarchy">
+        content="Minecraft, Warlord Realm, Minecraft Server Indonesia, Survival, Bedrock, Java Edition, Semi Anarchy">
     <meta name="author" content="Warlord Network by dipta14">
-    <!-- Open Graph for Social Media not tested yet-->
+    <!-- Open Graph for Social Media (not tested yet) -->
     <meta property="og:title" content="Warlord Realm - Member Registration">
     <meta property="og:description" content="Register now to become a new member of Warlord Realm">
-    <meta property="og:image" content="/asset/logo-min.png">
+    <meta property="og:image" content="/asset/logo-min.png"> <!-- not tested -->
     <meta property="og:url" content="https://warlordrealm.ct.ws">
     <meta property="og:type" content="website">
-    <!-- Twitter Card not tested yet-->
+    <!-- Twitter Card (not tested yet) -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Warlord Realm - Member Registration">
     <meta name="twitter:description" content="Register now to become a new member of Warlord Realm">
-    <meta name="twitter:image" content="/asset/Twitter_Card_Image.png">
+    <meta name="twitter:image" content="/asset/Twitter_Card_Image.png"> <!-- not tested -->
+    <style>
+        /* === TEMA PANGE - WARLORD REALM === */
+        :root {
+            --primary-red: #ff3333;
+            --dark-red: #cc0000;
+            --light-red: #ff6666;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --card-bg: rgba(15, 15, 15, 0.85);
+            --text-light: #f0f0f0;
+            --text-muted: #aaaaaa;
+            --accent-gold: #ffcc00;
+            --success-green: #00cc66;
+            --border-color: #333333;
+        }
+
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f0f0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Ambient Background - Minimal */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.03) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Container Utama */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #990000, #ff0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff3333;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff0000, #990000, #ff3333);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+            line-height: 1.2;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Form Pages */
+        .form-page {
+            display: none;
+        }
+
+        .form-page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container {
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.1);
+            border: 1px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-header h2 {
+            color: #ff3333;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-header p {
+            color: #b0b0b0;
+            font-size: 1rem;
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 25px;
+        }
+
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #ff6666;
+            margin-bottom: 6px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subtext {
+            color: #888;
+            font-weight: normal;
+            font-size: 0.85em;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(35, 35, 35, 0.8);
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #ff3333;
+            box-shadow: 0 0 5px rgba(255, 51, 51, 0.2);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 70px;
+            font-family: inherit;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 6px 0;
+            transition: color 0.2s ease;
+        }
+
+        .radio-option:hover {
+            color: #ff6666;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ff3333;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .radio-option input[type="radio"]:checked+.radio-custom::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #ff3333;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Village Section */
+        .village-section {
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(35, 35, 35, 0.6);
+            border-radius: 8px;
+            border-left: 3px solid #ff3333;
+        }
+
+        .village-label {
+            color: #ff6666;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Image Styling */
+        .village-image,
+        .minecraft-image {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .village-img,
+        .minecraft-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #ff3333;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
+        }
+
+        .village-img {
+            max-height: 350px;
+            object-fit: cover;
+        }
+
+        .minecraft-img {
+            max-height: 250px;
+            object-fit: contain;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            background: rgba(35, 35, 35, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 3px solid #ff3333;
+        }
+
+        .welcome-message h3 {
+            color: #ff6666;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .welcome-message p {
+            margin-bottom: 12px;
+            line-height: 1.5;
+            color: #b0b0b0;
+            font-size: 0.95rem;
+        }
+
+        .discord-notice {
+            background: rgba(88, 101, 242, 0.08);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 3px solid #5865F2;
+        }
+
+        .discord-notice i {
+            color: #5865F2;
+            margin-right: 8px;
+        }
+
+        .discord-link {
+            color: #5865F2;
+            text-decoration: none;
+            display: block;
+            margin-top: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .discord-link:hover {
+            text-decoration: underline;
+        }
+
+        .freedom-text {
+            background: rgba(255, 51, 51, 0.08);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 3px solid #ff3333;
+        }
+
+        .freedom-text p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .cta-section h3 {
+            color: #ff3333;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        /* Social Links */
+        .social-links {
+            text-align: center;
+            margin: 15px 0;
+            padding: 12px;
+            background: rgba(35, 35, 35, 0.6);
+            border-radius: 6px;
+        }
+
+        .social-links p {
+            margin-bottom: 6px;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        .website-link {
+            color: #4169E1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .website-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Agreement */
+        .agreement {
+            background: rgba(35, 35, 35, 0.6);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 3px solid #ff3333;
+        }
+
+        .agreement p {
+            color: #b0b0b0;
+            line-height: 1.4;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #990000, #ff0000);
+            color: white;
+            box-shadow: 0 3px 10px rgba(255, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ff3333;
+            border: 1px solid #ff3333;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 51, 51, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Form Navigation */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .footer-link {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 15px;
+            background: rgba(35, 35, 35, 0.7);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .footer-link:hover {
+            color: #ff3333;
+            background: rgba(50, 50, 50, 0.7);
+            transform: translateY(-1px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .logo-text {
+                font-size: 1.6rem;
+            }
+
+            .logo-container {
+                width: 90px;
+                height: 90px;
+            }
+
+            .form-navigation {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .village-img {
+                max-height: 250px;
+            }
+
+            .minecraft-img {
+                max-height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            .welcome-message,
+            .discord-notice,
+            .freedom-text {
+                padding: 10px;
+            }
+
+            .village-section {
+                padding: 12px;
+            }
+
+            .logo-text {
+                font-size: 1.4rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .form-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary-red);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 51, 51, 0.2);
+        }
+
+        .section-intro {
+            color: var(--light-red);
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            background: rgba(255, 51, 51, 0.08);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-red);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .radio-group-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .radio-option:hover {
+            background: rgba(60, 60, 60, 0.7);
+            border-color: var(--primary-red);
+            transform: translateX(5px);
+        }
+
+        .radio-option input[type="radio"]:checked~.radio-custom {
+            background-color: var(--primary-red);
+            border-color: var(--primary-red);
+        }
+
+        .radio-option input[type="radio"]:checked~span:last-child {
+            color: var(--light-red);
+            font-weight: bold;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-option:hover {
+            background: rgba(60, 60, 60, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .checkbox-option input[type="checkbox"]:checked~span {
+            color: var(--light-red);
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--darker-bg);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-red), var(--dark-red));
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(90deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    transparent 70%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .page-indicator {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 15px 0;
+            padding: 8px;
+            background: rgba(40, 40, 40, 0.5);
+            border-radius: 5px;
+        }
+
+        .important-note {
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid var(--primary-red);
+            padding: 18px;
+            border-radius: 8px;
+            margin: 25px 0;
+            color: var(--text-light);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 51, 51, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 51, 51, 0);
+            }
+        }
+
+        .trial-info {
+            background: rgba(255, 204, 0, 0.08);
+            border: 1px solid var(--accent-gold);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            color: var(--text-light);
+        }
+
+        .trial-info h3 {
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question-container {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .question-container:hover {
+            border-color: var(--border-color);
+            background: rgba(35, 35, 35, 0.6);
+        }
+
+        .question-container:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-label {
+            color: var(--text-light);
+            margin-bottom: 10px;
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .question-label i {
+            color: var(--light-red);
+            margin-right: 8px;
+        }
+
+        .question-hint {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* Input styling */
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea,
+        select {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 12px 15px;
+            border-radius: 6px;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 2px rgba(255, 51, 51, 0.2);
+            background: rgba(25, 25, 25, 0.9);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        /* Button styling */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--light-red), var(--primary-red));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 51, 51, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(60, 60, 60, 0.8);
+            color: var(--text-light);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(80, 80, 80, 0.8);
+            transform: translateY(-2px);
+            border-color: var(--light-red);
+        }
+
+        /* Success page */
+        .success-animation {
+            animation: bounceIn 1s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-message {
+            background: rgba(0, 204, 102, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid var(--success-green);
+            margin-bottom: 30px;
+            animation: slideInUp 0.8s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer styling */
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .footer-link:hover {
+            color: var(--light-red);
+            background: rgba(255, 51, 51, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .footer-note {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 15px;
+            padding: 10px;
+        }
+
+        /* Interactive elements */
+        input[type="radio"],
+        input[type="checkbox"] {
+            accent-color: var(--primary-red);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-red);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--light-red);
+        }
+
+        /* Page transitions */
+        .form-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Header styling */
+        .logo-text {
+            color: linear-gradient(45deg, #ff0000, #990000, #ff3333);
+            /* text-shadow: 0 2px 10px rgba(255, 51, 51, 0.3); */
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-size: 1.1rem;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .question-container {
+                padding: 12px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 
-<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
+<body>
     <!-- Ambient Background -->
     <div class="ambient-bg"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
 
     <div class="container">
         <header>
             <div class="logo-container">
                 <img src="../asset/logo.jpg" alt="Warlord Realm" class="logo-image">
             </div>
-            <h1 class="logo-text">Member Registration <br>Warlord Realm</h1>
+            <h1 class="logo-text">Warlord Realm <br>Registeration</h1>
+            <p class="subtitle">Tell us about yourself honestly</p>
         </header>
 
         <main class="main-content">
-            <form id="registrationForm">
-                <!-- Page 1: Introduction -->
+            <form id="whitelistForm">
+                <!-- Page 1: About You -->
                 <div id="page1" class="form-page active">
                     <div class="form-container">
                         <div class="form-section">
-                            <div class="input-group">
-                                <label for="email"><i class="fas fa-envelope"></i> Contact Email</label>
+                            <div class="section-intro">
+                                <i class="fas fa-user"></i> Let's start with some basic information about you
+                            </div>
+
+                            <div class="question-container">
+                                <label for="mc_username" class="question-label">
+                                    <i class="fas fa-gamepad"></i> What's your Minecraft username?
+                                </label>
+                                <input type="text" id="mc_username" name="mc_username" required
+                                    placeholder="Your Minecraft username (Java Edition)">
+                                <div class="question-hint">This is the name you use to play Minecraft</div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="age" class="question-label">
+                                    <i class="fas fa-birthday-cake"></i> How old are you?
+                                </label>
+                                <input type="number" id="age" name="age" required min="10" max="99"
+                                    placeholder="Your age">
+                                <div class="question-hint">You must be at least 10 years old to apply</div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="discord" class="question-label">
+                                    <i class="fab fa-discord"></i> What's your Discord username?
+                                </label>
+                                <input type="text" id="discord" name="discord" required
+                                    placeholder="username#1234 or @username">
+                                <div class="question-hint">We'll contact you here</div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="email" class="question-label">
+                                    <i class="fas fa-envelope"></i> Email address for notifications
+                                </label>
                                 <input type="email" id="email" name="email" required
-                                    placeholder="enter your active email">
+                                    placeholder="your.email@example.com">
+                                <!-- <div class="question-hint">We'll send application updates here</div> -->
                             </div>
 
-                            <div class="village-section">
-                                <div class="village-label">2025 End Fight</div>
-                                <div class="village-image">
-                                    <img src="../asset/end_fight.png" alt="2025 end fight"
-                                        class="village-img">
-                                </div>
-                            </div>
-
-                            <div class="welcome-message">
-                                <h3>Welcome, traveler!</h3>
-                                <p>Welcome to the Warlord Realm Vanilla Survival Multiplayer server registration form!
-                                </p>
-                                <p>We have reopened our vanilla survival server for minecraft players who want to chill, virtually touch grass, and play casually! (*or for those who want to explore together and also CREATE WAR).</p>
-                                <p>You can play survival quite comfortably here with other members from our community (100% real, no fake). This server doesn't use mods that significantly affect vanilla gameplay, which means the playing experience is pretty much similar to regular survival.</p>
-                                <p>Registration is open for Minecraft Java or Bedrock players who have premium or cracked accounts. The server uses the latest game version, which is 1.21.x (the server can be joined by versions 1.8x to 1.21.x)</p>
-
-                                <div class="discord-notice">
-                                    <i class="fab fa-discord"></i>
-                                    <strong>Make sure you have a Discord account and have joined the Warlord Network Discord server before registering!</strong>
-                                    <a href="../discord/" class="discord-link">Click to join the Warlord Network Discord server</a>
-                                </div>
-
-                                <div class="freedom-text">
-                                    <p><strong>Anything goes in this server!*</strong></p>
-                                    <p><a target="_blank" href="../asset/rafiflekkewer-min.jpeg"
-                                            style="color: white;">as long as you're not reckless and not dangerous</a></p>
-                                    <p>You can do anything here, from flattening mountains to building new nations, as long as you're not reckless and follow some server rules (will be informed after joining). We hope this server can be your place to be bored and AFK fish for hours!</p>
-                                </div>
-
-                                <div class="cta-section">
-                                    <h3>Go Register!</h3>
+                            <div class="question-container">
+                                <label class="question-label">
+                                    <i class="fas fa-clock"></i> How long have you been playing Minecraft?
+                                </label>
+                                <div class="radio-group-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" name="play_duration" value="<6 months" required>
+                                        <span class="radio-custom"></span>
+                                        Less than 6 months
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="play_duration" value="6-12 months" required>
+                                        <span class="radio-custom"></span>
+                                        6 months - 1 year
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="play_duration" value="1-3 years" required>
+                                        <span class="radio-custom"></span>
+                                        1-3 years
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="play_duration" value=">3 years" required>
+                                        <span class="radio-custom"></span>
+                                        More than 3 years
+                                    </label>
                                 </div>
                             </div>
 
-                            <div class="social-links">
-                                <p><strong>Our socials:</strong> Not yet available, hehe 😁</p>
-                                <p><strong>Our website:</strong> <a target="_blank" href="https://warlordrealm.ct.ws"
-                                        class="website-link">warlordrealm.ct.ws</a></p>
+                            <div class="question-container">
+                                <label class="question-label">
+                                    <i class="fas fa-hourglass-half"></i> On average, how many hours per day do you play
+                                    Minecraft?
+                                </label>
+                                <div class="radio-group-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" name="play_time" value="<1 hour" required>
+                                        <span class="radio-custom"></span>
+                                        Less than 1 hour
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="play_time" value="1-2 hours" required>
+                                        <span class="radio-custom"></span>
+                                        1-2 hours
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="play_time" value="2-4 hours" required>
+                                        <span class="radio-custom"></span>
+                                        2-4 hours
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="play_time" value=">4 hours" required>
+                                        <span class="radio-custom"></span>
+                                        More than 4 hours
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="active_hours" class="question-label">
+                                    <i class="fas fa-sun"></i> When are you usually active? (Your local time)
+                                </label>
+                                <input type="text" id="active_hours" name="active_hours" required
+                                    placeholder="Example: Evenings (6 PM - 11 PM)">
+                                <div class="question-hint">This helps us schedule events when most players are online
+                                </div>
                             </div>
                         </div>
 
+                        <div class="page-indicator">Page 1 of 4</div>
+
                         <div class="form-navigation">
-                            <button type="button" class="btn btn-primary next-btn" onclick="nextPage()">
-                                <i class="fas fa-arrow-right"></i> Next
+                            <button type="button" class="btn btn-primary" onclick="nextPage()">
+                                <i class="fas fa-arrow-right"></i> Continue
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Page 2: Personal Data -->
+                <!-- Page 2: Gaming Experience -->
                 <div id="page2" class="form-page">
                     <div class="form-container">
-                        <div class="form-header">
-                            <h2><i class="fas fa-user"></i> Personal Data</h2>
-                            <p>Complete the following data to register!</p>
-                        </div>
-
-                        <div class="minecraft-image">
-                            <img src="../asset/the_end_with_da_boys-min.png" alt="The End With The Boys"
-                                class="minecraft-img">
-                        </div>
-
                         <div class="form-section">
-                            <div class="input-group">
-                                <label for="username">Your Minecraft Java/Bedrock Username (IGN)</label>
-                                <input type="text" id="username" name="username" required placeholder="Example: steve">
+                            <div class="section-intro">
+                                <i class="fas fa-gamepad"></i> Tell us about your Minecraft experience
                             </div>
 
-                            <div class="input-group">
-                                <label for="minecraftType">Are you an Original/Cracked Minecraft user?</label>
-                                <select id="minecraftType" name="minecraftType" required>
-                                    <option value="">Select account type</option>
-                                    <option value="original">Original (Premium)</option>
-                                    <option value="cracked">Cracked (Pirated)</option>
-                                </select>
+                            <div class="question-container">
+                                <label for="server_experience" class="question-label">
+                                    <i class="fas fa-server"></i> What kind of Minecraft servers have you played on
+                                    before?
+                                </label>
+                                <textarea id="server_experience" name="server_experience" rows="3" required
+                                    placeholder="Share your experience with SMP, PvP, Anarchy, or other types of servers"></textarea>
+                                <div class="question-hint">We're interested in your past server experiences</div>
                             </div>
 
-                            <div class="input-group">
-                                <label for="discord">Your Discord Username</label>
-                                <input type="text" id="discord" name="discord" required
-                                    placeholder="Example: YantoKewer#6767 (old format) or @rafifyanto (new format)">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="socialMedia">Other social media</label>
-                                <input type="text" id="socialMedia" name="socialMedia"
-                                    placeholder="Fill with Facebook, Instagram, Twitter, WhatsApp, or other social media usernames as backup contact">
-                            </div>
-
-                            <div class="input-group">
-                                <label for="skills">What are your skills in playing Minecraft?</label>
-                                <textarea id="skills" name="skills" rows="3"
-                                    placeholder="Tell us about your special skills in Minecraft"></textarea>
-                            </div>
-
-                            <div class="input-group">
-                                <label for="experience">Have you ever joined an SMP server before? If yes, share your experience!</label>
-                                <textarea id="experience" name="experience" rows="3"
-                                    placeholder="Share your experience playing on other SMP servers"></textarea>
-                            </div>
-
-                            <div class="input-group">
-                                <label for="reason">What is your reason for joining the Warlord Realm server?</label>
-                                <textarea id="reason" name="reason" rows="3"
-                                    placeholder="Tell us why you want to join our server"></textarea>
-                            </div>
-
-                            <div class="input-group">
-                                <label for="adminMessage">Message for admin (optional)🥰🥰</label>
-                                <textarea id="adminMessage" name="adminMessage" rows="3" 
-                                    placeholder="Write a special message for the admin here... 😊"></textarea>
-                            </div>
-
-                            <div class="input-group">
-                                <label>Do you want free diamonds from admin? <span class="subtext">(genuine, no tricks)</span></label>
-                                <div class="radio-group">
-                                    <label class="radio-option">
-                                        <input type="radio" name="diamond" value="no" required>
-                                        <span class="radio-custom"></span>
-                                        No thanks
+                            <div class="question-container">
+                                <label class="question-label">
+                                    <i class="fas fa-star"></i> What are you good at in Minecraft? (You can choose
+                                    multiple)
+                                </label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="expertise[]" value="Building">
+                                        <span>Building</span>
                                     </label>
-                                    <label class="radio-option">
-                                        <input type="radio" name="diamond" value="no_thanks" required>
-                                        <span class="radio-custom"></span>
-                                        Not necessary, hehe
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="expertise[]" value="Redstone">
+                                        <span>Redstone</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="expertise[]" value="PvP">
+                                        <span>PvP</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="expertise[]" value="Grinding/Farming">
+                                        <span>Grinding/Farming</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="expertise[]" value="Trading/Economy">
+                                        <span>Trading/Economy</span>
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="expertise[]" value="Exploration">
+                                        <span>Exploration</span>
                                     </label>
                                 </div>
                             </div>
 
-                            <div class="agreement">
-                                <p>By filling out this form, you declare that the data provided is authentic and true. The data will only be used for registration purposes and will not be shared with any third party.</p>
+                            <div class="question-container">
+                                <label class="question-label">
+                                    <i class="fas fa-chart-line"></i> How would you rate your Minecraft skills?
+                                </label>
+                                <div class="radio-group-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" name="skill_level" value="Beginner" required>
+                                        <span class="radio-custom"></span>
+                                        Beginner (Still learning the basics)
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="skill_level" value="Intermediate" required>
+                                        <span class="radio-custom"></span>
+                                        Intermediate (Comfortable with most mechanics)
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="skill_level" value="Advanced" required>
+                                        <span class="radio-custom"></span>
+                                        Advanced (Expert in many areas)
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="skill_level" value="Competitive" required>
+                                        <span class="radio-custom"></span>
+                                        Competitive/Hardcore (Min-max player)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="main_target" class="question-label">
+                                    <i class="fas fa-bullseye"></i> What's your main goal if you join our server?
+                                </label>
+                                <textarea id="main_target" name="main_target" rows="3" required
+                                    placeholder="What do you want to achieve or experience on our server?"></textarea>
+                                <div class="question-hint">Build a mega base? Create a shop? Make friends? Tell us!
+                                </div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="consistency" class="question-label">
+                                    <i class="fas fa-calendar-check"></i> How long do you think you can stay active on
+                                    our server?
+                                </label>
+                                <textarea id="consistency" name="consistency" rows="2" required
+                                    placeholder="Be honest about your commitment level"></textarea>
+                                <div class="question-hint">We value consistent players over skilled players who
+                                    disappear</div>
                             </div>
                         </div>
+
+                        <div class="page-indicator">Page 2 of 4</div>
 
                         <div class="form-navigation">
                             <button type="button" class="btn btn-secondary" onclick="prevPage()">
-                                <i class="fas fa-arrow-left"></i> Previous
+                                <i class="fas fa-arrow-left"></i> Back
                             </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i> Submit Registration
+                            <button type="button" class="btn btn-primary" onclick="nextPage()">
+                                <i class="fas fa-arrow-right"></i> Continue
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Page 3: Success Message -->
+                <!-- Page 3: Personality & Values -->
                 <div id="page3" class="form-page">
+                    <div class="form-container">
+                        <div class="form-section">
+                            <div class="section-intro">
+                                <i class="fas fa-users"></i> Help us understand how you interact with others
+                            </div>
+
+                            <div class="question-container">
+                                <label for="base_stolen" class="question-label">
+                                    <i class="fas fa-exclamation-triangle"></i> Imagine your base gets griefed or items
+                                    are stolen by another player. What would you do?
+                                </label>
+                                <textarea id="base_stolen" name="base_stolen" rows="3" required
+                                    placeholder="How would you handle this situation?"></textarea>
+                                <div class="question-hint">We want to know how you handle conflict</div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="attitude_newbies" class="question-label">
+                                    <i class="fas fa-hands-helping"></i> How do you treat new players who make mistakes
+                                    or don't know much about the game?
+                                </label>
+                                <textarea id="attitude_newbies" name="attitude_newbies" rows="2" required
+                                    placeholder="Your approach to helping beginners"></textarea>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="past_conflict" class="question-label">
+                                    <i class="fas fa-fire"></i> Have you had any conflicts with other players on
+                                    previous servers? How did you handle it?
+                                </label>
+                                <textarea id="past_conflict" name="past_conflict" rows="3" required
+                                    placeholder="Be honest, we value transparency"></textarea>
+                                <div class="question-hint">Everyone makes mistakes, we care about how you learn from
+                                    them</div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="reaction_loss" class="question-label">
+                                    <i class="fas fa-dizzy"></i> What would your reaction be if you lost hours of
+                                    progress due to a server bug or rollback?
+                                </label>
+                                <textarea id="reaction_loss" name="reaction_loss" rows="2" required
+                                    placeholder="How do you handle frustration?"></textarea>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="fair_play" class="question-label">
+                                    <i class="fas fa-balance-scale"></i> What does "fair play" mean to you in a
+                                    Minecraft server?
+                                </label>
+                                <textarea id="fair_play" name="fair_play" rows="2" required
+                                    placeholder="Your definition of fair play"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <div class="section-intro">
+                                <i class="fas fa-balance-scale"></i> About rules
+                            </div>
+
+                            <div class="question-container">
+                                <label for="rule_violation" class="question-label">
+                                    <i class="fas fa-ban"></i> Have you ever broken server rules before? If yes, what
+                                    happened?
+                                </label>
+                                <textarea id="rule_violation" name="rule_violation" rows="3" required
+                                    placeholder="We appreciate honesty over perfection"></textarea>
+                                <div class="question-hint">Being honest about past mistakes shows maturity</div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="bug_response" class="question-label">
+                                    <i class="fas fa-bug"></i> If you found a bug that gives you an unfair advantage,
+                                    what would you do?
+                                </label>
+                                <textarea id="bug_response" name="bug_response" rows="2" required
+                                    placeholder="Your response to discovering exploits"></textarea>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="admin_disagreement" class="question-label">
+                                    <i class="fas fa-user-shield"></i> How would you handle a situation where you
+                                    disagree with an admin's decision?
+                                </label>
+                                <textarea id="admin_disagreement" name="admin_disagreement" rows="2" required
+                                    placeholder="Your approach to disagreements"></textarea>
+                            </div>
+
+                            <div class="question-container">
+                                <label class="question-label">
+                                    <i class="fas fa-user-tag"></i> Which player type best describes you?
+                                </label>
+                                <div class="radio-group-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" name="personality_type" value="Creative Builder" required>
+                                        <span class="radio-custom"></span>
+                                        Creative Builder - Love building and designing
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="personality_type" value="Patient Grinder" required>
+                                        <span class="radio-custom"></span>
+                                        Patient Grinder - Enjoy farming and collecting resources
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="personality_type" value="Competitive PvPer" required>
+                                        <span class="radio-custom"></span>
+                                        Competitive PvPer - Love combat and challenges
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="personality_type" value="Casual Explorer" required>
+                                        <span class="radio-custom"></span>
+                                        Casual Explorer - Enjoy exploring and adventures
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="personality_type" value="Social Trader" required>
+                                        <span class="radio-custom"></span>
+                                        Social Trader - Love trading and community interaction
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="strength" class="question-label">
+                                    <i class="fas fa-thumbs-up"></i> What's your greatest strength as a community
+                                    member?
+                                </label>
+                                <textarea id="strength" name="strength" rows="2" required
+                                    placeholder="What positive qualities would you bring?"></textarea>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="weakness" class="question-label">
+                                    <i class="fas fa-thumbs-down"></i> What's an area you're working to improve in?
+                                </label>
+                                <textarea id="weakness" name="weakness" rows="2" required
+                                    placeholder="Be honest about areas for growth"></textarea>
+                                <div class="question-hint">Self-awareness is important for community growth</div>
+                            </div>
+                        </div>
+
+                        <div class="page-indicator">Page 3 of 4</div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary" onclick="prevPage()">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextPage()">
+                                <i class="fas fa-arrow-right"></i> Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 4: Final Commitment -->
+                <div id="page4" class="form-page">
+                    <div class="form-container">
+                        <div class="trial-info">
+                            <h3><i class="fas fa-flask"></i> About Our Trial System</h3>
+                            <p>All new members go through a 7-14 day trial period where we observe:</p>
+                            <ul style="margin: 10px 0 10px 20px; color: var(--text-light);">
+                                <li>Your attitude and interactions with others</li>
+                                <li>How well you follow server rules</li>
+                                <li>Your consistency and activity level</li>
+                                <li>How you handle challenges and feedback</li>
+                            </ul>
+                            <p style="color: var(--accent-gold);"><i class="fas fa-info-circle"></i> This helps ensure
+                                you're a good fit for our community!</p>
+                        </div>
+
+                        <div class="form-section">
+                            <div class="section-intro">
+                                <i class="fas fa-handshake"></i> Final questions about your commitment
+                            </div>
+
+                            <div class="question-container">
+                                <label for="important_rule" class="question-label">
+                                    <i class="fas fa-gavel"></i> What's one server rule you think is most important, and
+                                    why?
+                                </label>
+                                <textarea id="important_rule" name="important_rule" rows="2" required
+                                    placeholder="Your thoughts on community rules"></textarea>
+                            </div>
+
+                            <div class="question-container">
+                                <label class="question-label">
+                                    <i class="fas fa-check-double"></i> Are you willing to:
+                                </label>
+                                <div
+                                    style="background: rgba(40, 40, 40, 0.5); padding: 20px; border-radius: 6px; margin: 10px 0; border: 1px solid var(--border-color);">
+                                    <div class="checkbox-option"
+                                        style="margin-bottom: 15px; padding: 10px; background: rgba(50, 50, 50, 0.3); border-radius: 4px;">
+                                        <input type="checkbox" id="agree_rules" name="agree_rules" required>
+                                        <label for="agree_rules"><strong>Follow all server rules and
+                                                guidelines</strong></label>
+                                    </div>
+                                    <div class="checkbox-option"
+                                        style="margin-bottom: 15px; padding: 10px; background: rgba(50, 50, 50, 0.3); border-radius: 4px;">
+                                        <input type="checkbox" id="agree_sanctions" name="agree_sanctions" required>
+                                        <label for="agree_sanctions"><strong>Accept feedback or sanctions if you break
+                                                rules</strong></label>
+                                    </div>
+                                    <div class="checkbox-option"
+                                        style="padding: 10px; background: rgba(50, 50, 50, 0.3); border-radius: 4px;">
+                                        <input type="checkbox" id="agree_trial" name="agree_trial" required>
+                                        <label for="agree_trial"><strong>Go through the trial period before becoming a
+                                                full member</strong></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="commitment_reason" class="question-label">
+                                    <i class="fas fa-comment"></i> Why are you willing to commit to these requirements?
+                                </label>
+                                <textarea id="commitment_reason" name="commitment_reason" rows="2" required
+                                    placeholder="Your reasons for wanting to join our community"></textarea>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="why_accept" class="question-label">
+                                    <i class="fas fa-question-circle"></i> Why should we accept you into our community?
+                                </label>
+                                <textarea id="why_accept" name="why_accept" rows="3" required
+                                    placeholder="Tell us what makes you a good fit for Warlord Realm"></textarea>
+                                <div class="question-hint">This is your chance to make a great impression!</div>
+                            </div>
+
+                            <div class="question-container">
+                                <label class="question-label">
+                                    <i class="fas fa-donate"></i> Would you consider contributing to server costs?
+                                    (Optional)
+                                </label>
+                                <div class="radio-group-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" name="contribution_willingness" value="No">
+                                        <span class="radio-custom"></span>
+                                        No, not at this time
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="contribution_willingness" value="Maybe if I can">
+                                        <span class="radio-custom"></span>
+                                        Maybe, if I'm able to
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="contribution_willingness" value="Yes, voluntarily">
+                                        <span class="radio-custom"></span>
+                                        Yes, I'd be happy to contribute voluntarily
+                                    </label>
+                                </div>
+                                <div class="question-hint"><i class="fas fa-info-circle"></i> This is completely
+                                    optional and doesn't affect your application</div>
+                            </div>
+
+                            <div class="question-container">
+                                <label for="contribution_type" class="question-label">
+                                    <i class="fas fa-comment-dollar"></i> If you're willing to contribute, what kind of
+                                    contribution were you thinking? (Optional)
+                                </label>
+                                <textarea id="contribution_type" name="contribution_type" rows="2"
+                                    placeholder="This field can be left blank"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="important-note">
+                            <i class="fas fa-heart"></i>
+                            <strong>We value honesty, respect, and good vibes over everything else.</strong>
+                            <p style="margin-top: 8px;">Our community is built on trust and mutual respect. Be yourself
+                                and answer honestly!</p>
+                        </div>
+
+                        <div class="page-indicator">Page 4 of 4</div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary" onclick="prevPage()">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Submit Application
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 5: Success -->
+                <div id="page5" class="form-page">
                     <div class="form-container">
                         <div class="form-section" style="text-align: center;">
                             <div class="success-animation">
                                 <i class="fas fa-check-circle"
-                                    style="font-size: 4rem; color: #00ff00; margin-bottom: 20px;"></i>
+                                    style="font-size: 4rem; color: var(--success-green); margin-bottom: 20px;"></i>
                             </div>
-                            <h2 style="color: #00ff00; margin-bottom: 20px;">Registration Successful!</h2>
-                            <div class="success-message"
-                                style="background: rgba(0, 255, 0, 0.1); padding: 20px; border-radius: 8px; border-left: 3px solid #00ff00;">
-                                <p style="margin-bottom: 15px;">Thank you for registering on Warlord Realm!</p>
-                                <p style="margin-bottom: 15px;">We will contact you via email, Discord, or WhatsApp within 24 hours or more.</p>
-                                <p><strong>Registration ID: <span id="registrationId"></span></strong></p>
+                            <h2
+                                style="color: var(--success-green); margin-bottom: 20px; text-shadow: 0 2px 10px rgba(0, 204, 102, 0.3);">
+                                Application Submitted!</h2>
+
+                            <div class="success-message">
+                                <p style="margin-bottom: 15px; font-size: 1.1rem;">Thank you for applying to
+                                    <strong>Warlord Realm</strong>!</p>
+                                <p style="margin-bottom: 15px;">We'll review your application within <strong>1-3
+                                        days</strong>.</p>
+                                <p style="font-size: 1.2rem;"><strong>Application ID: <span id="applicationId"
+                                            style="color: var(--accent-gold);">###</span></strong></p>
                             </div>
 
-                            <div class="next-steps" style="margin-top: 30px; text-align: left;">
-                                <h3 style="color: #ff6666; margin-bottom: 15px;">Next Steps:</h3>
+                            <div class="next-steps"
+                                style="text-align: left; margin-bottom: 30px; padding: 20px; background: var(--card-bg); border-radius: 8px; border-left: 3px solid var(--primary-red);">
+                                <h3
+                                    style="color: var(--light-red); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-road"></i> What happens next?
+                                </h3>
                                 <ul style="list-style: none; padding: 0;">
-                                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                                        <i class="fas fa-check"
-                                            style="color: #00ff00; position: absolute; left: 0;"></i>
-                                        Wait for confirmation from admin via Discord
+                                    <li
+                                        style="margin-bottom: 12px; padding-left: 30px; position: relative; color: var(--text-light);">
+                                        <i class="fas fa-search"
+                                            style="color: var(--primary-red); position: absolute; left: 0; font-size: 1.2rem;"></i>
+                                        <strong>Review</strong> - We'll carefully review your application (1-3 days)
                                     </li>
-                                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                                        <i class="fas fa-check"
-                                            style="color: #00ff00; position: absolute; left: 0;"></i>
-                                        Join the Warlord Network Discord server if you haven't
+                                    <li
+                                        style="margin-bottom: 12px; padding-left: 30px; position: relative; color: var(--text-light);">
+                                        <i class="fas fa-user-clock"
+                                            style="color: var(--accent-gold); position: absolute; left: 0; font-size: 1.2rem;"></i>
+                                        <strong>Trial Period</strong> - Successful applicants go through 7-14 days trial
                                     </li>
-                                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                                        <i class="fas fa-check"
-                                            style="color: #00ff00; position: absolute; left: 0;"></i>
-                                        Install the latest version of Minecraft
+                                    <li style="padding-left: 30px; position: relative; color: var(--text-light);">
+                                        <i class="fas fa-star"
+                                            style="color: var(--success-green); position: absolute; left: 0; font-size: 1.2rem;"></i>
+                                        <strong>Full Membership</strong> - After trial, you'll become a full Warlord
+                                        Realm member
                                     </li>
                                 </ul>
                             </div>
 
-                            <div class="success-navigation" style="margin-top: 30px;">
-                                <button type="button" class="btn btn-primary" onclick="goToHome()">
-                                    <i class="fas fa-home"></i> Back to Home
+                            <div class="success-navigation">
+                                <button type="button" class="btn btn-primary" onclick="goToHome()"
+                                    style="padding: 12px 30px;">
+                                    <i class="fas fa-home"></i> Back to Website
                                 </button>
+                                <a href="../index.html" class="btn btn-secondary"
+                                    style="margin-left: 15px; padding: 12px 30px;">
+                                    <i class="fas fa-globe"></i> Visit Main Site
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -246,50 +1673,471 @@
         <footer>
             <div class="footer-links">
                 <a href="../index.html" class="footer-link">
-                    <i class="fas fa-home"></i> Back
-                </a>
+                    <i class="fas fa-home"></i> Back</a>
                 <a href="../help/" class="footer-link">
-                    <i class="fas fa-question-circle"></i> Help
-                </a>
+                    <i class="fas fa-question-circle"></i> Help</a>
             </div>
         </footer>
     </div>
 
-    <script src="../asset/java_script-register_pange.js"></script>
     <script>
-        // Form Navigation Functions
-        function nextPage() {
-            const email = document.getElementById('email').value;
+        // Form navigation
+        let currentPage = 1;
+        const totalPages = 4;
 
-            // Email validation
-            if (!email || !isValidEmail(email)) {
-                alert('Please enter a valid email!');
-                // Highlight email field
-                document.getElementById('email').style.borderColor = '#ff3333';
-                document.getElementById('email').style.boxShadow = '0 0 10px rgba(255, 51, 51, 0.5)';
-                return;
+        function updateProgress() {
+            const progress = ((currentPage - 1) / (totalPages - 1)) * 100;
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = `${progress}%`;
+
+            // Add haptic feedback on page change (if supported)
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
             }
+        }
 
-            // Navigate to next page
-            document.getElementById('page1').classList.remove('active');
-            document.getElementById('page2').classList.add('active');
+        function nextPage() {
+            if (validatePage(currentPage)) {
+                // Animate page transition
+                const currentPageElement = document.getElementById(`page${currentPage}`);
+                currentPageElement.style.animation = 'fadeOut 0.3s ease';
 
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    currentPageElement.classList.remove('active');
+                    currentPageElement.style.animation = '';
+
+                    currentPage++;
+                    const nextPageElement = document.getElementById(`page${currentPage}`);
+                    nextPageElement.classList.add('active');
+
+                    updateProgress();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    // Focus first input on new page
+                    const firstInput = nextPageElement.querySelector('input, textarea, select');
+                    if (firstInput) {
+                        setTimeout(() => firstInput.focus(), 300);
+                    }
+                }, 300);
+            }
         }
 
         function prevPage() {
-            document.getElementById('page2').classList.remove('active');
-            document.getElementById('page1').classList.add('active');
+            // Animate page transition
+            const currentPageElement = document.getElementById(`page${currentPage}`);
+            currentPageElement.style.animation = 'fadeOut 0.3s ease';
 
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                currentPageElement.classList.remove('active');
+                currentPageElement.style.animation = '';
+
+                currentPage--;
+                const prevPageElement = document.getElementById(`page${currentPage}`);
+                prevPageElement.classList.add('active');
+
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 300);
         }
 
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
+        function validatePage(pageNum) {
+            let isValid = true;
+            let errorMessage = '';
+            let firstErrorElement = null;
+
+            if (pageNum === 1) {
+                const requiredFields = ['mc_username', 'age', 'discord', 'email', 'active_hours'];
+                requiredFields.forEach(field => {
+                    const element = document.getElementById(field);
+                    if (!element.value.trim()) {
+                        element.style.borderColor = 'var(--primary-red)';
+                        element.style.boxShadow = '0 0 0 2px rgba(255, 51, 51, 0.2)';
+                        isValid = false;
+                        errorMessage = 'Please fill in all required fields';
+                        if (!firstErrorElement) firstErrorElement = element;
+                    }
+                });
+
+                // Age validation
+                const age = document.getElementById('age').value;
+                if (age && (age < 10 || age > 99)) {
+                    const ageInput = document.getElementById('age');
+                    ageInput.style.borderColor = 'var(--primary-red)';
+                    ageInput.style.boxShadow = '0 0 0 2px rgba(255, 51, 51, 0.2)';
+                    isValid = false;
+                    errorMessage = 'Age must be between 10 and 99';
+                    if (!firstErrorElement) firstErrorElement = ageInput;
+                }
+
+                // Email validation
+                const email = document.getElementById('email').value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email && !emailRegex.test(email)) {
+                    const emailInput = document.getElementById('email');
+                    emailInput.style.borderColor = 'var(--primary-red)';
+                    emailInput.style.boxShadow = '0 0 0 2px rgba(255, 51, 51, 0.2)';
+                    isValid = false;
+                    errorMessage = 'Please enter a valid email address';
+                    if (!firstErrorElement) firstErrorElement = emailInput;
+                }
+
+                const playDuration = document.querySelector('input[name="play_duration"]:checked');
+                const playTime = document.querySelector('input[name="play_time"]:checked');
+
+                if (!playDuration || !playTime) {
+                    errorMessage = 'Please answer all questions';
+                    isValid = false;
+                }
+            }
+
+            if (pageNum === 2) {
+                const requiredTextareas = ['server_experience', 'main_target', 'consistency'];
+                requiredTextareas.forEach(field => {
+                    const element = document.getElementById(field);
+                    if (!element.value.trim()) {
+                        element.style.borderColor = 'var(--primary-red)';
+                        element.style.boxShadow = '0 0 0 2px rgba(255, 51, 51, 0.2)';
+                        isValid = false;
+                        errorMessage = 'Please answer all questions';
+                        if (!firstErrorElement) firstErrorElement = element;
+                    }
+                });
+
+                const skillLevel = document.querySelector('input[name="skill_level"]:checked');
+                if (!skillLevel) {
+                    errorMessage = 'Please select your skill level';
+                    isValid = false;
+
+                    // Highlight all radio options
+                    document.querySelectorAll('input[name="skill_level"]').forEach(radio => {
+                        radio.parentElement.style.borderColor = 'var(--primary-red)';
+                        radio.parentElement.style.background = 'rgba(255, 51, 51, 0.1)';
+                    });
+                }
+            }
+
+            if (pageNum === 3) {
+                const requiredTextareas = ['base_stolen', 'attitude_newbies', 'past_conflict', 'reaction_loss', 'fair_play', 'rule_violation', 'bug_response', 'admin_disagreement', 'strength', 'weakness'];
+                requiredTextareas.forEach(field => {
+                    const element = document.getElementById(field);
+                    if (!element.value.trim()) {
+                        element.style.borderColor = 'var(--primary-red)';
+                        element.style.boxShadow = '0 0 0 2px rgba(255, 51, 51, 0.2)';
+                        isValid = false;
+                        errorMessage = 'Please answer all questions';
+                        if (!firstErrorElement) firstErrorElement = element;
+                    }
+                });
+
+                const personalityType = document.querySelector('input[name="personality_type"]:checked');
+                if (!personalityType) {
+                    errorMessage = 'Please select which player type describes you';
+                    isValid = false;
+
+                    // Highlight all radio options
+                    document.querySelectorAll('input[name="personality_type"]').forEach(radio => {
+                        radio.parentElement.style.borderColor = 'var(--primary-red)';
+                        radio.parentElement.style.background = 'rgba(255, 51, 51, 0.1)';
+                    });
+                }
+            }
+
+            if (pageNum === 4) {
+                const requiredTextareas = ['important_rule', 'commitment_reason', 'why_accept'];
+                requiredTextareas.forEach(field => {
+                    const element = document.getElementById(field);
+                    if (!element.value.trim()) {
+                        element.style.borderColor = 'var(--primary-red)';
+                        element.style.boxShadow = '0 0 0 2px rgba(255, 51, 51, 0.2)';
+                        isValid = false;
+                        errorMessage = 'Please answer all questions';
+                        if (!firstErrorElement) firstErrorElement = element;
+                    }
+                });
+
+                const checkboxes = ['agree_rules', 'agree_sanctions', 'agree_trial'];
+                checkboxes.forEach(checkboxId => {
+                    const checkbox = document.getElementById(checkboxId);
+                    if (!checkbox.checked) {
+                        checkbox.parentElement.style.color = 'var(--primary-red)';
+                        checkbox.parentElement.style.borderColor = 'var(--primary-red)';
+                        isValid = false;
+                        errorMessage = 'Please agree to all requirements';
+                        if (!firstErrorElement) firstErrorElement = checkbox;
+                    }
+                });
+            }
+
+            if (!isValid) {
+                // Show error with animation
+                const errorDiv = document.createElement('div');
+                errorDiv.innerHTML = `
+                    <div style="position: fixed; top: 20px; right: 20px; background: var(--primary-red); color: white; padding: 15px 20px; border-radius: 6px; z-index: 10000; box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3); animation: slideInRight 0.3s ease;">
+                        <i class="fas fa-exclamation-circle"></i> ${errorMessage}
+                    </div>
+                `;
+
+                // Remove existing error
+                const existingError = document.querySelector('.error-notification');
+                if (existingError) existingError.remove();
+
+                errorDiv.className = 'error-notification';
+                document.body.appendChild(errorDiv);
+
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    errorDiv.remove();
+                }, 5000);
+
+                // Scroll to first error
+                if (firstErrorElement) {
+                    firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstErrorElement.focus();
+                }
+            }
+
+            return isValid;
         }
+
+        // Form submission
+        document.getElementById('whitelistForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!validatePage(4)) {
+                return;
+            }
+
+            // Collect all form data
+            const formData = new FormData(this);
+            const data = {};
+
+            // Handle checkboxes (expertise array)
+            const expertise = [];
+            document.querySelectorAll('input[name="expertise[]"]:checked').forEach(cb => {
+                expertise.push(cb.value);
+            });
+
+            // Convert FormData to object
+            for (let [key, value] of formData.entries()) {
+                if (key === 'expertise[]') {
+                    if (!data.expertise) data.expertise = [];
+                    data.expertise.push(value);
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Convert expertise array to string
+            if (data.expertise) {
+                data.expertise = data.expertise.join(', ');
+            }
+
+            // Show loading with animation
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending Application...';
+            submitBtn.disabled = true;
+
+            // Add loading overlay
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 10, 0.9); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;">
+                    <div class="spinner" style="width: 50px; height: 50px; border: 4px solid rgba(255, 51, 51, 0.3); border-top: 4px solid var(--primary-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;"></div>
+                    <p style="font-size: 1.2rem; color: var(--light-red);">Submitting your application...</p>
+                </div>
+            `;
+            document.body.appendChild(loadingOverlay);
+
+            // Add spinner animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; transform: translateX(0); }
+                    to { opacity: 0; transform: translateX(-20px); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Send to server
+            fetch('process.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    // Remove loading overlay
+                    loadingOverlay.remove();
+                    style.remove();
+
+                    if (result.success) {
+                        // Show success page with celebration effect
+                        document.getElementById('page4').classList.remove('active');
+                        document.getElementById('page5').classList.add('active');
+                        document.getElementById('applicationId').textContent = result.application_id;
+
+                        // Reset progress bar
+                        document.getElementById('progressFill').style.width = '100%';
+
+                        // Add confetti effect
+                        setTimeout(() => {
+                            createConfetti();
+                        }, 500);
+                    } else {
+                        // Show error
+                        const errorDiv = document.createElement('div');
+                        errorDiv.innerHTML = `
+                        <div style="position: fixed; top: 20px; right: 20px; background: var(--primary-red); color: white; padding: 15px 20px; border-radius: 6px; z-index: 10000; box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3);">
+                            <i class="fas fa-exclamation-circle"></i> Error: ${result.message}
+                        </div>
+                    `;
+                        document.body.appendChild(errorDiv);
+
+                        setTimeout(() => {
+                            errorDiv.remove();
+                        }, 5000);
+
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+
+                    // Remove loading overlay
+                    loadingOverlay.remove();
+                    style.remove();
+
+                    // Show error
+                    const errorDiv = document.createElement('div');
+                    errorDiv.innerHTML = `
+                    <div style="position: fixed; top: 20px; right: 20px; background: var(--primary-red); color: white; padding: 15px 20px; border-radius: 6px; z-index: 10000; box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3);">
+                        <i class="fas fa-exclamation-circle"></i> An error occurred while submitting. Please try again.
+                    </div>
+                `;
+                    document.body.appendChild(errorDiv);
+
+                    setTimeout(() => {
+                        errorDiv.remove();
+                    }, 5000);
+
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+        });
+
+        function goToHome() {
+            // Add transition effect
+            document.body.style.opacity = '0.7';
+            document.body.style.transition = 'opacity 0.3s ease';
+
+            setTimeout(() => {
+                window.location.href = '../index.html';
+            }, 300);
+        }
+
+        // Initialize progress bar
+        updateProgress();
+
+        // Add real-time validation and interactive effects
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('input', function () {
+                this.style.borderColor = '';
+                this.style.boxShadow = '';
+
+                // Remove error from parent if radio/checkbox
+                if (this.type === 'radio' || this.type === 'checkbox') {
+                    this.parentElement.style.borderColor = '';
+                    this.parentElement.style.background = '';
+                }
+            });
+
+            element.addEventListener('focus', function () {
+                this.style.boxShadow = '0 0 0 2px rgba(255, 51, 51, 0.2)';
+                this.parentElement.style.borderColor = 'var(--primary-red)';
+            });
+
+            element.addEventListener('blur', function () {
+                this.style.boxShadow = '';
+                this.parentElement.style.borderColor = '';
+            });
+        });
+
+        // Confetti effect function
+        function createConfetti() {
+            const colors = ['#ff3333', '#ff6666', '#cc0000', '#ffcc00', '#ffffff'];
+            const confettiCount = 100;
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-20px';
+                confetti.style.opacity = '0.8';
+                confetti.style.zIndex = '9998';
+                confetti.style.pointerEvents = 'none';
+
+                document.body.appendChild(confetti);
+
+                // Animation
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight + 20}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+                });
+
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    nextPage();
+                }
+            }
+
+            if (e.key === 'Escape') {
+                if (currentPage > 1) {
+                    prevPage();
+                }
+            }
+        });
+
+        // Add smooth scroll to top when page changes
+        const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.attributeName === 'class') {
+                    const target = mutation.target;
+                    if (target.classList.contains('active')) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Observe all form pages
+        document.querySelectorAll('.form-page').forEach(page => {
+            observer.observe(page, { attributes: true });
+        });
     </script>
 </body>
 
