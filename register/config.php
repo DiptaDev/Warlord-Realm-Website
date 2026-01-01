@@ -2,9 +2,9 @@
 // config.php
 class Database {
     private $host = "localhost";
-    private $db_name = "warlord_realm";
-    private $username = "warlord_realm";
-    private $password = "warlord_realm";
+    private $db_name = "warlord_realm_registeration";
+    private $username = "warlord_realm_registeration";
+    private $password = "warlord_realm_registeration";
     public $conn;
 
     public function getConnection() {
