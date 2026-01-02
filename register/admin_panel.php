@@ -953,7 +953,7 @@ function handleAdminAction($data) {
             <div class="logo-container">
                 <img src="../asset/logo.jpg" alt="Warlord Realm" class="logo-image">
             </div>
-            <h1 class="logo-text">Warlord Whitelist Panel</h1>
+            <h1 class="logo-text">Warlord Realm Registeration Panel</h1>
             <p>Management Whitelist Applications</p>
             
             <div class="admin-info">
@@ -1049,6 +1049,12 @@ function handleAdminAction($data) {
                                         <i class="fas fa-eye"></i> View
                                     </button>
                                     
+                                    <?php if ($app['status'] !== 'pending'): ?>
+                                    <button type="button" class="btn btn-pending btn-sm" onclick="updateStatus(<?php echo $app['id']; ?>, 'pending')">
+                                        <i class="fas fa-clock"></i> Pending
+                                    </button>
+                                    <?php endif; ?>
+
                                     <?php if ($app['status'] !== 'interview'): ?>
                                     <button type="button" class="btn btn-interview btn-sm" onclick="updateStatus(<?php echo $app['id']; ?>, 'interview')">
                                         <i class="fas fa-comments"></i> Intv
