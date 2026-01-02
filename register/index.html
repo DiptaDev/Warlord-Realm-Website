@@ -189,98 +189,37 @@
             margin-bottom: 25px;
         }
 
-        /* Input Groups */
-        .input-group {
+        /* Welcome Page Specific Styles */
+        .welcome-page-content {
+            text-align: center;
+        }
+
+        .welcome-page-content .form-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary-red);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-title {
+            color: var(--light-red);
+            font-size: 1.8rem;
             margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .input-group label {
-            display: block;
-            color: #ff6666;
-            margin-bottom: 6px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .welcome-text {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 15px;
+            text-align: left;
         }
 
-        .subtext {
-            color: #888;
-            font-weight: normal;
-            font-size: 0.85em;
-        }
-
-        .input-group input,
-        .input-group select,
-        .input-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            background: rgba(35, 35, 35, 0.8);
-            border: 1px solid #444;
-            border-radius: 6px;
-            color: #e0e0e0;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus,
-        .input-group textarea:focus {
-            outline: none;
-            border-color: #ff3333;
-            box-shadow: 0 0 5px rgba(255, 51, 51, 0.2);
-        }
-
-        .input-group textarea {
-            resize: vertical;
-            min-height: 70px;
-            font-family: inherit;
-        }
-
-        /* Radio Group */
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            padding: 6px 0;
-            transition: color 0.2s ease;
-        }
-
-        .radio-option:hover {
-            color: #ff6666;
-        }
-
-        .radio-option input[type="radio"] {
-            display: none;
-        }
-
-        .radio-custom {
-            width: 16px;
-            height: 16px;
-            border: 2px solid #ff3333;
-            border-radius: 50%;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-
-        .radio-option input[type="radio"]:checked+.radio-custom::after {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: #ff3333;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .welcome-text p {
+            margin-bottom: 15px;
         }
 
         /* Village Section */
@@ -290,12 +229,11 @@
             padding: 15px;
             background: rgba(35, 35, 35, 0.6);
             border-radius: 8px;
-            border-left: 3px solid #ff3333;
         }
 
         .village-label {
             color: #ff6666;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 12px;
             text-transform: uppercase;
@@ -333,7 +271,6 @@
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
-            border-left: 3px solid #ff3333;
         }
 
         .welcome-message h3 {
@@ -441,6 +378,100 @@
             font-size: 0.9rem;
         }
 
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #ff6666;
+            margin-bottom: 6px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subtext {
+            color: #888;
+            font-weight: normal;
+            font-size: 0.85em;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(35, 35, 35, 0.8);
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #ff3333;
+            box-shadow: 0 0 5px rgba(255, 51, 51, 0.2);
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 70px;
+            font-family: inherit;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 6px 0;
+            transition: color 0.2s ease;
+        }
+
+        .radio-option:hover {
+            color: #ff6666;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ff3333;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .radio-option input[type="radio"]:checked+.radio-custom::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #ff3333;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         /* Buttons */
         .btn {
             padding: 12px 25px;
@@ -522,74 +553,7 @@
             transform: translateY(-1px);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-
-            .form-container {
-                padding: 20px;
-            }
-
-            .logo-text {
-                font-size: 1.6rem;
-            }
-
-            .logo-container {
-                width: 90px;
-                height: 90px;
-            }
-
-            .form-navigation {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .village-img {
-                max-height: 250px;
-            }
-
-            .minecraft-img {
-                max-height: 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .form-container {
-                padding: 15px;
-            }
-
-            .welcome-message,
-            .discord-notice,
-            .freedom-text {
-                padding: 10px;
-            }
-
-            .village-section {
-                padding: 12px;
-            }
-
-            .logo-text {
-                font-size: 1.4rem;
-            }
-
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-        }
-
+        /* Existing styles from original code */
         .form-section {
             background: var(--card-bg);
             border-radius: 10px;
@@ -680,40 +644,6 @@
             font-weight: bold;
         }
 
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--darker-bg);
-            z-index: 1000;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-red), var(--dark-red));
-            width: 0%;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background-image: linear-gradient(90deg,
-                    transparent 30%,
-                    rgba(255, 255, 255, 0.2) 50%,
-                    transparent 70%);
-            animation: shimmer 2s infinite;
-        }
-
         @keyframes shimmer {
             0% {
                 transform: translateX(-100%);
@@ -722,14 +652,6 @@
             100% {
                 transform: translateX(100%);
             }
-        }
-
-        .form-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
         }
 
         .page-indicator {
@@ -939,7 +861,7 @@
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid var(--border-color);
@@ -979,24 +901,6 @@
             cursor: pointer;
         }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--darker-bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-red);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--light-red);
-        }
-
         /* Page transitions */
         .form-page {
             display: none;
@@ -1033,8 +937,48 @@
 
         /* Mobile responsive */
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
             .form-container {
                 padding: 15px;
+            }
+
+            .logo-text {
+                font-size: 1.6rem;
+            }
+
+            .logo-container {
+                width: 90px;
+                height: 90px;
+            }
+
+            .form-navigation {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .village-img {
+                max-height: 250px;
+            }
+
+            .minecraft-img {
+                max-height: 200px;
+            }
+
+            .welcome-title {
+                font-size: 1.4rem;
             }
 
             .form-section {
@@ -1045,20 +989,34 @@
                 padding: 12px;
             }
 
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 15px;
-                align-items: center;
-            }
-
             .checkbox-group {
                 flex-direction: column;
                 gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            .welcome-message,
+            .discord-notice,
+            .freedom-text {
+                padding: 10px;
+            }
+
+            .village-section {
+                padding: 12px;
+            }
+
+            .logo-text {
+                font-size: 1.4rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -1068,24 +1026,93 @@
     <!-- Ambient Background -->
     <div class="ambient-bg"></div>
 
-    <!-- Progress Bar -->
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-    </div>
-
     <div class="container">
         <header>
             <div class="logo-container">
                 <img src="../asset/logo.jpg" alt="Warlord Realm" class="logo-image">
             </div>
-            <h1 class="logo-text">Warlord Realm <br>Registeration</h1>
+            <h1 class="logo-text">Warlord Realm <br>Registration</h1>
             <p class="subtitle">Tell us about yourself honestly</p>
         </header>
 
         <main class="main-content">
             <form id="whitelistForm">
+                <!-- Page 0: Welcome & Introduction -->
+                <div id="page0" class="form-page active">
+                    <div class="form-container">
+                        <div class="welcome-page-content">
+                            <div class="form-section">
+                                <h2 class="welcome-title">Welcome to Warlord Realm!</h2>
+
+                                <div class="village-section">
+                                    <div class="village-label">2025 End Fight</div>
+                                    <div class="village-image">
+                                        <img src="../asset/end_fight.png" alt="2025 end fight" class="village-img">
+                                    </div>
+                                </div>
+
+                                <div class="welcome-message">
+                                    <h3>Welcome, traveler!</h3>
+                                    <div class="welcome-text">
+                                        <p>Welcome to the Warlord Realm Vanilla Survival Multiplayer server registration
+                                            form!</p>
+                                        <p>We have reopened our vanilla survival server for minecraft players who want
+                                            to chill, virtually touch grass, and play casually! (*or for those who want
+                                            to explore together and also CREATE WAR).</p>
+                                        <p>You can play survival quite comfortably here with other members from our
+                                            community (100% real, no fake). This server doesn't use mods that
+                                            significantly affect vanilla gameplay, which means the playing experience is
+                                            pretty much similar to regular survival.</p>
+                                        <p>Registration is open for Minecraft Java or Bedrock players who have premium
+                                            or cracked accounts. The server uses the latest game version, which is
+                                            1.21.x (the server can be joined by versions 1.8x to 1.21.x)</p>
+                                    </div>
+
+                                    <div class="discord-notice">
+                                        <i class="fab fa-discord"></i>
+                                        <strong>Make sure you have a Discord account and have joined the Warlord Network
+                                            Discord server before registering!</strong>
+                                        <a href="../discord/" class="discord-link">Click to join the Warlord Network
+                                            Discord server</a>
+                                    </div>
+
+                                    <div class="freedom-text">
+                                        <p><strong>Anything goes in this server!*</strong></p>
+                                        <p><a target="_blank" href="../asset/rafiflekkewer-min.jpeg"
+                                                style="color: var(--text-light);">
+                                                as long as you're not reckless and not dangerous</a></p>
+                                        <p>You can do anything here, from flattening mountains to building new nations,
+                                            as long as you're not reckless and follow some server rules (will be
+                                            informed after joining). We hope this server can be your place to be bored
+                                            and AFK fish for hours!</p>
+                                    </div>
+
+                                    <div class="cta-section">
+                                        <h3>Ready to Join?</h3>
+                                    </div>
+                                </div>
+
+                                <div class="social-links">
+                                    <p><strong>Our socials:</strong> Not yet available, hehe 😁</p>
+                                    <p><strong>Our website:</strong> <a target="_blank"
+                                            href="https://warlordrealm.ct.ws"
+                                            class="website-link">warlordrealm.ct.ws</a></p>
+                                </div>
+                            </div>
+
+                            <div class="page-indicator">Introduction</div>
+
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-primary" onclick="nextPage()">
+                                    <i class="fas fa-arrow-right"></i> Start Registration
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Page 1: About You -->
-                <div id="page1" class="form-page active">
+                <div id="page1" class="form-page">
                     <div class="form-container">
                         <div class="form-section">
                             <div class="section-intro">
@@ -1121,11 +1148,10 @@
 
                             <div class="question-container">
                                 <label for="email" class="question-label">
-                                    <i class="fas fa-envelope"></i> Email address for notifications
+                                    <i class="fas fa-envelope"></i> Email address
                                 </label>
                                 <input type="email" id="email" name="email" required
                                     placeholder="your.email@example.com">
-                                <!-- <div class="question-hint">We'll send application updates here</div> -->
                             </div>
 
                             <div class="question-container">
@@ -1199,6 +1225,9 @@
                         <div class="page-indicator">Page 1 of 4</div>
 
                         <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary" onclick="prevPage()">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
                             <button type="button" class="btn btn-primary" onclick="nextPage()">
                                 <i class="fas fa-arrow-right"></i> Continue
                             </button>
@@ -1619,7 +1648,8 @@
 
                             <div class="success-message">
                                 <p style="margin-bottom: 15px; font-size: 1.1rem;">Thank you for applying to
-                                    <strong>Warlord Realm</strong>!</p>
+                                    <strong>Warlord Realm</strong>!
+                                </p>
                                 <p style="margin-bottom: 15px;">We'll review your application within <strong>1-3
                                         days</strong>.</p>
                                 <p style="font-size: 1.2rem;"><strong>Application ID: <span id="applicationId"
@@ -1659,10 +1689,6 @@
                                     style="padding: 12px 30px;">
                                     <i class="fas fa-home"></i> Back to Website
                                 </button>
-                                <a href="../index.html" class="btn btn-secondary"
-                                    style="margin-left: 15px; padding: 12px 30px;">
-                                    <i class="fas fa-globe"></i> Visit Main Site
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -1674,6 +1700,10 @@
             <div class="footer-links">
                 <a href="../index.html" class="footer-link">
                     <i class="fas fa-home"></i> Back</a>
+
+                <a href="../discord" class="footer-link">
+                    <i class="fab fa-discord"></i> Discord</a>
+
                 <a href="../help/" class="footer-link">
                     <i class="fas fa-question-circle"></i> Help</a>
             </div>
@@ -1682,47 +1712,27 @@
 
     <script>
         // Form navigation
-        let currentPage = 1;
-        const totalPages = 4;
-
-        function updateProgress() {
-            const progress = ((currentPage - 1) / (totalPages - 1)) * 100;
-            const progressFill = document.getElementById('progressFill');
-            progressFill.style.width = `${progress}%`;
-
-            // Add haptic feedback on page change (if supported)
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
-        }
+        let currentPage = 0;
+        const totalPages = 5;
+        const formPages = 4; // Number of form pages (excluding welcome and success)
 
         function nextPage() {
-            if (validatePage(currentPage)) {
-                // Animate page transition
-                const currentPageElement = document.getElementById(`page${currentPage}`);
-                currentPageElement.style.animation = 'fadeOut 0.3s ease';
-
-                setTimeout(() => {
-                    currentPageElement.classList.remove('active');
-                    currentPageElement.style.animation = '';
-
-                    currentPage++;
-                    const nextPageElement = document.getElementById(`page${currentPage}`);
-                    nextPageElement.classList.add('active');
-
-                    updateProgress();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                    // Focus first input on new page
-                    const firstInput = nextPageElement.querySelector('input, textarea, select');
-                    if (firstInput) {
-                        setTimeout(() => firstInput.focus(), 300);
-                    }
-                }, 300);
+            if (currentPage === 0) {
+                // Welcome page, no validation needed
+                switchPage(true);
+            } else if (validatePage(currentPage)) {
+                // Form pages, validate before proceeding
+                switchPage(true);
             }
         }
 
         function prevPage() {
+            if (currentPage > 0) {
+                switchPage(false);
+            }
+        }
+
+        function switchPage(forward) {
             // Animate page transition
             const currentPageElement = document.getElementById(`page${currentPage}`);
             currentPageElement.style.animation = 'fadeOut 0.3s ease';
@@ -1731,12 +1741,22 @@
                 currentPageElement.classList.remove('active');
                 currentPageElement.style.animation = '';
 
-                currentPage--;
-                const prevPageElement = document.getElementById(`page${currentPage}`);
-                prevPageElement.classList.add('active');
+                if (forward) {
+                    currentPage++;
+                } else {
+                    currentPage--;
+                }
 
-                updateProgress();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                const nextPageElement = document.getElementById(`page${currentPage}`);
+                nextPageElement.classList.add('active');
+
+                // Focus first input on new page (if it's a form page)
+                if (currentPage > 0 && currentPage <= formPages) {
+                    const firstInput = nextPageElement.querySelector('input, textarea, select');
+                    if (firstInput) {
+                        setTimeout(() => firstInput.focus(), 300);
+                    }
+                }
             }, 300);
         }
 
@@ -1986,9 +2006,6 @@
                         document.getElementById('page5').classList.add('active');
                         document.getElementById('applicationId').textContent = result.application_id;
 
-                        // Reset progress bar
-                        document.getElementById('progressFill').style.width = '100%';
-
                         // Add confetti effect
                         setTimeout(() => {
                             createConfetti();
@@ -2046,8 +2063,6 @@
             }, 300);
         }
 
-        // Initialize progress bar
-        updateProgress();
 
         // Add real-time validation and interactive effects
         document.querySelectorAll('input, textarea, select').forEach(element => {
@@ -2110,13 +2125,13 @@
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
                 e.preventDefault();
-                if (currentPage < totalPages) {
+                if (currentPage < formPages) {
                     nextPage();
                 }
             }
 
             if (e.key === 'Escape') {
-                if (currentPage > 1) {
+                if (currentPage > 0) {
                     prevPage();
                 }
             }
