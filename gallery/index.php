@@ -35,7 +35,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <meta name="twitter:description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
     <meta name="twitter:image" content="../asset/Twitter_Card_Image.png">
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
     <!-- Carbon Fiber Header -->
     <header class="carbon-header">
         <div class="container header-content">
@@ -211,6 +211,6 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             </div>
         </div>
     </div>
-<script src="../asset/java_script-gallery_pange.js"></script>
 </body>
+<script src="../asset/java_script-gallery_pange.js"></script>
 </html>

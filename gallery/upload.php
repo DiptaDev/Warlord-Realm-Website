@@ -192,7 +192,7 @@ function formatBytes($bytes, $precision = 2) {
     <link rel="stylesheet" href="../asset/style-gallery_upload.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
     <!-- Carbon Fiber Header -->
     <header class="carbon-header">
         <div class="header-content">
@@ -335,7 +335,6 @@ function formatBytes($bytes, $precision = 2) {
             </div>
         <?php endif; ?>
     </div>
-
-    <script src="../asset/java_script-gallery_upload_pange.js"></script>
 </body>
+<script src="../asset/java_script-gallery_upload_pange.js"></script>
 </html>

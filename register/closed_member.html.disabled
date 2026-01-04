@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warlord Realm | Registeration Closed</title>
     <link rel="shortcut icon" href="/asset/logo-min.png" type="image/x-icon">
-    <link rel="stylesheet" href="../asset/style-register_closed_member.css">
+    <link rel="stylesheet" href="../asset/style-registeration_closed_member_pange.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- SEO Meta Tag not tested yet-->
     <meta name="description" content="Register now to become a new member of Warlord Realm">
@@ -24,18 +25,18 @@
     <meta name="twitter:description" content="Register now to become a new member of Warlord Realm">
     <meta name="twitter:image" content="/asset/Twitter_Card_Image.png">
 </head>
-<body>
+
+<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
     <!-- Ambient Background dengan efek merah gelap -->
     <div class="ambient-bg"></div>
     <div class="ambient-container"></div>
-    
+
     <div class="container">
         <header>
             <div class="logo-container">
                 <div class="logo-glow"></div>
-                <img src="../asset/logo.jpg" alt="Warlord Realm Logo" class="logo-image" 
-                     id="serverLogo"
-                     onerror="handleLogoError(this)">
+                <img src="../asset/logo.jpg" alt="Warlord Realm Logo" class="logo-image" id="serverLogo"
+                    onerror="handleLogoError(this)">
             </div>
             <h1 class="logo-text">Warlord Realm</h1>
             <p class="server-name">Minecraft Server - Java & Bedrock</p>
@@ -43,45 +44,51 @@
                 <i class="fas fa-lock"></i> REGISTRATION CLOSED
             </div>
         </header>
-        
+
         <main class="main-content">
             <div class="closed-message">
                 <div class="icon-container">
                     <i class="fas fa-user-slash"></i>
                 </div>
-                
+
                 <h2 class="closed-title">Registration Closed</h2>
-                
+
                 <p class="closed-description">
-                    We are currently <span class="highlight" onclick="showRegistrationInfo()">not accepting new member registrations</span>. The registration system is temporarily closed while we focus on our existing community and server maintenance. We appreciate your interest and encourage you to check back later or join our Discord for updates!
+                    We are currently <span class="highlight" onclick="showRegistrationInfo()">not accepting new member
+                        registrations</span>. The registration system is temporarily closed while we focus on our
+                    existing community and server maintenance. We appreciate your interest and encourage you to check
+                    back later or join our Discord for updates!
                 </p>
-                
+
                 <div class="info-boxes">
                     <div class="info-box" onclick="toggleBoxInfo(this)">
                         <div class="info-icon">
                             <i class="fas fa-ban"></i>
                         </div>
                         <h3>Registration Closed</h3>
-                        <p>Member applications are currently closed. We're focusing on improving the experience for our existing community members.</p>
+                        <p>Member applications are currently closed. We're focusing on improving the experience for our
+                            existing community members.</p>
                     </div>
-                    
+
                     <div class="info-box" onclick="toggleBoxInfo(this)">
                         <div class="info-icon">
                             <i class="fas fa-clock"></i>
                         </div>
                         <h3>Temporary Measure</h3>
-                        <p>This is a temporary closure. Registrations will reopen once we're ready to onboard new members with the best possible experience.</p>
+                        <p>This is a temporary closure. Registrations will reopen once we're ready to onboard new
+                            members with the best possible experience.</p>
                     </div>
-                    
+
                     <div class="info-box" onclick="toggleBoxInfo(this)">
                         <div class="info-icon">
                             <i class="fab fa-discord"></i>
                         </div>
                         <h3>Stay Connected</h3>
-                        <p>Join our Discord community to get notified when registrations reopen and stay updated with server news and events.</p>
+                        <p>Join our Discord community to get notified when registrations reopen and stay updated with
+                            server news and events.</p>
                     </div>
                 </div>
-                
+
                 <div class="action-buttons">
                     <a href="/" class="btn btn-primary" id="homeBtn">
                         <i class="fas fa-home"></i> Back to Homepage
@@ -92,7 +99,7 @@
                 </div>
             </div>
         </main>
-        
+
         <footer>
             <div class="footer-links">
                 <a target="_blank" href="../discord" class="footer-link" id="discordLink">
@@ -107,6 +114,7 @@
             </div>
         </footer>
     </div>
-    <script src="../asset/java_script-register_closed_member.js"></script>
 </body>
+<script src="../asset/java_script-registeration_closed_member_pange.js"></script>
+
 </html>

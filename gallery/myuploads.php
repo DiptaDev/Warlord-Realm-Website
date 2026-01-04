@@ -29,7 +29,7 @@ $rejected_count = count(array_filter($my_images, function($img) { return $img['s
     <link rel="stylesheet" href="../asset/style-gallery_myuploads_pange.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
     <!-- Carbon Fiber Header -->
     <header class="carbon-header">
         <div class="header-content">
@@ -222,6 +222,7 @@ $rejected_count = count(array_filter($my_images, function($img) { return $img['s
         </div>
     </div>
 
-    <script src="../asset/java_script-gallery_myuploads.js"></script>
+    
 </body>
+<script src="../asset/java_script-gallery_myuploads.js"></script>
 </html>

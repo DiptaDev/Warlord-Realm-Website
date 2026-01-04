@@ -71,12 +71,12 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Warlord Realm Gallery</title>
+    <title>Admin Panel | Warlord Realm Gallery</title>
     <link rel="shortcut icon" href="../asset/logo-min.png" type="image/x-icon">
-    <link rel="stylesheet" href="../asset/style-admin_gallery_pange.css">
+    <link rel="stylesheet" href="../asset/style-gallery_admin_pange.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
     <!-- Carbon Fiber Header -->
     <header class="carbon-header">
         <div class="header-content">
@@ -309,7 +309,6 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
             </button>
         </div>
     </div>
-
-    <script src="../asset/java_script-admin_gallery_pange.js"></script>
 </body>
+<script src="../asset/java_script-admin_gallery_pange.js"></script>
 </html>
