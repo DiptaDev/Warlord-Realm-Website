@@ -310,5 +310,5 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
         </div>
     </div>
 </body>
-<script src="../asset/java_script-admin_gallery_pange.js"></script>
+<script src="../asset/java_script-gallery_admin_pange.js"></script>
 </html>
