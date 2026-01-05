@@ -33,7 +33,6 @@
                     
                     // Check if image needs compression
                     if (fileSize > 1024 * 1024) { // 1MB
-                        const originalSize = formatBytes(fileSize);
                         fileDetails.innerHTML += `<br><i class="fas fa-compress-alt" style="color: #2196F3;"></i> Will be optimized for web`;
                     }
                     
@@ -143,4 +142,18 @@
                     uploadButton.style.opacity = '1';
                 }
             }
+        });
+        
+        // Clear any existing preview on page load
+        window.addEventListener('load', function() {
+            const previewContainer = document.getElementById('image-preview');
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileInput = document.getElementById('image');
+            
+            // Reset preview
+            previewContainer.style.display = 'none';
+            uploadArea.style.display = 'flex';
+            fileInfo.style.display = 'none';
+            fileInput.value = '';
         });

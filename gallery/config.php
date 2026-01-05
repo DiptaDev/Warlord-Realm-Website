@@ -2,7 +2,7 @@
 session_start();
 
 // Konfigurasi database
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'mysql_server');
 define('DB_USER', 'warlord_realm_gallery');
 define('DB_PASS', 'warlord_realm_gallery');
 define('DB_NAME', 'warlord_realm_gallery');

@@ -66,7 +66,6 @@ function compressAndResizeImage($source, $destination, $max_width = 1920, $quali
         
         // Resize image
         imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $original_width, $original_height);
-        imagedestroy($image);
         $image = $new_image;
     }
     
@@ -89,17 +88,35 @@ function compressAndResizeImage($source, $destination, $max_width = 1920, $quali
             break;
     }
     
-    imagedestroy($image);
     return $success;
 }
 
-$error = '';
-$success = '';
+// Fungsi untuk format bytes (hanya untuk ditampilkan)
+function formatBytes($bytes, $precision = 2) {
+    if ($bytes <= 0) return '0 Bytes';
+    
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+    $bytes /= pow(1024, $pow);
+    return round($bytes, $precision) . ' ' . $units[$pow];
+}
 
+// Cek apakah ada session success message
+$success_message = isset($_SESSION['upload_success']) ? $_SESSION['upload_success'] : '';
+$error_message = isset($_SESSION['upload_error']) ? $_SESSION['upload_error'] : '';
+
+// Hapus session messages setelah ditampilkan
+unset($_SESSION['upload_success']);
+unset($_SESSION['upload_error']);
+
+// Proses POST request
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = sanitize($_POST['title']);
     $description = sanitize($_POST['description']);
     $user_id = $_SESSION['user_id'];
+    $error = '';
     
     // Validasi
     if (empty($title)) {
@@ -146,18 +163,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Cek ukuran file setelah kompresi
                 $final_size = file_exists($upload_path) ? filesize($upload_path) : 0;
                 
-                // Simpan ke database TANPA kolom original_size dan compressed_size
+                // Simpan ke database
                 $query = "INSERT INTO images (user_id, title, description, filename, status) 
                          VALUES ('$user_id', '$title', '$description', '$filename', 'pending')";
                 
                 if (mysqli_query($conn, $query)) {
-                    // Hitung pengurangan ukuran (hanya untuk ditampilkan, tidak disimpan di database)
+                    // Hitung pengurangan ukuran
                     $size_reduction = $original_size > 0 ? round((($original_size - $final_size) / $original_size) * 100, 1) : 0;
                     
-                    $success = 'Screenshot uploaded successfully! It will be visible after admin approval.';
+                    $success_msg = 'Screenshot uploaded successfully! It will be visible after admin approval.';
                     if ($size_reduction > 0) {
-                        $success .= " (Image optimized for web viewing)";
+                        $success_msg .= " <br>(Image optimized for web viewing)";
                     }
+                    
+                    // Simpan success message di session
+                    $_SESSION['upload_success'] = $success_msg;
+                    
+                    // REDIRECT untuk menghindari form resubmission
+                    header('Location: upload.php');
+                    exit();
                 } else {
                     $error = 'Failed to save image information. Please try again.';
                     // Hapus file yang sudah diupload
@@ -168,18 +192,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     }
+    
+    // Jika ada error, simpan di session
+    if (!empty($error)) {
+        $_SESSION['upload_error'] = $error;
+        
+        // Simpan form data di session untuk prefilling
+        $_SESSION['form_data'] = [
+            'title' => $title,
+            'description' => $description
+        ];
+        
+        // REDIRECT
+        header('Location: upload.php');
+        exit();
+    }
 }
 
-// Fungsi untuk format bytes (hanya untuk ditampilkan)
-function formatBytes($bytes, $precision = 2) {
-    if ($bytes <= 0) return '0 Bytes';
-    
-    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-    $bytes = max($bytes, 0);
-    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
-    $pow = min($pow, count($units) - 1);
-    $bytes /= pow(1024, $pow);
-    return round($bytes, $precision) . ' ' . $units[$pow];
+// Ambil form data dari session jika ada
+$form_title = '';
+$form_description = '';
+
+if (isset($_SESSION['form_data'])) {
+    $form_title = $_SESSION['form_data']['title'];
+    $form_description = $_SESSION['form_data']['description'];
+    unset($_SESSION['form_data']);
 }
 ?>
 <!DOCTYPE html>
@@ -189,7 +226,7 @@ function formatBytes($bytes, $precision = 2) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warlord Realm | Gallery Upload</title>
     <link rel="shortcut icon" href="../asset/logo-min.png" type="image/x-icon">
-    <link rel="stylesheet" href="../asset/style-gallery_upload.css">
+    <link rel="stylesheet" href="../asset/style-gallery_upload_pange.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
@@ -236,26 +273,22 @@ function formatBytes($bytes, $precision = 2) {
         <div class="upload-header">
             <h1 class="upload-title">Upload Screenshot</h1>
             <p class="upload-subtitle">Share your epic Warlord Realm adventures with the community</p>
-            <!-- <div class="compression-info">
-                <i class="fas fa-compress-alt"></i>
-                <span>All images are automatically optimized for web viewing</span>
-            </div> -->
         </div>
 
-        <?php if($error): ?>
+        <?php if(!empty($error_message)): ?>
             <div class="alert alert-error">
                 <i class="fas fa-exclamation-circle"></i>
                 <div class="alert-content">
-                    <div class="alert-message"><?php echo $error; ?></div>
+                    <div class="alert-message"><?php echo $error_message; ?></div>
                 </div>
             </div>
         <?php endif; ?>
 
-        <?php if($success): ?>
+        <?php if(!empty($success_message)): ?>
             <div class="alert alert-success">
                 <i class="fas fa-check-circle"></i>
                 <div class="alert-content">
-                    <div class="alert-message"><?php echo $success; ?></div>
+                    <div class="alert-message"><?php echo $success_message; ?></div>
                     <div style="margin-top: 15px;">
                         <a href="index.php" class="btn btn-primary" style="padding: 10px 25px;">
                             <i class="fas fa-images"></i> View Gallery
@@ -268,21 +301,21 @@ function formatBytes($bytes, $precision = 2) {
             </div>
         <?php endif; ?>
 
-        <?php if(!$success): ?>
+        <?php if(empty($success_message)): ?>
             <div class="upload-container">
                 <form method="POST" action="" enctype="multipart/form-data" id="uploadForm">
                     <div class="form-group">
                         <label for="title" class="form-label">Screenshot Title *</label>
                         <input type="text" id="title" name="title" class="form-input" 
                                placeholder="Enter a descriptive title for your screenshot..." 
-                               value="<?php echo isset($_POST['title']) ? htmlspecialchars($_POST['title']) : ''; ?>" 
+                               value="<?php echo htmlspecialchars($form_title); ?>" 
                                required>
                     </div>
 
                     <div class="form-group">
                         <label for="description" class="form-label">Description (Optional)</label>
                         <textarea id="description" name="description" class="form-input" 
-                                  placeholder="Tell the story behind this screenshot... What makes it special?"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
+                                  placeholder="Tell the story behind this screenshot... What makes it special?"><?php echo htmlspecialchars($form_description); ?></textarea>
                     </div>
 
                     <div class="form-group">
@@ -291,7 +324,6 @@ function formatBytes($bytes, $precision = 2) {
                             <i class="fas fa-cloud-upload-alt"></i>
                             <p>Click or drag to upload your screenshot</p>
                             <p><small>Maximum file size: 5MB | Supported formats: JPG, PNG, GIF, WebP</small></p>
-                            <p><small> All images are automatically optimized</small></p>
                             <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(this)" required style="display: none;">
                         </div>
                         <div id="fileInfo" class="file-info">
