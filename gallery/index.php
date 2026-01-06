@@ -24,14 +24,14 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <meta name="keywords" content="Minecraft, Warlord Realm, Indonesia Minecraft Server, Survival, Bedrock, Java Edition, Semi Anarchy">
     <meta name="author" content="Warlord Network by dipta14">
     <!-- Open Graph for Social Media not tested yet-->
-    <meta property="og:title" content="Warlord Realm - Minecraft Server">
+    <meta property="og:title" content="Warlord Realm - Gallery">
     <meta property="og:description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
     <meta property="og:image" content="../asset/logo-min.png">
     <meta property="og:url" content="https://warlordrealm.ct.ws">
     <meta property="og:type" content="website">
     <!-- Twitter Card not tested yet-->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Warlord Realm - Minecraft Server">
+    <meta name="twitter:title" content="Warlord Realm - Gallery">
     <meta name="twitter:description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
     <meta name="twitter:image" content="../asset/Twitter_Card_Image.png">
 </head>

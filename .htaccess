@@ -3,6 +3,10 @@
   # RewriteCond %{HTTPS} !=on
   # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+  #etc
+  php_value display_errors On
+  php_value date.timezone Asia/Singapore
+
   #Redirect Shits
   Redirect 301 /admin_registeration /register/admin_login.php
   Redirect 301 /register/admin /register/admin_login.php
