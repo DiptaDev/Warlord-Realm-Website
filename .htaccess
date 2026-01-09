@@ -21,3 +21,36 @@
 
   #indexs
   DirectoryIndex maintenance.html indev.html  closed_member.html index.html index.php
+
+# #Lockdown stuffs
+# RewriteEngine On
+# RewriteBase /
+
+# # ===== WHITELIST =====
+# # 1. Halaman yang diizinkan
+# RewriteCond %{REQUEST_URI} ^/fileman(/|$) [NC]
+# RewriteRule ^ - [L]
+
+# # 2. File admin khusus yang diizinkan
+# RewriteCond %{REQUEST_URI} ^/register/admin_panel\.php$ [NC]
+# RewriteRule ^ - [L]
+
+# RewriteCond %{REQUEST_URI} ^/gallery/admin\.php$ [NC]
+# RewriteRule ^ - [L]
+
+# # 3. File assets yang diizinkan
+# RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|mp4|webm|pdf)$ [NC]
+# RewriteRule ^ - [L]
+
+# # ===== REDIRECT RULES =====
+# # Redirect register ke homepage (kecuali admin_panel.php)
+# RewriteCond %{REQUEST_URI} ^/register(/|$) [NC]
+# RewriteRule ^(.*)$ / [R=302,L]
+
+# # Redirect help ke homepage
+# RewriteCond %{REQUEST_URI} ^/help(/|$) [NC]
+# RewriteRule ^(.*)$ / [R=302,L]
+
+# # Redirect gallery ke homepage (kecuali admin.php)
+# RewriteCond %{REQUEST_URI} ^/gallery(/|$) [NC]
+# RewriteRule ^(.*)$ / [R=302,L]
