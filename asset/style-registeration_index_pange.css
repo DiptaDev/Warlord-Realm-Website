@@ -326,6 +326,16 @@
             font-size: 0.9rem;
         }
 
+        .youtube-link {
+            color: #fe2929;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .youtube-link:hover {
+            text-decoration: underline;
+        }
+
         .website-link {
             color: #4169E1;
             text-decoration: none;
