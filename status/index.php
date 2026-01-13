@@ -1,63 +1,132 @@
 <?php
 // Konfigurasi server
 $server_ip = "warlordrealm.elytra.top";
-$api_url = "https://api.mcsrvstat.us/3/" . $server_ip;
+$api_urls = [
+    'mcsrvstat' => "https://api.mcsrvstat.us/3/" . $server_ip,
+    'minecraftpinger' => "https://api.minecraftpinger.com/ping/" . $server_ip,
+    'mcapi' => "https://api.mcsrvstat.us/2/" . $server_ip, // Versi 2 kadang lebih baik
+];
 
-// Cache system untuk mengurangi API calls
-session_start();
-$cache_key = 'server_status_data';
-$cache_time = 30; // Cache selama 30 detik
+// Ambil data dari multiple API untuk hasil yang lebih baik
+$server_data = fetchServerDataMultiAPI($api_urls, $server_ip);
+$from_cache = false;
+$cache_age = 0;
 
-// Cek apakah data sudah di-cache dan masih fresh
-if (isset($_SESSION[$cache_key]) && 
-    isset($_SESSION[$cache_key]['timestamp']) && 
-    (time() - $_SESSION[$cache_key]['timestamp']) < $cache_time) {
+// Fungsi untuk mengambil data dari multiple API
+function fetchServerDataMultiAPI($api_urls, $server_ip) {
+    $results = [];
     
-    // Gunakan data dari cache
-    $server_data = $_SESSION[$cache_key]['data'];
-    $from_cache = true;
-} else {
-    // Ambil data baru dari API
-    $server_data = fetchServerData($api_url);
-    $from_cache = false;
+    // Try mcsrvstat v3 first (utama)
+    $data1 = fetchAPI($api_urls['mcsrvstat']);
+    if ($data1) {
+        $results['mcsrvstat'] = $data1;
+    }
     
-    // Simpan ke cache
-    $_SESSION[$cache_key] = [
-        'data' => $server_data,
-        'timestamp' => time()
-    ];
+    // Try minecraftpinger sebagai fallback
+    $data2 = fetchAPI($api_urls['minecraftpinger']);
+    if ($data2) {
+        $results['minecraftpinger'] = $data2;
+    }
+    
+    // Try mcsrvstat v2 sebagai fallback ketiga
+    $data3 = fetchAPI($api_urls['mcapi']);
+    if ($data3) {
+        $results['mcapi'] = $data3;
+    }
+    
+    // Pilih data terbaik
+    return selectBestData($results, $server_ip);
 }
 
-// Fungsi untuk mengambil data dari API
-function fetchServerData($api_url) {
+// Fungsi untuk mengambil data dari API tunggal
+function fetchAPI($url) {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
     curl_setopt($ch, CURLOPT_FAILONERROR, true);
     
     $response = curl_exec($ch);
     
     if (curl_errno($ch)) {
-        error_log("CURL Error: " . curl_error($ch));
-        if (PHP_VERSION_ID < 80000) {
-            curl_close($ch);
-        }
-        return false;
+        // error_log("CURL Error for {$url}: " . curl_error($ch));
+        return null;
     }
     
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
-    if (PHP_VERSION_ID < 80000) {
-        curl_close($ch);
-    }
     
     if ($http_code === 200 && $response) {
         return json_decode($response, true);
     }
     
-    return false;
+    return null;
+}
+
+// Fungsi untuk memilih data terbaik dari multiple API
+function selectBestData($results, $server_ip) {
+    if (empty($results)) {
+        return null;
+    }
+    
+    // Prioritaskan data yang memiliki player list
+    foreach ($results as $source => $data) {
+        if (isset($data['online']) && $data['online'] === true) {
+            $has_player_list = false;
+            
+            // Cek berbagai format player list
+            if (isset($data['players']['list']) && is_array($data['players']['list']) && count($data['players']['list']) > 0) {
+                $has_player_list = true;
+            } elseif (isset($data['players']['sample']) && is_array($data['players']['sample']) && count($data['players']['sample']) > 0) {
+                $has_player_list = true;
+                // Konversi sample ke format list
+                $data['players']['list'] = $data['players']['sample'];
+            } elseif (isset($data['players']) && is_array($data['players'])) {
+                // Minecraftpinger format
+                $players = [];
+                foreach ($data['players'] as $player) {
+                    if (is_array($player) && isset($player['name'])) {
+                        $players[] = $player;
+                    } elseif (is_string($player)) {
+                        $players[] = ['name' => $player];
+                    }
+                }
+                if (count($players) > 0) {
+                    $data['players']['list'] = $players;
+                    $has_player_list = true;
+                }
+            }
+            
+            if ($has_player_list) {
+                error_log("Using {$source} API - Has player list with " . count($data['players']['list']) . " players");
+                return $data;
+            }
+        }
+    }
+    
+    // Jika tidak ada yang punya player list, gunakan yang pertama yang online
+    foreach ($results as $source => $data) {
+        if (isset($data['online']) && $data['online'] === true) {
+            error_log("Using {$source} API - No player list available");
+            return $data;
+        }
+    }
+    
+    // Return data pertama yang ada
+    return reset($results);
+}
+
+// Fungsi untuk mendapatkan player head dari UUID atau nama
+function getPlayerHead($player_name, $player_uuid = null) {
+    // Prioritaskan UUID jika ada
+    if ($player_uuid) {
+        // Format UUID tanpa dash
+        $uuid = str_replace('-', '', $player_uuid);
+        return "https://mc-heads.net/avatar/{$uuid}/36";
+    }
+    
+    // Gunakan nama sebagai fallback
+    return "https://mc-heads.net/avatar/{$player_name}/36";
 }
 
 // Fungsi untuk parsing kode warna Minecraft ke HTML
@@ -103,16 +172,64 @@ $status = $server_data ? ($server_data['online'] ? 'online' : 'offline') : 'erro
 $players_online = $server_data && $server_data['online'] ? ($server_data['players']['online'] ?? 0) : 0;
 $players_max = $server_data && $server_data['online'] ? ($server_data['players']['max'] ?? 0) : 0;
 $version = $server_data && $server_data['online'] ? ($server_data['version'] ?? 'Unknown') : 'Offline';
-$motd_raw = $server_data && $server_data['online'] && isset($server_data['motd']['raw']) ? implode(' ', $server_data['motd']['raw']) : 'Warlord Realm Minecraft Server';
-$players_list = $server_data && $server_data['online'] ? ($server_data['players']['list'] ?? []) : [];
+
+// Handle MOTD dari berbagai format API
+$motd_raw = 'Warlord Realm Minecraft Server';
+if ($server_data && $server_data['online']) {
+    if (isset($server_data['motd']['raw'])) {
+        $motd_raw = is_array($server_data['motd']['raw']) ? implode(' ', $server_data['motd']['raw']) : $server_data['motd']['raw'];
+    } elseif (isset($server_data['motd']['clean'])) {
+        $motd_raw = is_array($server_data['motd']['clean']) ? implode(' ', $server_data['motd']['clean']) : $server_data['motd']['clean'];
+    } elseif (isset($server_data['description'])) {
+        $motd_raw = is_array($server_data['description']) ? implode(' ', $server_data['description']) : $server_data['description'];
+    }
+}
+
 $server_icon = $server_data && $server_data['online'] && isset($server_data['icon']) ? $server_data['icon'] : null;
+
+// Handle players list dengan lebih baik - gunakan multiple source
+$players_list = [];
+$has_player_list = false;
+$player_list_source = 'none';
+
+if ($server_data && $server_data['online'] && isset($server_data['players'])) {
+    // Cek berbagai format player list dari berbagai API
+    if (isset($server_data['players']['list']) && is_array($server_data['players']['list']) && count($server_data['players']['list']) > 0) {
+        $players_list = $server_data['players']['list'];
+        $has_player_list = true;
+        $player_list_source = 'list';
+    } 
+    // Cek untuk format sample
+    elseif (isset($server_data['players']['sample']) && is_array($server_data['players']['sample']) && count($server_data['players']['sample']) > 0) {
+        $players_list = $server_data['players']['sample'];
+        $has_player_list = true;
+        $player_list_source = 'sample';
+    }
+    // Format minecraftpinger
+    elseif (isset($server_data['players']) && is_array($server_data['players']) && !isset($server_data['players']['online'])) {
+        // Ini kemungkinan format minecraftpinger langsung
+        foreach ($server_data['players'] as $player) {
+            if (is_array($player) && isset($player['name'])) {
+                $players_list[] = $player;
+            } elseif (is_string($player)) {
+                $players_list[] = ['name' => $player];
+            }
+        }
+        if (count($players_list) > 0) {
+            $has_player_list = true;
+            $player_list_source = 'direct';
+        }
+    }
+    
+    // Log untuk debugging
+    error_log("Players online: {$players_online}, Has list: " . ($has_player_list ? 'Yes' : 'No') . ", Source: {$player_list_source}, Count: " . count($players_list));
+}
 
 // Timestamp untuk last updated
 $last_updated = date('Y-m-d H:i:s');
 
 // Tentukan cache status
-$cache_status = $from_cache ? 'cached' : 'fresh';
-$cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
+$cache_status = 'live';
 ?>
 
 <!DOCTYPE html>
@@ -124,26 +241,33 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
     <title>Warlord Realm | Server Status</title>
     <link rel="shortcut icon" href="/asset/logo-min.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SEO Meta Tag not tested yet-->
-    <meta name="description"
-        content="Check Warlord Realm Minecraft server status">
-    <meta name="keywords"
-        content="Minecraft, Warlord Realm, Indonesia Minecraft Server, Survival, Bedrock, Java Edition, Semi Anarchy">
-    <meta name="author" content="Warlord Network by dipta14">
-    <!-- Open Graph for Social Media not tested yet-->
-    <meta property="og:title" content="Warlord Realm - Status">
-    <meta property="og:description"
-        content="Check Warlord Realm Minecraft server status">
-    <meta property="og:image" content="/asset/logo-min.png">
-    <meta property="og:url" content="https://warlordrealm.ct.ws">
-    <meta property="og:type" content="website">
-    <!-- Twitter Card not tested yet-->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Warlord Realm - Status">
-    <meta name="twitter:description"
-        content="Check Warlord Realm Minecraft server status">
-    <meta name="twitter:image" content="/asset/Twitter_Card_Image.png">
     <style>
+        /* Semua CSS sebelumnya tetap sama, hanya tambahkan sedikit untuk API indicator */
+        .api-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #666;
+            border: 1px solid rgba(255, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .api-indicator.show {
+            display: block;
+        }
+        
+        .api-indicator.multi {
+            color: #00cc00;
+        }
+        
+        .api-indicator.single {
+            color: #ff9933;
+        }
+
         /* Reset dan Base Styles */
         * {
             margin: 0;
@@ -582,14 +706,19 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #990000, #ff3333);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1rem;
             flex-shrink: 0;
+            overflow: hidden;
+            border: 2px solid rgba(255, 51, 51, 0.3);
+            background: linear-gradient(135deg, #990000, #ff3333);
+        }
+
+        .player-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .player-info {
@@ -610,6 +739,22 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .no-player-list {
+            text-align: center;
+            color: #ff9933;
+            font-style: italic;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px dashed rgba(255, 153, 51, 0.3);
+        }
+
+        .no-player-list i {
+            color: #ff9933;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
         }
 
         /* Action Buttons */
@@ -713,16 +858,6 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
             transform: translateY(-1px);
         }
 
-        /* Loading Overlay Animation */
-        .loading-overlay {
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .loading-overlay[style*="display: block"] {
-            opacity: 1;
-        }
-
         /* Loading Overlay (Hidden by default) */
         .loading-overlay {
             position: fixed;
@@ -821,10 +956,6 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
             display: none;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .status-container {
@@ -901,13 +1032,18 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
         <div class="loading-content">
             <div class="loading-spinner"></div>
             <div class="loading-text" id="loadingText">Updating server status...</div>
-            <div class="loading-subtext" id="loadingSubtext">Please wait a moment</div>
+            <div class="loading-subtext" id="loadingSubtext">Checking multiple APIs for best results</div>
         </div>
     </div>
 
     <!-- Cache Indicator -->
     <div class="cache-indicator" id="cacheIndicator">
-        <?php echo $cache_status === 'cached' ? "Cached (" . $cache_age . "s ago)" : "Live"; ?>
+        Live Data
+    </div>
+    
+    <!-- API Indicator -->
+    <div class="api-indicator" id="apiIndicator">
+        Multi-API Mode
     </div>
 
     <div class="status-container">
@@ -935,7 +1071,7 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
                     </div>
                     <div class="server-title-section">
                         <h1>WARLORD REALM</h1>
-                        <p class="server-subtitle">Minecraft Vanilla Survial Server</p>
+                        <p class="server-subtitle">Minecraft Vanilla Survival Server</p>
                     </div>
                 </div>
 
@@ -1015,31 +1151,71 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
                     </div>
                     
                     <div class="players-list" id="playersList">
-                        <?php if($status === 'online' && !empty($players_list)): ?>
-                            <?php foreach($players_list as $player): ?>
-                                <?php if(isset($player['name'])): ?>
-                                <div class="player-item" onclick="copyPlayerName('<?php echo addslashes($player['name']); ?>')">
-                                    <div class="player-avatar">
-                                        <?php echo strtoupper(substr($player['name'], 0, 1)); ?>
+                        <?php if($status === 'online'): ?>
+                            <?php if($players_online > 0): ?>
+                                <?php if($has_player_list && count($players_list) > 0): ?>
+                                    <!-- Tampilkan player list yang berhasil didapat -->
+                                    <?php foreach($players_list as $player): ?>
+                                        <?php 
+                                        // Handle berbagai format player data
+                                        if (is_array($player) && isset($player['name'])) {
+                                            $player_name = htmlspecialchars($player['name']);
+                                            $player_uuid = $player['uuid'] ?? $player['id'] ?? null;
+                                        } elseif (is_string($player)) {
+                                            $player_name = htmlspecialchars($player);
+                                            $player_uuid = null;
+                                        } else {
+                                            continue; // Skip jika format tidak valid
+                                        }
+                                        
+                                        $player_head = getPlayerHead($player_name, $player_uuid);
+                                        ?>
+                                        <div class="player-item" onclick="copyPlayerName('<?php echo addslashes($player_name); ?>')">
+                                            <div class="player-avatar">
+                                                <img src="<?php echo $player_head; ?>" 
+                                                     alt="<?php echo $player_name; ?>" 
+                                                     onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #990000, #ff3333)'; this.parentElement.innerHTML='<?php echo strtoupper(substr($player_name, 0, 1)); ?>'; this.remove();">
+                                            </div>
+                                            <div class="player-info">
+                                                <div class="player-name"><?php echo $player_name; ?></div>
+                                            </div>
+                                            <i class="fas fa-copy" style="color: #666; font-size: 0.9rem;"></i>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <!-- Player list tidak tersedia dari semua API -->
+                                    <div class="no-player-list">
+                                        <i class="fas fa-user-shield"></i><br>
+                                        <strong><?php echo $players_online; ?> player(s) online</strong><br>
+                                        <small>Player list not available from server</small><br>
+                                        <small style="font-size: 0.8rem; color: #888;">
+                                            This happens with premium-only servers
+                                        </small>
                                     </div>
-                                    <div class="player-info">
-                                        <div class="player-name"><?php echo htmlspecialchars($player['name']); ?></div>
-                                    </div>
-                                    <i class="fas fa-copy" style="color: #666; font-size: 0.9rem;"></i>
-                                </div>
                                 <?php endif; ?>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <div class="no-players">
-                                <?php if($status === 'online'): ?>
+                            <?php else: ?>
+                                <div class="no-players">
                                     <i class="fas fa-user-slash"></i><br>
                                     No players currently online
-                                <?php else: ?>
-                                    <i class="fas fa-server"></i><br>
-                                    Server is offline
-                                <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <div class="no-players">
+                                <i class="fas fa-server"></i><br>
+                                Server is offline
                             </div>
                         <?php endif; ?>
+                    </div>
+                    
+                    <!-- API Status Indicator -->
+                    <div style="margin-top: 15px; text-align: center;">
+                        <small style="color: #666; font-size: 0.7rem;">
+                            <?php if($has_player_list): ?>
+                                <i class="fas fa-check-circle" style="color: #00cc00;"></i> Player list available
+                            <?php else: ?>
+                                <i class="fas fa-exclamation-triangle" style="color: #ff9933;"></i> Player list not available
+                            <?php endif; ?>
+                        </small>
                     </div>
                 </div>
             </div>
@@ -1092,29 +1268,31 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
     <script>
         // Initial state
         let isRefreshing = false;
-        let refreshInterval = 30;
+        let refreshInterval = 240;
         let countdown = refreshInterval;
-        let cacheAge = <?php echo $cache_age; ?>;
-        let isCached = <?php echo $cache_status === 'cached' ? 'true' : 'false'; ?>;
+        let refreshBtn = null;
+        let originalBtnHTML = null;
         
         // Elements
         const countdownElement = document.getElementById('countdown');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const loadingText = document.getElementById('loadingText');
         const loadingSubtext = document.getElementById('loadingSubtext');
-        const cacheIndicator = document.getElementById('cacheIndicator');
         const lastUpdatedText = document.getElementById('lastUpdatedText');
         const playersCount = document.getElementById('playersCount');
         const serverVersion = document.getElementById('serverVersion');
         const motdContent = document.getElementById('motdContent');
         const onlineCount = document.getElementById('onlineCount');
         const playersList = document.getElementById('playersList');
+        const apiIndicator = document.getElementById('apiIndicator');
 
-        // Show cache indicator (debug only)
-        if (isCached) {
-            cacheIndicator.style.display = 'block';
-            cacheIndicator.textContent = 'Cached (' + cacheAge + 's ago)';
-        }
+        // Show indicators
+        cacheIndicator.style.display = 'block';
+        cacheIndicator.textContent = 'Live Data';
+        
+        apiIndicator.style.display = 'block';
+        apiIndicator.textContent = 'Multi-API Mode';
+        apiIndicator.classList.add('multi');
 
         // Countdown timer
         function updateCountdown() {
@@ -1128,16 +1306,16 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
 
         setInterval(updateCountdown, 1000);
 
-        // Refresh data function (AJAX)
+        // Refresh data function (AJAX) - menggunakan multiple API
         function refreshData() {
             if (isRefreshing) return;
             
             isRefreshing = true;
-            countdown = refreshInterval + 5; // Reset countdown with buffer
+            countdown = refreshInterval + 10; // Reset countdown dengan buffer lebih besar untuk multiple API
             
             // Show loading overlay with fade in animation
             loadingText.textContent = 'Updating server status...';
-            loadingSubtext.textContent = 'Fetching latest data from server';
+            loadingSubtext.textContent = 'Checking multiple APIs for best results';
 
             // Fade in loading overlay
             loadingOverlay.style.display = 'block';
@@ -1146,38 +1324,39 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
             }, 10);
 
             // Disable refresh button
-            const refreshBtn = document.querySelector('.btn-secondary');
-            const originalBtnHTML = refreshBtn.innerHTML;
+            refreshBtn = document.querySelector('.btn-secondary');
+            originalBtnHTML = refreshBtn.innerHTML;
             refreshBtn.disabled = true;
-            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking APIs...';
 
-            // AJAX request to update data
+            // AJAX request to update data - gunakan multiple API
             const startTime = Date.now();
 
-            fetch('?refresh=true', {
+            fetch('?refresh=true&multi=1&_=' + Date.now(), {
                 method: 'GET',
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache'
                 },
-                cache: 'no-cache'
+                cache: 'no-store'
             })
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();
             })
             .then(data => {
-                const elapsedTime = Date.now() - startTime;
-
                 if (data.success) {
                     // Update loading text with success message
                     loadingText.textContent = 'Status updated!';
-                    loadingSubtext.textContent = 'Applying changes...';
+                    loadingSubtext.textContent = `Found ${data.data.players_list?.length || 0} players from API`;
 
                     // Small delay to show success message
                     setTimeout(() => {
                         updateUI(data.data);
                         hideLoadingOverlay();
-                        showNotification('✓ Status updated successfully!');
+                        resetButtonState();
+                        showNotification('✓ Status updated using multi-API!');
                     }, 500);
                 } else {
                     throw new Error(data.error || 'Failed to update');
@@ -1186,21 +1365,65 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
             .catch(error => {
                 console.error('Refresh error:', error);
                 loadingText.textContent = 'Update failed';
-                loadingSubtext.textContent = 'Check your connection';
+                loadingSubtext.textContent = 'Trying single API fallback...';
+
+                // Coba fallback ke API tunggal
+                setTimeout(() => {
+                    refreshSingleAPI();
+                }, 1000);
+            });
+        }
+
+        // Fallback ke API tunggal jika multi-API gagal
+        function refreshSingleAPI() {
+            fetch('?refresh=true&single=1&_=' + Date.now(), {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    loadingText.textContent = 'Status updated (fallback)!';
+                    loadingSubtext.textContent = 'Using single API';
+                    
+                    setTimeout(() => {
+                        updateUI(data.data);
+                        hideLoadingOverlay();
+                        apiIndicator.textContent = 'Single API Mode';
+                        apiIndicator.classList.remove('multi');
+                        apiIndicator.classList.add('single');
+                        resetButtonState();
+                        showNotification('⚠ Using single API fallback');
+                    }, 500);
+                } else {
+                    throw new Error('Fallback also failed');
+                }
+            })
+            .catch(error => {
+                console.error('Fallback error:', error);
+                loadingText.textContent = 'Update failed';
+                loadingSubtext.textContent = 'All APIs unavailable';
 
                 setTimeout(() => {
                     hideLoadingOverlay();
-                    showNotification('✗ Failed to update status', 'error');
+                    resetButtonState();
+                    showNotification('✗ All API attempts failed', 'error');
                 }, 1500);
-            })
-            .finally(() => {
-                // Re-enable refresh button
-                setTimeout(() => {
-                    refreshBtn.disabled = false;
-                    refreshBtn.innerHTML = originalBtnHTML;
-                    isRefreshing = false;
-                }, 1000);
             });
+        }
+
+        // Function to reset button state
+        function resetButtonState() {
+            if (refreshBtn) {
+                refreshBtn.disabled = false;
+                refreshBtn.innerHTML = originalBtnHTML;
+            }
+            isRefreshing = false;
         }
 
         // Function to hide loading overlay
@@ -1210,17 +1433,6 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
             setTimeout(() => {
                 loadingOverlay.style.display = 'none';
             }, 300);
-        }
-
-        // Function to show loading overlay
-        function showLoadingOverlay(message = 'Loading...', submessage = 'Please wait') {
-            loadingText.textContent = message;
-            loadingSubtext.textContent = submessage;
-
-            loadingOverlay.style.display = 'block';
-            setTimeout(() => {
-                loadingOverlay.style.opacity = '1';
-            }, 10);
         }
 
         // Update UI with new data
@@ -1245,52 +1457,99 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
             motdContent.innerHTML = data.motd_html;
             
             // Update players list
-            updatePlayersList(data.players_list, data.status);
+            updatePlayersList(data.players_list, data.status, data.players_online);
             
             // Update last updated time
             const now = new Date();
             lastUpdatedText.textContent = now.toLocaleString();
             
-            // Update cache indicator
-            if (data.cache_status === 'cached') {
-                cacheIndicator.style.display = 'block';
-                cacheIndicator.textContent = 'Cached (' + data.cache_age + 's ago)';
-            } else {
-                cacheIndicator.style.display = 'none';
-            }
+            // Update indicators
+            cacheIndicator.textContent = 'Live Data';
+            cacheIndicator.style.display = 'block';
         }
 
         // Update players list
-        function updatePlayersList(players, status) {
-            if (status === 'online' && players && players.length > 0) {
-                let playersHTML = '';
-                players.forEach(player => {
-                    const escapedName = player.name.replace(/'/g, "\\'");
-                    playersHTML += `
-                        <div class="player-item" onclick="copyPlayerName('${escapedName}')">
-                            <div class="player-avatar">
-                                ${player.name.charAt(0).toUpperCase()}
+        function updatePlayersList(players, status, playersOnline) {
+            if (status === 'online') {
+                if (playersOnline > 0) {
+                    if (players && players.length > 0) {
+                        let playersHTML = '';
+                        players.forEach(player => {
+                            // Handle berbagai format player data dari API
+                            let playerName = '';
+                            let playerUuid = null;
+                            
+                            if (typeof player === 'object' && player !== null) {
+                                if (player.name) {
+                                    playerName = player.name;
+                                    playerUuid = player.uuid || player.id || null;
+                                } else if (player.username) {
+                                    playerName = player.username;
+                                    playerUuid = player.id || null;
+                                }
+                            } else if (typeof player === 'string') {
+                                playerName = player;
+                            }
+                            
+                            if (!playerName) {
+                                console.warn('Invalid player data:', player);
+                                return; // Skip invalid data
+                            }
+                            
+                            const escapedName = playerName.replace(/'/g, "\\'");
+                            // Generate player head URL
+                            const playerHead = playerUuid 
+                                ? `https://mc-heads.net/avatar/${playerUuid.replace(/-/g, '')}/36`
+                                : `https://mc-heads.net/avatar/${encodeURIComponent(playerName)}/36`;
+                            
+                            playersHTML += `
+                                <div class="player-item" onclick="copyPlayerName('${escapedName}')">
+                                    <div class="player-avatar">
+                                        <img src="${playerHead}" 
+                                             alt="${escapeHtml(playerName)}"
+                                             onerror="this.onerror=null; this.parentElement.style.background='linear-gradient(135deg, #990000, #ff3333)'; this.parentElement.innerHTML='${playerName.charAt(0).toUpperCase()}'; this.remove();">
+                                    </div>
+                                    <div class="player-info">
+                                        <div class="player-name">${escapeHtml(playerName)}</div>
+                                    </div>
+                                    <i class="fas fa-copy" style="color: #666; font-size: 0.9rem;"></i>
+                                </div>
+                            `;
+                        });
+                        playersList.innerHTML = playersHTML;
+                    } else {
+                        // Jika ada player online tapi list kosong
+                        playersList.innerHTML = `
+                            <div class="no-player-list">
+                                <i class="fas fa-user-shield"></i><br>
+                                <strong>${playersOnline} player(s) online</strong><br>
+                                <small>Player list not available from server</small><br>
+                                <small style="font-size: 0.8rem; color: #888;">
+                                    This happens with premium-only servers<br>
+                                    Tried multiple APIs
+                                </small>
                             </div>
-                            <div class="player-info">
-                                <div class="player-name">${escapeHtml(player.name)}</div>
-                            </div>
-                            <i class="fas fa-copy" style="color: #666; font-size: 0.9rem;"></i>
+                        `;
+                    }
+                } else {
+                    playersList.innerHTML = `
+                        <div class="no-players">
+                            <i class="fas fa-user-slash"></i><br>
+                            No players currently online
                         </div>
                     `;
-                });
-                playersList.innerHTML = playersHTML;
+                }
             } else {
                 playersList.innerHTML = `
                     <div class="no-players">
-                        ${status === 'online' ? 
-                            '<i class="fas fa-user-slash"></i><br>No players currently online' : 
-                            '<i class="fas fa-server"></i><br>Server is offline'}
+                        <i class="fas fa-server"></i><br>
+                        Server is offline
                     </div>
                 `;
             }
         }
 
-        // Escape HTML for security
+        // Escape HTML untuk security
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
@@ -1449,12 +1708,43 @@ $cache_age = $from_cache ? (time() - $_SESSION[$cache_key]['timestamp']) : 0;
 <?php
 // Handle AJAX refresh requests
 if (isset($_GET['refresh']) && $_GET['refresh'] === 'true') {
-    // Clear cache and fetch fresh data
-    if (isset($_SESSION['server_status_data'])) {
-        unset($_SESSION['server_status_data']);
+    
+    // Cek apakah menggunakan multi API atau single API
+    $use_multi_api = isset($_GET['multi']) && $_GET['multi'] == '1';
+    
+    if ($use_multi_api) {
+        // Gunakan multiple API
+        $fresh_data = fetchServerDataMultiAPI($api_urls, $server_ip);
+    } else {
+        // Gunakan API tunggal sebagai fallback
+        $fresh_data = fetchAPI($api_urls['mcsrvstat']);
     }
     
-    $fresh_data = fetchServerData($api_url);
+    // Format players list
+    $formatted_players = [];
+    
+    if ($fresh_data && $fresh_data['online'] && isset($fresh_data['players'])) {
+        // Cek berbagai format
+        if (isset($fresh_data['players']['list']) && is_array($fresh_data['players']['list'])) {
+            $formatted_players = $fresh_data['players']['list'];
+        } 
+        elseif (isset($fresh_data['players']['sample']) && is_array($fresh_data['players']['sample'])) {
+            $formatted_players = $fresh_data['players']['sample'];
+        }
+        elseif (isset($fresh_data['players']) && is_array($fresh_data['players']) && !isset($fresh_data['players']['online'])) {
+            foreach ($fresh_data['players'] as $player) {
+                if (is_array($player) && isset($player['name'])) {
+                    $formatted_players[] = $player;
+                } elseif (is_string($player)) {
+                    $formatted_players[] = ['name' => $player];
+                }
+            }
+        }
+        
+        error_log("Refresh - Players online: " . ($fresh_data['players']['online'] ?? 0) . 
+                 ", Player list count: " . count($formatted_players) .
+                 ", API mode: " . ($use_multi_api ? 'Multi' : 'Single'));
+    }
     
     // Prepare response data
     $response_data = [
@@ -1464,28 +1754,27 @@ if (isset($_GET['refresh']) && $_GET['refresh'] === 'true') {
             'players_online' => $fresh_data && $fresh_data['online'] ? ($fresh_data['players']['online'] ?? 0) : 0,
             'players_max' => $fresh_data && $fresh_data['online'] ? ($fresh_data['players']['max'] ?? 0) : 0,
             'version' => $fresh_data && $fresh_data['online'] ? ($fresh_data['version'] ?? 'Unknown') : 'Offline',
-            'motd_html' => $fresh_data && $fresh_data['online'] && isset($fresh_data['motd']['raw']) ? 
-                          parseMinecraftColors(implode(' ', $fresh_data['motd']['raw'])) : 
+            'motd_html' => $fresh_data && $fresh_data['online'] ? 
+                          parseMinecraftColors(
+                              isset($fresh_data['motd']['raw']) ? 
+                              (is_array($fresh_data['motd']['raw']) ? implode(' ', $fresh_data['motd']['raw']) : $fresh_data['motd']['raw']) : 
+                              'Warlord Realm Minecraft Server'
+                          ) : 
                           '<span style="color: #FFFFFF">Warlord Realm Minecraft Server</span>',
-            'players_list' => $fresh_data && $fresh_data['online'] ? ($fresh_data['players']['list'] ?? []) : [],
-            'cache_status' => 'fresh',
+            'players_list' => $formatted_players,
+            'cache_status' => 'live',
             'cache_age' => 0,
             'timestamp' => time()
         ]
     ];
     
-    // Save to cache
-    $_SESSION['server_status_data'] = [
-        'data' => $fresh_data,
-        'timestamp' => time()
-    ];
-    
     // Output JSON response
     ob_clean();
     header('Content-Type: application/json');
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Pragma: no-cache');
     echo json_encode($response_data);
     exit;
 }
 
 ob_end_flush();
-?>
