@@ -1,6 +1,6 @@
 <?php
 // Konfigurasi server
-$server_ip = "warlordrealm.elytra.top";
+$server_ip = "basic-7.alstore.space:22046";
 $api_urls = [
     'mcsrvstat' => "https://api.mcsrvstat.us/3/" . $server_ip,
     'minecraftpinger' => "https://api.minecraftpinger.com/ping/" . $server_ip,
@@ -1032,7 +1032,7 @@ $cache_status = 'live';
         <div class="loading-content">
             <div class="loading-spinner"></div>
             <div class="loading-text" id="loadingText">Updating server status...</div>
-            <div class="loading-subtext" id="loadingSubtext">Checking multiple APIs for best results</div>
+            <div class="loading-subtext" id="loadingSubtext">Checking server status</div>
         </div>
     </div>
 
@@ -1315,7 +1315,7 @@ $cache_status = 'live';
             
             // Show loading overlay with fade in animation
             loadingText.textContent = 'Updating server status...';
-            loadingSubtext.textContent = 'Checking multiple APIs for best results';
+            loadingSubtext.textContent = 'Checking server status';
 
             // Fade in loading overlay
             loadingOverlay.style.display = 'block';
@@ -1356,7 +1356,7 @@ $cache_status = 'live';
                         updateUI(data.data);
                         hideLoadingOverlay();
                         resetButtonState();
-                        showNotification('✓ Status updated using multi-API!');
+                        showNotification('✓ Status updated');
                     }, 500);
                 } else {
                     throw new Error(data.error || 'Failed to update');
