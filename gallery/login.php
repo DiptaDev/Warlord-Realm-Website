@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="form-group">
                     <div class="input-wrapper">
                         <i class="fas fa-user input-icon"></i>
-                        <input type="text" id="username" name="username" class="form-input" required 
+                        <input type="text" id="username" name="username" class="form-input" required autocomplete="new-password" 
                                placeholder="Username">
                     </div>
                 </div>
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="form-group">
                     <div class="input-wrapper">
                         <i class="fas fa-lock input-icon"></i>
-                        <input type="password" id="password" name="password" class="form-input" required 
+                        <input type="password" id="password" name="password" class="form-input" required autocomplete="off" 
                                placeholder="Password">
                         <button type="button" class="password-toggle" id="togglePassword">
                             <i class="fas fa-eye"></i>

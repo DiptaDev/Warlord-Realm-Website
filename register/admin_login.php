@@ -49,12 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" action="">
             <div class="input-group">
                 <label for="username"><i class="fas fa-user"></i> Username</label>
-                <input type="text" id="username" name="username" required placeholder="Masukkan username admin">
+                <input type="text" id="username" name="username" required placeholder="Masukkan username admin" autocomplete="off" >
             </div>
             
             <div class="input-group">
                 <label for="password"><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="password" name="password" required placeholder="Masukkan password">
+                <input type="password" id="password" name="password" required placeholder="Masukkan password" autocomplete="off" >
             </div>
             
             <button type="submit" class="btn btn-primary">
