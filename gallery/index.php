@@ -35,7 +35,7 @@ $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <meta name="twitter:description" content="Warlord Realm Gallery, Share your epic Warlord Realm adventures with the community">
     <meta name="twitter:image" content="../asset/Twitter_Card_Image.png">
 </head>
-<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
+<body>
     <!-- Carbon Fiber Header -->
     <header class="carbon-header">
         <div class="container header-content">

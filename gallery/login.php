@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../asset/style-gallery_login_pange.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
+<body>
     <div class="login-wrapper">
         <div class="brand-header">
             <div class="brand-logo">

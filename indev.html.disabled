@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Website Warlord Realm dalam pengembangan bisa di akses tapi mungkin akan tidak stabil dan ada beberapa bug">
     <meta name="twitter:image" content="/asset/Twitter_Card_Image.png"> <!-- not tested -->
 </head>
-<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
+<body>
     <!-- Ambient Background -->
     <div class="ambient-bg"></div>
     

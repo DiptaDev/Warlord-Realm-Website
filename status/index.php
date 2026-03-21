@@ -1025,7 +1025,7 @@ $cache_status = 'live';
     </style>
 </head>
 
-<body oncontextmenu="return false" ondragstart="return false;" ondrop="return false;">
+<body>
     
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
