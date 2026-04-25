@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warlord Realm | Server Shutdown</title>
+    <link rel="shortcut icon" href="/asset/logo-min.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./asset/style-shutdown_pange.css">
+    <meta name="description" content="Warlord Realm Minecraft Server - Temporarily Shutdown">
+</head>
+<body>
+
+<!-- Falling pixel particles -->
+<div id="particles"></div>
+
+<div class="container">
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-placeholder"><i class="fas fa-crown"></i></div>
+        </div>
+        <h1 class="logo-text">Warlord Realm</h1>
+        <p class="server-name">Minecraft Server — Java &amp; Bedrock</p>
+    </header>
+
+    <div class="status-badge">
+        <span class="status-dot"></span>
+        Server Temporarily Offline
+    </div>
+
+    <!-- Main announcement card -->
+    <div class="shutdown-card">
+        <div class="card-eyebrow">
+            <i class="fas fa-exclamation-triangle"></i>
+            Official Announcement
+        </div>
+        <h2 class="card-title">The Server is on Pause 🗡️</h2>
+        <div class="message-body">
+            <p>Hello guys, <span class="highlight">dipta14</span> here.</p>
+            <br>
+            <p>
+                With a heavy heart, we have to temporarily shut down the server due to
+                <span class="highlight">operational cost issues</span>. This wasn't an easy decision,
+                but it's something we need to do for now.
+            </p>
+            <br>
+            <p>
+                The server is <span class="highlight">not gone forever</span> — it's just on pause.
+                We'll be back, but we can't promise when yet.
+            </p>
+            <br>
+            <p>
+                Thank you so much to everyone who played, supported, and became part of this server.
+                <span class="highlight">See you again in the future.</span>
+            </p>
+        </div>
+
+        <div class="signature">
+            <div class="sig-avatar"><img src="./asset/dipta14_pfp.png" alt="admin/founder profile picture" width="42px" height="42px" style="border-radius: 50%;"></div>
+            <div>
+                <div class="sig-name">dipta14</div>
+                <div class="sig-role">Founder &amp; Admin — Warlord Realm</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info cards -->
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="info-icon"><i class="fas fa-pause-circle"></i></div>
+            <h3>Status</h3>
+            <p>The server is temporarily paused, not deleted. All data and progress are safe.</p>
+        </div>
+        <div class="info-card">
+            <div class="info-icon"><i class="fas fa-redo"></i></div>
+            <h3>Will It Return?</h3>
+            <p>Yes. We plan to come back when conditions allow. No ETA yet — stay tuned.</p>
+        </div>
+        <div class="info-card">
+            <div class="info-icon"><i class="fab fa-discord"></i></div>
+            <h3>Stay Connected</h3>
+            <p>Join our Discord to get notified the moment the server comes back online.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>See you on the other side.</p>
+        <div class="footer-links">
+            <a href="./discord" target="_blank" class="footer-link">
+                <i class="fab fa-discord"></i> Discord
+            </a>
+            <!-- <a href="./status" class="footer-link">
+                <i class="fa-solid fa-signal"></i> Status
+            </a>
+            <a href="./help/" class="footer-link">
+                <i class="fas fa-question-circle"></i> Help
+            </a> -->
+        </div>
+    </footer>
+
+</div>
+
+<script src="./asset/java_script-shutdown_pange.js"></script>
+</body>
+</html>
